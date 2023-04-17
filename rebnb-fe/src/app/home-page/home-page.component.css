@@ -1,0 +1,11 @@
+.homepage {
+  margin-top: 10%;
+  z-index: 0;
+}
+
+.card{
+  border-style: none;
+}
+img {
+  border-radius: 5%;
+}

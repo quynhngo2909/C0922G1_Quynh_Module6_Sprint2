@@ -1,0 +1,72 @@
+<header>
+  <div class="container-fluid d-flex flex-row justify-content-between align-items-center">
+    <div class="col-lg-2 col-md-2 d-flex flex-row align-items-center">
+      <img style="height: 60px" src="../../assets/img/logo.png">
+  <p class="m-0 " style="color: #ff385c; font-weight: bold; font-size: x-large">rebnb</p>
+    </div>
+    <div class="search col-lg-8 col-md-8 d-flex flex-row justify-content-center align-items-center">
+      <div class="where d-flex flex-column col-lg-4 col-md-4">
+        <strong>Where</strong>
+        <input type="text" placeholder="Search destinations">
+      </div>
+      <div class="check-in d-flex flex-column col-lg-2 col-md-2">
+        <strong>Check in</strong>
+        <input type="date">
+      </div>
+      <div class="check-out d-flex flex-column col-lg-2 col-md-2">
+        <strong>Check out</strong>
+        <input type="date">
+      </div>
+      <div class="who d-flex flex-row align-items-center col-lg-4 col-md-4">
+        <div class="d-flex flex-column">
+          <strong>Who</strong>
+          <input type="text" placeholder="Add number of guest">
+        </div>
+        <button id="icon"><em id="searchIcon" class='bx bx-search-alt-2'></em></button>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2 d-flex flex-row justify-content-end align-items-center">
+      <div class="dropdown d-flex flex-column justify-content-center align-items-center">
+        <div onclick="myFunction()" class="dropbtn">
+          Log in
+          <em id="menu" class='bx bx-menu'></em>
+          <em id="userIcon" class='bx bxs-user-circle'></em>
+        </div>
+        <div id="myDropdownUser" class="dropdown-content">
+          <a  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Sign up</a>
+          <a  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Log in</a>
+          <a href="#">Trips</a>
+          <a href="#">Wishlists</a>
+          <hr>
+          <a href="#">Account</a>
+          <a href="#">Manage Listings</a>
+          <hr>
+          <a href="#">Rebnb your home</a>
+          <a href="#">Help</a>
+          <a href="#">Log out</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Understood</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
