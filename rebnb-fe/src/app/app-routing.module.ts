@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {HomePageComponent} from './home-page/home-page.component';
 
 
 const routes: Routes = [{
   path: 'homepage',
-  component: HomePageComponent
+  loadChildren: () => import('./properties/properties.module')
+    .then(module => module.PropertiesModule)
 }, {
   path: '',
   pathMatch: 'full',
@@ -14,6 +14,10 @@ const routes: Routes = [{
   path: 'security',
   loadChildren: () => import('./security-authentication/security-authentication.module')
     .then(module => module.SecurityAuthenticationModule)
+}, {
+  path: 'reservation',
+  loadChildren: () => import('./reservation/reservation.module')
+    .then(module => module.ReservationModule)
 }];
 
 @NgModule({

@@ -1,27 +1,15 @@
-#login {
-  margin-top: 5%;
-}
-.rounded-t-5 {
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
+.login {
+  border: 1px solid #504f4f;
+  border-radius: 10px;
+  position: -webkit-sticky;
+  position: relative;
+  top: 120px;
 }
 
-@media (min-width: 992px) {
-  .form-login {
-    width: 75rem;
-  }
-  .rounded-tr-lg-0 {
-    border-top-right-radius: 0;
-  }
-
-  .rounded-bl-lg-5 {
-    border-bottom-left-radius: 0.5rem;
-  }
-}
 svg {
   color: #007bff;
 }
 .error {
-  text-align: center;
+  text-align: start;
   color: red;
 }

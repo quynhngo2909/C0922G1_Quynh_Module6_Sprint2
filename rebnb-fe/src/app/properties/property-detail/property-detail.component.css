@@ -1,0 +1,49 @@
+.property-detail {
+  position: relative;
+  margin-top: 8%;
+  margin-bottom: 5%;
+}
+
+.icon {
+  border-style: none;
+  background: white;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.icon:hover {
+  background-color: #f6f6f6;
+}
+
+.image-container {
+  /*height: 20vh;*/
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 5px;
+}
+
+.large-image {
+  width: 50%;
+  padding: 0 5px;
+}
+
+.small-images {
+  width: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.small-image {
+  width: 50%;
+  padding: 0 5px;
+  /*margin-bottom: 10px;*/
+}
+
+img {
+  /*border-radius: 5px;*/
+  max-width: 100%;
+  height: auto;
+  /*object-fit: cover;*/
+}
+

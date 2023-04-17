@@ -27,32 +27,29 @@
     </div>
     <div class="col-lg-2 col-md-2 d-flex flex-row justify-content-end align-items-center">
       <div class="dropdown d-flex flex-column justify-content-center align-items-center">
-        <div onclick="myFunction()" class="dropbtn">
-          Log in
+        <button (click)="toggleDropDown()" class="dropbtn" id="dropdownbtn">
           <em id="menu" class='bx bx-menu'></em>
           <em id="userIcon" class='bx bxs-user-circle'></em>
-        </div>
-        <div id="myDropdownUser" class="dropdown-content">
-          <a  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Sign up</a>
-          <a  data-bs-toggle="modal" data-bs-target="#staticBackdrop">Log in</a>
-          <a href="#">Trips</a>
-          <a href="#">Wishlists</a>
-          <hr>
-          <a href="#">Account</a>
-          <a href="#">Manage Listings</a>
-          <hr>
-          <a href="#">Rebnb your home</a>
-          <a href="#">Help</a>
-          <a href="#">Log out</a>
+        </button>
+        <div *ngIf="isDropDownOpen" id="myDropdownUser" class="dropdown-content">
+          <a class="py-1" data-bs-toggle="modal" (click)="toggleDropDown()" data-bs-target="#staticBackdrop">Sign up</a>
+          <a class="py-1" data-bs-toggle="modal" (click)="toggleDropDown()" data-bs-target="#staticBackdrop">Log in</a>
+          <a class="py-1" href="#">Trips</a>
+          <a class="py-1" href="#">Wishlists</a>
+          <hr class="p-0 m-0">
+          <a class="py-1" href="#">Account</a>
+          <a class="py-1" href="#">Manage Listings</a>
+          <hr class="p-0 m-0">
+          <a class="py-1" href="#">Rebnb your home</a>
+          <a class="py-1" href="#">Help</a>
+          <a class="py-1" href="#">Log out</a>
         </div>
       </div>
     </div>
   </div>
-
-
-  <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+  <!-- Modal Login -->
+  <div class="modal fade" style="z-index: 2;" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" >
+    <div class="modal-dialog  modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
@@ -68,5 +65,7 @@
       </div>
     </div>
   </div>
+
+<!--Categories-->
 
 </header>
