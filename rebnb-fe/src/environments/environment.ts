@@ -5,6 +5,15 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080',
+  firebaseConfig : {
+    apiKey: 'AIzaSyAHPe1ul7Qyxdoy31LDai0A8QnClqRgz2Q',
+    authDomain: 'rebnb-fa714.firebaseapp.com',
+    projectId: 'rebnb-fa714',
+    storageBucket: 'rebnb-fa714.appspot.com',
+    messagingSenderId: '839567455769',
+    appId: '1:839567455769:web:ca8e9ab581064ccba6dc88',
+    measurementId: 'G-TQYC99HJY2'
+  },
 };
 
 /*

@@ -6,6 +6,10 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
+import {environment} from '../environments/environment';
+import {AngularFireModule} from '@angular/fire/compat';
+import {AngularFireStorageModule} from '@angular/fire/compat/storage';
+import {AngularFireDatabaseModule} from '@angular/fire/compat/database';
 
 
 @NgModule({
@@ -13,7 +17,10 @@ import { ErrorPageComponent } from './error-page/error-page.component';
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
   imports: [
     BrowserModule,

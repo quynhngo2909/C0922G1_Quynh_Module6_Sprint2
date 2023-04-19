@@ -31,40 +31,40 @@ is_deleted boolean default 0,
 language varchar(45),
 is_identity_verified boolean default 0,
 is_supper_host boolean default 0,
-description varchar(225),
+description text,
 foreign key (email) references `account` (email));
 
 
 create table type_of_place (
 id int primary key auto_increment,
-name varchar(45));
+name varchar(225));
 
 create table property_type (
 id int primary key auto_increment,
-name varchar(45));
+name varchar(225));
 
 create table category (
 id int primary key auto_increment,
-name varchar(45));
+name varchar(225));
 
 create table amenitiy (
 id int primary key auto_increment,
-name varchar(45) not null);
+name varchar(225) not null);
 
 create table amenity_detail (
 id int primary key auto_increment,
-name varchar(45) not null,
-description varchar(225),
+name varchar(225) not null,
+description text,
 amenitiy_id int not null,
 foreign key (amenitiy_id) references `amenitiy` (id));
 
 create table property (
 id bigint primary key auto_increment,
-title varchar(45) not null,
-description varchar(2000),
-country varchar(45) not null,
-region varchar(45)not null,
-city varchar(45)not null,
+title varchar(225) not null,
+description text,
+country varchar(225) not null,
+region varchar(225)not null,
+city varchar(225)not null,
 type_of_place_id int not null,
 property_type_id int not null,
 price_per_night double not null,
@@ -98,17 +98,10 @@ property_id bigint not null,
 link_image varchar(225),
 foreign key (property_id) references `property` (id));
 
-create table review_property (
-id bigint primary key auto_increment,
-property_id bigint not null,
-tenant_id bigint not null,
-content varchar(1000),
-foreign key (property_id) references `property` (id),
-foreign key (tenant_id) references `user` (id));
 
 create table service_fee (
 id int primary key auto_increment,
-name varchar(45),
+rental_night int,
 tenant_fee double not null,
 host_fee double not null);
 
@@ -121,12 +114,31 @@ id bigint primary key auto_increment,
 property_id bigint not null,
 tenant_id bigint not null,
 service_fee_id int not null,
-check_in varchar(45),
-check_out varchar(45),
+check_in date,
+check_out date,
+deposit double,
 total_price double,
 status int not null,
 foreign key (property_id) references `property` (id),
 foreign key (tenant_id) references `user` (id),
 foreign key (status) references `booking_status` (id),
 foreign key (service_fee_id) references `service_fee` (id));
+
+
+create table review_property (
+id bigint primary key auto_increment,
+booking_id bigint not null,
+reiew_date date,
+content text,
+foreign key (booking_id) references `booking` (id));
+
+create table wishlist (
+id bigint primary key auto_increment,
+name varchar(50),
+tenant_id bigint not null,
+property_id bigint not null,
+check_in date,
+check_out date,
+foreign key (property_id) references `property` (id),
+foreign key (tenant_id) references `user` (id));
 
