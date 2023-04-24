@@ -1,6 +1,6 @@
 package com.rebnbbe.dto;
 
-public interface IPropertyList {
+public interface IPropertyDTO {
     Long getId();
     String getTitle();
     String getDescription();
@@ -11,4 +11,14 @@ public interface IPropertyList {
     Double getScore();
     Double getDistance();
     String getImage();
+    String getMap();
+
+    Integer getMaxGuest();
+
+    String getTypeOfPlace();
+    String getPropertyType();
+    String getHost();
+    Integer getBedroom();
+    Integer getBed();
+    Integer getBath();
 }

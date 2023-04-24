@@ -1,7 +1,6 @@
 package com.rebnbbe.controller;
 
 import com.rebnbbe.model.Category;
-import com.rebnbbe.repository.ICategoryRepository;
 import com.rebnbbe.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/public/category")
 @CrossOrigin
-public class CategoryController {
+public class CategoryRestController {
     @Autowired
     private ICategoryService iCategoryService;
 

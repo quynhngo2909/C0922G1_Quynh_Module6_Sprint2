@@ -1,10 +1,10 @@
 package com.rebnbbe.service;
 
-import com.rebnbbe.dto.IPropertyList;
-import com.rebnbbe.dto.PropertyListDTO;
+import com.rebnbbe.dto.IPropertyDTO;
 
 import java.util.List;
 
 public interface IPropertyService {
-    List<IPropertyList> getAllProperties();
+    List<IPropertyDTO> getAllProperties();
+    IPropertyDTO findPropertyById(String propertyId);
 }

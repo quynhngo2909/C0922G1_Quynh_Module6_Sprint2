@@ -1,12 +1,21 @@
 export interface Property {
   id?: number;
+  host?: string;
+  map?: string;
   country?: string;
   region?: string;
   description?: string;
-  score?: number;
+  propertyType?: string;
   distance?: number;
-  title?: string;
+  bedroom?: number;
+  bed?: number;
+  bath?: number;
   pricePerNight?: number;
-  city?: string;
+  typeOfPlace?: string;
+  title?: string;
   image?: string;
+  score?: number;
+  city?: string;
+  maxGuest?: number;
+
 }
