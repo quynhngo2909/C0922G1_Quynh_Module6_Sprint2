@@ -3,21 +3,21 @@ header {
   top: 0;
   right: 0;
   left: 0;
-  border-bottom: 1px solid #e7e7e7;
+  border-bottom: 2px solid #e7e7e7;
   border-radius: 2px;
   padding: 15px 0;
-  box-shadow: 0 0 5px 0 #e7e7e7 ;
-  z-index: 1;
+  box-shadow: 0 0 5px 0 #e7e7e7;
+  z-index: 2;
   background-color: white;
 }
 
 div .search {
   border: 1px solid #e7e7e7;
-  box-shadow: 0 0 5px 0 #e7e7e7 ;
+  box-shadow: 0 0 5px 0 #e7e7e7;
   border-radius: 50px;
 }
 
-div .where{
+div .where {
   padding: 10px 0 10px 20px;
   font-size: small;
 }
@@ -32,10 +32,17 @@ div .check-in,
   font-size: small;
 }
 
+div .searchIcon {
+  /*padding: 10px 0 10px 20px;*/
+  border-width: 0 0 0 1px;
+  border-color: #e7e7e7;
+  /*border-style: solid;*/
+}
+
 div .where:hover,
 .check-in:hover,
 .check-out:hover,
-.who:hover{
+.who:hover {
   border: 1px solid #e7e7e7;
   background-color: #e7e7e7;
   border-radius: 100px;
@@ -43,7 +50,7 @@ div .where:hover,
 
 
 input {
-  background-color:transparent;
+  background-color: transparent;
   border: 0 solid;
   font-size: small;
 }
@@ -60,7 +67,7 @@ input:focus {
   vertical-align: middle;
 }
 
-#searchIcon{
+#searchIcon {
   font-size: 20px;
   color: white;
 }
@@ -68,19 +75,20 @@ input:focus {
 /* DropDown Login*/
 .user {
   border: 1px solid #e7e7e7;
-  box-shadow: 0 0 5px 0 #e7e7e7 ;
+  box-shadow: 0 0 5px 0 #e7e7e7;
   border-radius: 50px;
 }
 
 #userIcon {
-  font-size:40px;
+  font-size: 40px;
   padding: 5px;
 }
 
- #menu {
+#menu {
   font-size: 30px;
-   padding: 0 5px;
+  padding: 0 5px;
 }
+
 .dropbtn {
   border: 1px solid #e7e7e7;
   cursor: pointer;
@@ -88,7 +96,7 @@ input:focus {
 }
 
 .dropbtn:hover, .dropbtn:focus {
-  box-shadow: 0 0 10px 0 #e7e7e7 ;
+  box-shadow: 0 0 10px 0 #e7e7e7;
 }
 
 .dropdown {
@@ -98,30 +106,47 @@ input:focus {
   padding: 0 10px;
 }
 
+
 .dropdown-content {
-  right:0;
-  top:40px;
+  right: 0;
+  top: 60px;
   display: block;
   position: absolute;
   background-color: #f1f1f1;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
 
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  font-size: small;
+}
 
 .dropdown-content a {
-color: black;
-padding: 12px 16px;
-text-decoration: none;
-display: block;
-background-color: white;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  background-color: white;
 }
 
-.dropdown-content a:hover {background-color: #ddd;}
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
 
-.show {display:block;}
+.show {
+  display: block;
+}
 
 /* Login */
 .modal {
-  z-index: 2;
+  z-index: 1;
+}
+
+@media (max-width: 800px) {
+  #logo {
+    display: none;
+  }
 }

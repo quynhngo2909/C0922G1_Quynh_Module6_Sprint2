@@ -12,7 +12,7 @@ const routes: Routes = [{
   pathMatch: 'full',
   redirectTo: 'properties'
 }, {
-  path: 'detail',
+  path: 'detail/:id',
   component: PropertyDetailComponent
 }];
 

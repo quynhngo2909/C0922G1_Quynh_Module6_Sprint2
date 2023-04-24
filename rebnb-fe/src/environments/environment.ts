@@ -6,13 +6,12 @@ export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080',
   firebaseConfig : {
-    apiKey: 'AIzaSyAHPe1ul7Qyxdoy31LDai0A8QnClqRgz2Q',
-    authDomain: 'rebnb-fa714.firebaseapp.com',
-    projectId: 'rebnb-fa714',
-    storageBucket: 'rebnb-fa714.appspot.com',
-    messagingSenderId: '839567455769',
-    appId: '1:839567455769:web:ca8e9ab581064ccba6dc88',
-    measurementId: 'G-TQYC99HJY2'
+    apiKey: 'AIzaSyDOZneTsbNUzGaDr4OJDrr23gkIItVClaw',
+    authDomain: 'rebnb-8cc26.firebaseapp.com',
+    projectId: 'rebnb-8cc26',
+    storageBucket: 'rebnb-8cc26.appspot.com',
+    messagingSenderId: '641677068241',
+    appId: '1:641677068241:web:9f69f8856c200e478e82f0'
   },
 };
 

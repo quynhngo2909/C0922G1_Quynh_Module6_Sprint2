@@ -1,12 +1,12 @@
 <div class="container-fluid col-md-4 offset-md-4 login">
   <div class="row py-3" style="border-bottom: 1px solid #e7e7e7;">
-    <div class="col-md-1">x</div>
+    <div class="col-md-1" routerLink="/homepage/properties">x</div>
     <div class="col-md-11 text-center" style="font-weight: bolder;">Log in or sign up</div>
   </div>
   <div class="row py-3" style="border-bottom: 1px solid #e7e7e7;">
     <div class="col-md-12 text-start " style="font-weight: bolder;font-size: large">Welcome to Rebnb</div>
     <div class="col-md-12">
-      <form *ngIf="loginForm" [formGroup]="loginForm">
+      <form *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-outline mb-4">
           <input type="email" id="form2Example1" autofocus formControlName="username" class="form-control"
                  placeholder="Email"/>

@@ -3,16 +3,16 @@ use sprint2_rebnb;
 
 create table role (
 id int primary key auto_increment,
-name varchar(45));
+name varchar(45) not null);
 
 create table account (
 email varchar(45) primary key,
-password varchar(45));
+password varchar(45) not null);
 
 create table account_role (
 id int primary key auto_increment,
-role_id int,
-account_email varchar(45),
+role_id int not null,
+account_email varchar(45) not null,
 foreign key (role_id) references `role` (id),
 foreign key (account_email) references `account`(email));
 
@@ -37,15 +37,15 @@ foreign key (email) references `account` (email));
 
 create table type_of_place (
 id int primary key auto_increment,
-name varchar(225));
+name varchar(225) not null);
 
 create table property_type (
 id int primary key auto_increment,
-name varchar(225));
+name varchar(225) not null);
 
 create table category (
 id int primary key auto_increment,
-name varchar(225));
+name varchar(225) not null);
 
 create table amenitiy (
 id int primary key auto_increment,
@@ -86,7 +86,7 @@ foreign key (category_id) references `category` (id),
 foreign key (property_id) references `property` (id));
 
 create table property_amenity_detail (
-id int primary key auto_increment,
+id bigint primary key auto_increment,
 property_id bigint not null,
 amenity_detail_id int not null,
 foreign key (property_id) references `property` (id),
@@ -95,13 +95,13 @@ foreign key (amenity_detail_id) references `amenity_detail` (id));
 create table property_image (
 id bigint primary key auto_increment,
 property_id bigint not null,
-link_image varchar(225),
+link_image varchar(225) not null,
 foreign key (property_id) references `property` (id));
 
 
 create table service_fee (
 id int primary key auto_increment,
-rental_night int,
+rental_night int not null,
 tenant_fee double not null,
 host_fee double not null);
 
@@ -109,28 +109,29 @@ create table booking_status (
 id int primary key auto_increment,
 name varchar(45) not null);
 
+
+create table review_property (
+id bigint primary key auto_increment,
+reiew_date date,
+content text not null);
+
 create table booking (
 id bigint primary key auto_increment,
 property_id bigint not null,
 tenant_id bigint not null,
 service_fee_id int not null,
-check_in date,
-check_out date,
+check_in date not null,
+check_out date not null,
 deposit double,
 total_price double,
+review_property_id bigint,
 status int not null,
 foreign key (property_id) references `property` (id),
 foreign key (tenant_id) references `user` (id),
 foreign key (status) references `booking_status` (id),
-foreign key (service_fee_id) references `service_fee` (id));
+foreign key (service_fee_id) references `service_fee` (id),
+foreign key (review_property_id) references `review_property` (id));
 
-
-create table review_property (
-id bigint primary key auto_increment,
-booking_id bigint not null,
-reiew_date date,
-content text,
-foreign key (booking_id) references `booking` (id));
 
 create table wishlist (
 id bigint primary key auto_increment,

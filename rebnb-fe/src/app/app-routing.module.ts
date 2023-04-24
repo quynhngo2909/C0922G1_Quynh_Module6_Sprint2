@@ -11,7 +11,7 @@ const routes: Routes = [{
   pathMatch: 'full',
   redirectTo: 'homepage'
 }, {
-  path: 'security',
+    path: 'security',
   loadChildren: () => import('./security-authentication/security-authentication.module')
     .then(module => module.SecurityAuthenticationModule)
 }, {

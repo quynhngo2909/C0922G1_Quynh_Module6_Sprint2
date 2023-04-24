@@ -1,6 +1,42 @@
+main {
+  position: relative;
+  top: 90px;
+}
+
+#category{
+  position: sticky;
+  top: 90px;
+  background: white;
+  z-index: 1;
+  border-bottom: 2px solid #e7e7e7;
+  border-top: 1px solid #e7e7e7;
+  border-radius: 2px;
+  font-size: small;
+  padding: 10px 0;
+}
+
+#category em {
+  transform: scale(2);
+  color: dimgray;
+}
+
+#category em:hover{
+  box-shadow: 0 0 10px 0 #e7e7e7 ;
+}
+
+#categoryDetail{
+  color: dimgray;
+  border-bottom: white solid 2px;
+}
+
+#categoryDetail:hover{
+  color: #262525;
+  border-bottom: dimgray solid 2px;
+}
 .homepage {
   position: relative;
-  margin-top: 10%;
+  top: 15px;
+  z-index: 0;
 }
 
 .card{
@@ -8,4 +44,13 @@
 }
 img {
   border-radius: 5%;
+}
+
+.card:hover {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: #343434;
 }

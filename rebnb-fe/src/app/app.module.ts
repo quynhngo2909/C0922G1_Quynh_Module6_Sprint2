@@ -6,11 +6,11 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
+import { HttpClientModule } from '@angular/common/http';
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
-import {AngularFireModule} from '@angular/fire/compat';
-import {AngularFireStorageModule} from '@angular/fire/compat/storage';
-import {AngularFireDatabaseModule} from '@angular/fire/compat/database';
-
 
 @NgModule({
   declarations: [
@@ -18,13 +18,14 @@ import {AngularFireDatabaseModule} from '@angular/fire/compat/database';
     HeaderComponent,
     FooterComponent,
     ErrorPageComponent,
-    AngularFireStorageModule,
-    AngularFireDatabaseModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    AngularFireStorageModule,
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
   providers: [],
   bootstrap: [AppComponent]
