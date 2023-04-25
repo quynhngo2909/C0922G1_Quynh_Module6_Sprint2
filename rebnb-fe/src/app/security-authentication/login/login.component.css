@@ -13,3 +13,12 @@ svg {
   text-align: start;
   color: red;
 }
+
+a {
+  text-decoration: none;
+  color: #212121;
+}
+
+#closeButton:hover, #closeButton:focus {
+   cursor: pointer;
+ }

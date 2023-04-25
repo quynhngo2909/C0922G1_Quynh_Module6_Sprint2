@@ -1,6 +1,7 @@
 main {
   position: relative;
-  top: 90px;
+  margin-top: 5rem;
+  margin-bottom: 3rem;
 }
 
 #category{
@@ -40,6 +41,7 @@ main {
 }
 
 .card{
+
   border-style: none;
 }
 img {

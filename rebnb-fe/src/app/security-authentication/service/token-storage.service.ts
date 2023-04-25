@@ -46,6 +46,14 @@ export class TokenStorageService {
     }
   }
 
+  // public getUserImage() {
+  //   if (localStorage.getItem(USER_KEY) !== null) {
+  //     return JSON.parse(localStorage.getItem(USER_KEY));
+  //   } else {
+  //     return JSON.parse(sessionStorage.getItem(USER_KEY));
+  //   }
+  // }
+
   getRole() {
     const user = this.getUser();
     if (user.roles) {

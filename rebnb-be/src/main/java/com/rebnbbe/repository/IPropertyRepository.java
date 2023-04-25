@@ -21,6 +21,7 @@ public interface IPropertyRepository extends JpaRepository<Property, Long> {
             "    p.bedroom,\n" +
             "    p.bed,\n" +
             "    p.bath,\n" +
+            "    u.image                                                                           as `hostimage`,\n" +
             "    p.price_per_night                                                                 as `pricepernight`,\n" +
             "    p.max_guest                                                                       as `maxguest`,\n" +
             "    top.name                                                                          as `typeofplace`,\n" +
@@ -51,6 +52,7 @@ public interface IPropertyRepository extends JpaRepository<Property, Long> {
             "    p.bedroom,\n" +
             "    p.bed,\n" +
             "    p.bath,\n" +
+            "    u.image                                                                           as `hostimage`,\n" +
             "    p.price_per_night                                                                 as `pricepernight`,\n" +
             "    p.max_guest                                                                       as `maxguest`,\n" +
             "    top.name                                                                          as `typeofplace`,\n" +

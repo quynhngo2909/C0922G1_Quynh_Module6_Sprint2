@@ -8,13 +8,16 @@ public class JwtResponse {
     private String username;
 
     private String name;
+
+    private String image;
     private List<String> roles;
 
-    public JwtResponse(String token, String username, String name, List<String> roles) {
+    public JwtResponse(String token, String username, String name, List<String> roles, String image) {
         this.token = token;
         this.username = username;
         this.name = name;
         this.roles = roles;
+        this.image = image;
     }
 
     public JwtResponse() {
@@ -75,5 +78,13 @@ public class JwtResponse {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

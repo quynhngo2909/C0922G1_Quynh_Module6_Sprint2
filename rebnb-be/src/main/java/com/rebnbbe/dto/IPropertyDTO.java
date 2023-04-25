@@ -21,4 +21,6 @@ public interface IPropertyDTO {
     Integer getBedroom();
     Integer getBed();
     Integer getBath();
+
+    String getHostImage();
 }

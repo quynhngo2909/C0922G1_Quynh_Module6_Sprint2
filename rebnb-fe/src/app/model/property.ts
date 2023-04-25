@@ -17,5 +17,6 @@ export interface Property {
   score?: number;
   city?: string;
   maxGuest?: number;
+  hostImage?: string;
 
 }

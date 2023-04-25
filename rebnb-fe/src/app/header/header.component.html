@@ -17,59 +17,124 @@
         <strong>Check out</strong>
         <input type="date">
       </div>
-      <div class="who d-flex flex-column align-items-center col-lg-3 col-md-3">
-        <!--        <div class="d-flex flex-column">-->
+      <div class="who d-flex flex-column col-lg-3 col-md-3">
         <strong>Who</strong>
         <input type="text" placeholder="Add number of guest">
-        <!--        </div>-->
       </div>
-      <div class="searchIcon d-flex flex-column align-items-center col-lg-1 col-md-1">
-        <button id="icon"><em id="searchIcon" class='bx bx-search-alt-2'></em></button>
+      <div class="searchIcon d-flex flex-column col-lg-1 col-md-1">
+        <!--        <button id="icon">-->
+        <em class='bx bx-search-alt-2'></em>
+        <!--        </button>-->
       </div>
     </div>
     <div class="col-lg-2 col-md-2 d-flex flex-row justify-content-end align-items-center">
       <div class="dropdown d-flex flex-column justify-content-center align-items-center">
-        <button (click)="toggleDropDown()" class="dropbtn" id="dropdownbtn">
-          <em id="userIcon" class='bx bxs-user-circle'></em>
-        </button>
-        <ul  *ngIf="isDropDownOpen" id="myDropdownUser" class="dropdown-content" style="border-radius: 10px">
-          <li [hidden]="isLoggedIn" (click)="toggleDropDown()" style="border-radius: 10px 10px 0 0"><a style="border-radius: 10px 10px 0 0" class="py-1" routerLink="/security/login">Sign up</a></li>
-          <li [hidden]="isLoggedIn" (click)="toggleDropDown()" ><a class="py-1" routerLink="/security/login">Log in</a></li>
-          <li [hidden]="!isLoggedIn" (click)="toggleDropDown()" style="border-radius: 10px 10px 0 0"><a  style="border-radius: 10px 10px 0 0" class="py-1" href="#">Trips</a></li>
+        <!--        <button (click)="toggleDropDown()" class="dropbtn">-->
+        <div (click)="toggleDropDown()">
+          <img style="height: 40px" [hidden]="isLoggedIn" src="../../assets/img/guestImage.png">
+          <img style="height: 25px" [hidden]="!isLoggedIn" [src]="userImage">
+        </div>
+        <!--        </button>-->
+        <ul *ngIf="isDropDownOpen" id="myDropdownUser" class="dropdown-content" style="border-radius: 10px">
+          <li [hidden]="isLoggedIn" (click)="toggleDropDown()" style="border-radius: 10px 10px 0 0"><a
+            style="border-radius: 10px 10px 0 0" class="py-1" data-bs-toggle="modal" data-bs-target="#exampleModal">Sign up</a></li>
+          <li [hidden]="isLoggedIn" (click)="toggleDropDown()"><a class="py-1" data-bs-toggle="modal" data-bs-target="#exampleModal">Log in</a>
+          </li>
+          <li [hidden]="!isLoggedIn" (click)="toggleDropDown()" style="border-radius: 10px 10px 0 0"><a
+            style="border-radius: 10px 10px 0 0" class="py-1" href="#">Trips</a></li>
           <li [hidden]="!isLoggedIn" (click)="toggleDropDown()"><a class="py-1" href="#">Wishlists</a></li>
-        <hr class="p-0 m-0">
+          <hr class="p-0 m-0">
           <li [hidden]="!isLoggedIn" (click)="toggleDropDown()"><a class="py-1" href="#">Account</a></li>
           <li [hidden]="!isLoggedIn" (click)="toggleDropDown()"><a class="py-1" href="#">Manage Listings</a></li>
           <hr class="p-0 m-0">
-          <li (click)="toggleDropDown()"> <a class="py-1" href="#">Rebnb your home</a></li>
-          <li (click)="toggleDropDown()"> <a class="py-1" style="border-radius: 0 0 10px 10px" href="#">Help</a></li>
-          <li [hidden]="!isLoggedIn" (click)="toggleDropDown()" > <a class="py-1" style="border-radius: 0 0 10px 10px" (click)="logOut()">Log out</a></li>
+          <li (click)="toggleDropDown()"><a class="py-1" href="#" >Rebnb
+            your home</a></li>
+          <li (click)="toggleDropDown()"><a class="py-1" style="border-radius: 0 0 10px 10px" href="#">Help</a></li>
+          <li [hidden]="!isLoggedIn" (click)="toggleDropDown()"><a class="py-1" style="border-radius: 0 0 10px 10px"
+                                                                   (click)="logOut()">Log out</a></li>
         </ul>
-
-
       </div>
     </div>
   </div>
-  <!-- Modal Login -->
-  <div class="modal fade" style="z-index: 1;" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-       aria-labelledby="staticBackdropLabel">
-    <div class="modal-dialog  modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Understood</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!--Categories-->
-
 </header>
+
+<!-- Modal Login -->
+<div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false"
+     aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog  modal-dialog-centered">
+    <div class="modal-content">
+      <div class="row my-2 px-0 py-2 mx-0" style="border-bottom: 1px solid #e7e7e7">
+        <div class="col-md-1 text-center" id="closeButton" data-bs-dismiss="modal">x</div>
+        <div class="col-md-11 text-center" style="font-weight: bold; font-size: large; color: #212121">Log in or sign
+          up
+        </div>
+      </div>
+      <div class="row container">
+        <div class="col-md-12 text-start py-2" style="font-weight: bolder;font-size: large">Welcome to Rebnb</div>
+        <div class="col-md-12">
+          <form *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-outline mb-4">
+              <input type="email" id="form2Example1" style="border: 1px solid #2d2d2d" autofocus
+                     formControlName="username" class="form-control"
+                     placeholder="Email"/>
+              <span class="error"
+                    *ngIf="loginForm.controls.username?.errors?.required && loginForm.controls.username?.touched">Please input
+                email.</span>
+              <span class="error"
+                    *ngIf="loginForm.controls.username?.errors?.email && loginForm.controls.username?.touched">Email is not
+                correct.</span>
+            </div>
+            <div class="form-outline mb-4">
+              <input type="password" id="form2Example2" style="border: 1px solid #2d2d2d" formControlName="password"
+                     class="form-control"
+                     placeholder="Password"/>
+              <span class="error"
+                 *ngIf="loginForm.controls.password?.errors?.required && loginForm.controls.password?.touched">Please
+                input
+                password.</span>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col d-flex justify-content-center">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="form2Example31" style="border: 1px solid #2d2d2d"
+                         formControlName="rememberMe"/>
+                  <label class="form-check-label" for="form2Example31">Remmeber</label>
+                </div>
+              </div>
+
+              <div class="col">
+                <a routerLink="/security/forgot-password" data-bs-dismiss="modal">Forgor password?</a>
+              </div>
+            </div>
+            <div class="col d-flex justify-content-center">
+              <button type="submit" class="btn btn-block vw-100" style="background-color: #ff758d"
+                      data-bs-dismiss="modal">Log in / Sign up
+              </button>
+            </div>
+            <div class="d-flex justify-content-center my-3">
+              <div class="d-flex justify-content-between" style="width: 40%">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                     class="bi bi-facebook" viewBox="0 0 16 16">
+                  <path
+                    d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                     class="bi bi-twitter" viewBox="0 0 16 16">
+                  <path
+                    d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                     class="bi bi-google" viewBox="0 0 16 16">
+                  <path
+                    d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z"/>
+                </svg>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

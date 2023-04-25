@@ -39,12 +39,12 @@ public class SecurityRestController {
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
-        String a = "123123";
-        String b = BCrypt.hashpw(a, BCrypt.gensalt(12));
-        System.out.println(b);
-        boolean c = BCrypt.checkpw(a,"$2a$12$Dc3ALv3rjeU6Oa4lnmaE3eL.4Ca4NsdXX5.le/s/Yxy27MladcVPK");
-        System.out.println(c);
+//
+//        String a = "123123";
+//        String b = BCrypt.hashpw(a, BCrypt.gensalt(12));
+//        System.out.println(b);
+//        boolean c = BCrypt.checkpw(a,"$2a$12$Dc3ALv3rjeU6Oa4lnmaE3eL.4Ca4NsdXX5.le/s/Yxy27MladcVPK");
+//        System.out.println(c);
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
@@ -56,7 +56,6 @@ public class SecurityRestController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(
-                new JwtResponse(jwt, userDetails.getUsername(), iUserService.findByEmail(loginRequest.getUsername()).getName(), roles)
-        );
+                new JwtResponse(jwt, userDetails.getUsername(), iUserService.findByEmail(loginRequest.getUsername()).getName(), roles, iUserService.findByEmail(loginRequest.getUsername()).getImage()));
     }
 }

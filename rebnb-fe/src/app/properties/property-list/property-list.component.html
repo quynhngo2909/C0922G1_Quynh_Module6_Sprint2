@@ -22,7 +22,7 @@
   </section>
 
   <section *ngIf="properties"
-           class="homepage container-fluid d-flex flex-row flex-wrap justify-content-start align-items-center">
+           class="homepage container-fluid d-flex flex-row flex-wrap justify-content-evenly align-items-center">
     <div *ngFor="let p of properties" class="card m-1" style="width: 18rem">
       <a [routerLink]="'/homepage/detail/' + p.id" target="_blank">
         <img [src]="p.image"
