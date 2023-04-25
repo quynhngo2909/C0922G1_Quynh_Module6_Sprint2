@@ -3,6 +3,9 @@ import {CategoryService} from '../../service/category.service';
 import {Category} from '../../model/category';
 import {PropertyService} from '../../service/property.service';
 import {Property} from '../../model/property';
+import {TokenStorageService} from '../../security-authentication/service/token-storage.service';
+import Swal from 'sweetalert2';
+import {ShareService} from '../../security-authentication/service/share.service';
 
 @Component({
   selector: 'app-property-list',
@@ -19,11 +22,20 @@ export class PropertyListComponent implements OnInit {
 
   properties: Property[];
 
+  isLoggedIn = false;
+  role: string;
+
   constructor(private categoryService: CategoryService,
-              private propertyService: PropertyService) {
+              private propertyService: PropertyService,
+              private shareService: ShareService,
+              private tokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
+    this.shareService.getClickEvent().subscribe(() => {
+      this.getUserRole();
+    });
+    this.getUserRole();
     this.categoryViewQty = 0;
     this.currentCategorySize = this.showedCategoryQty;
     this.findCategories();
@@ -79,5 +91,40 @@ export class PropertyListComponent implements OnInit {
     }, error => {
     }, () => {
     });
+  }
+
+  getUserRole() {
+    if (this.tokenStorageService.getToken()) {
+      this.role = this.tokenStorageService.getUser().roles[0];
+      this.isLoggedIn = this.role != null;
+    }
+  }
+
+  addWishlist(id: number) {
+    if (this.role == null) {
+      Swal.fire({
+        text: 'Please log in to save this fabulous location in your wishlist!',
+        icon: 'warning',
+        showConfirmButton: false,
+        timer: 3500
+      });
+    }
+    if (this.role === 'User') {
+      Swal.fire({
+        text: '',
+        icon: 'warning',
+        showConfirmButton: false,
+        timer: 3500
+      });
+    }
+
+    if (this.role === 'Admin') {
+      Swal.fire({
+        text: 'Admin',
+        icon: 'warning',
+        showConfirmButton: false,
+        timer: 3500
+      });
+    }
   }
 }

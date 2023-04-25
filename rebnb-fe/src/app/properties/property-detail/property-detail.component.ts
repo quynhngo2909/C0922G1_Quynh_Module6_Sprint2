@@ -4,7 +4,7 @@ import {PropertyImageService} from '../../service/property-image.service';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {Property} from '../../model/property';
-import {PropertyImage} from '../../model/property-image';
+
 
 @Component({
   selector: 'app-property-detail',
@@ -19,7 +19,6 @@ export class PropertyDetailComponent implements OnInit {
   image3: string;
   image4: string;
   image5: string;
-
 
   constructor(private propertyService: PropertyService,
               private propertyImageService: PropertyImageService,

@@ -1,4 +1,4 @@
-<main>
+<main xmlns="http://www.w3.org/1999/html">
   <section class="container-fluid align-items-center" id="category">
     <div class="col-lg-11 col-md-11">
       <div class="row justify-content-between align-items-center">
@@ -24,9 +24,13 @@
   <section *ngIf="properties"
            class="homepage container-fluid d-flex flex-row flex-wrap justify-content-evenly align-items-center">
     <div *ngFor="let p of properties" class="card m-1" style="width: 18rem">
+      <div>
+        <a [routerLink]="'/homepage/detail/' + p.id" target="_blank"><img [src]="p.image"
+                                                                          class="card-img-top" alt="..."
+                                                                          style="height: 14rem"></a>
+          <em (click)="addWishlist(p.id)" class='bx bxs-heart' id="heartIcon" style="position: absolute; top: 0.5rem; right: 0.5rem; font-size: x-large"></em>
+      </div>
       <a [routerLink]="'/homepage/detail/' + p.id" target="_blank">
-        <img [src]="p.image"
-             class="card-img-top" alt="..." style="height: 16rem">
         <div class="card-body px-0">
           <div class="d-flex flex-row justify-content-between align-items-top m-0 p-0">
             <div class="d-flex flex-column">
@@ -37,126 +41,18 @@
           </div>
           <!--        <span class="card-text" style="font-size: small">Date</span>-->
           <!--        <br>-->
-          <div class="card-text py-2"
-                style="font-size: small; font-weight: bold">{{p.pricePerNight | currency:'$': 'symbol-narrow'}}
+          <div class="card-text py-1"
+               style="font-size: small; font-weight: bold">{{p.pricePerNight | currency:'$': 'symbol-narrow'}}
             night
           </div>
+          <div [hidden]="!isLoggedIn || role != 'Admin' ">
+          <div class="card-text p-0 d-flex flex-row justify-content-center" style="font-size: small; font-weight: bold">
+              <em class='bx bxs-trash mx-4' style="font-size: x-large" data-bs-toggle="modal" data-bs-target="#deleteModal"></em>
+              <em class='bx bxs-edit mx-4' style="font-size: x-large" routerLink="/"></em>
+          </div>
+        </div>
         </div>
       </a>
     </div>
-
-<!--        <div class="card m-2" style="width: 18rem;">-->
-<!--          <img src="https://a0.muscache.com/im/pictures/8246cb1d-cb4c-4258-a7f1-fd9dc37bc621.jpg?im_w=720"-->
-<!--               class="card-img-top" alt="...">-->
-<!--          <div class="card-body">-->
-<!--            <div class="d-flex flex-row justify-content-between align-items-center">-->
-<!--              <strong class="card-title" style="font-size: small">Hoa Lư, Việt Nam</strong>-->
-<!--              <span style="font-size: small">4.8</span>-->
-<!--            </div>-->
-<!--            <span class="card-text" style="font-size: small">Hướng núi</span>-->
-<!--            <br>-->
-<!--            <span class="card-text" style="font-size: small">Ngày 02 - Ngày 07 tháng 5</span>-->
-<!--            <br>-->
-<!--            <span class="card-text" style="font-size: small">đ456.471/ đêm</span>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div class="card m-2" style="width: 18rem;">-->
-<!--          <img-->
-<!--            src="https://a0.muscache.com/im/pictures/miso/Hosting-588942323525152548/original/ee6ba79a-7834-4c6e-98c6-07e91357166d.jpeg?im_w=720"-->
-<!--            class="card-img-top" alt="...">-->
-<!--          <div class="card-body">-->
-<!--            <div class="d-flex flex-row justify-content-between align-items-center">-->
-<!--              <strong class="card-title" style="font-size: small">Sơn Trà, Việt Nam</strong>-->
-<!--              <span style="font-size: small">4.8</span>-->
-<!--            </div>-->
-<!--            <span class="card-text" style="font-size: small">Hướng biển</span>-->
-<!--            <br>-->
-<!--            <span class="card-text" style="font-size: small">Ngày 02 - Ngày 07 tháng 5</span>-->
-<!--            <br>-->
-<!--            <span class="card-text" style="font-size: small">đ818.657/ đêm</span>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div class="card m-2" style="width: 18rem;">-->
-<!--          <img src="https://a0.muscache.com/im/pictures/24ab02e5-fcba-4657-84e2-a6272ffb3fd4.jpg?im_w=720"-->
-<!--               class="card-img-top" alt="...">-->
-<!--          <div class="card-body">-->
-<!--            <div class="d-flex flex-row justify-content-between align-items-center">-->
-<!--              <strong class="card-title" style="font-size: small">Surat Thani, Thái Lan</strong>-->
-<!--              <span style="font-size: small">4.8</span>-->
-<!--            </div>-->
-<!--            <span class="card-text" style="font-size: small">Hướng bãi biển và núi</span>-->
-<!--            <br>-->
-<!--            <span class="card-text" style="font-size: small">Ngày 02 - Ngày 07 tháng 5</span>-->
-<!--            <br>-->
-<!--            <span class="card-text" style="font-size: small">đ2.785.164/ đêm</span>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div class="card m-1" style="width: 18rem;">-->
-<!--          <img src="https://a0.muscache.com/im/pictures/d682f7bf-caa4-4433-9038-c5f81a01845b.jpg?im_w=720"-->
-<!--               class="card-img-top" alt="...">-->
-<!--          <div class="card-body">-->
-<!--            <div class="d-flex flex-row justify-content-between align-items-center">-->
-<!--              <strong class="card-title" style="font-size: small">Thành phố Nha Trang, Việt Nam</strong>-->
-<!--              <span style="font-size: small">4.8</span>-->
-<!--            </div>-->
-<!--            <span class="card-text" style="font-size: small">Hướng biển</span>-->
-<!--            <br>-->
-<!--            <span class="card-text" style="font-size: small">Ngày 02 - Ngày 07 tháng 5</span>-->
-<!--            <br>-->
-<!--            <span class="card-text" style="font-size: small">đ26.785.164/ đêm</span>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div class="card m-2" style="width: 18rem;">-->
-<!--          <img src="https://a0.muscache.com/im/pictures/8246cb1d-cb4c-4258-a7f1-fd9dc37bc621.jpg?im_w=720"-->
-<!--               class="card-img-top" alt="...">-->
-<!--          <div class="card-body">-->
-<!--            <div class="d-flex flex-row justify-content-between align-items-center">-->
-<!--              <strong class="card-title" style="font-size: small">Hoa Lư, Việt Nam</strong>-->
-<!--              <span style="font-size: small">4.8</span>-->
-<!--            </div>-->
-<!--            <span class="card-text" style="font-size: small">Hướng núi</span>-->
-<!--            <br>-->
-<!--            <span class="card-text" style="font-size: small">Ngày 02 - Ngày 07 tháng 5</span>-->
-<!--            <br>-->
-<!--            <span class="card-text" style="font-size: small">đ456.471/ đêm</span>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div class="card m-2" style="width: 18rem;">-->
-<!--          <img-->
-<!--            src="https://a0.muscache.com/im/pictures/miso/Hosting-588942323525152548/original/ee6ba79a-7834-4c6e-98c6-07e91357166d.jpeg?im_w=720"-->
-<!--            class="card-img-top" alt="...">-->
-<!--          <div class="card-body">-->
-<!--            <div class="d-flex flex-row justify-content-between align-items-center">-->
-<!--              <strong class="card-title" style="font-size: small">Sơn Trà, Việt Nam</strong>-->
-<!--              <span style="font-size: small">4.8</span>-->
-<!--            </div>-->
-<!--            <span class="card-text" style="font-size: small">Hướng biển</span>-->
-<!--            <br>-->
-<!--            <span class="card-text" style="font-size: small">Ngày 02 - Ngày 07 tháng 5</span>-->
-<!--            <br>-->
-<!--            <span class="card-text" style="font-size: small">đ818.657/ đêm</span>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div class="card m-2" style="width: 18rem;">-->
-<!--          <img src="https://a0.muscache.com/im/pictures/24ab02e5-fcba-4657-84e2-a6272ffb3fd4.jpg?im_w=720"-->
-<!--               class="card-img-top" alt="...">-->
-<!--          <div class="card-body">-->
-<!--            <div class="d-flex flex-row justify-content-between align-items-center">-->
-<!--              <strong class="card-title" style="font-size: small">Surat Thani, Thái Lan</strong>-->
-<!--              <span style="font-size: small">4.8</span>-->
-<!--            </div>-->
-<!--            <span class="card-text" style="font-size: small">Hướng bãi biển và núi</span>-->
-<!--            <br>-->
-<!--            <span class="card-text" style="font-size: small">Ngày 02 - Ngày 07 tháng 5</span>-->
-<!--            <br>-->
-<!--            <span class="card-text" style="font-size: small">đ2.785.164/ đêm</span>-->
-<!--          </div>-->
-<!--        </div>-->
   </section>
 </main>
