@@ -4,7 +4,10 @@ main {
   margin-bottom: 3rem;
 }
 
-#category{
+/*----------------------------------
+Categoty
+------------------------------------*/
+#category {
   position: sticky;
   top: 90px;
   background: white;
@@ -21,29 +24,34 @@ main {
   color: dimgray;
 }
 
-#category em:hover{
-  box-shadow: 0 0 10px 0 #e7e7e7 ;
+#category em:hover {
+  box-shadow: 0 0 10px 0 #e7e7e7;
 }
 
-#categoryDetail{
+#categoryDetail {
   color: dimgray;
   border-bottom: white solid 2px;
 }
 
-#categoryDetail:hover{
+#categoryDetail:hover {
   color: #262525;
   border-bottom: dimgray solid 2px;
 }
+
+/*----------------------------------
+Propery List
+------------------------------------*/
 .homepage {
   position: relative;
   top: 15px;
   z-index: 0;
 }
 
-.card{
+.card {
 
   border-style: none;
 }
+
 img {
   border-radius: 5%;
 }
@@ -56,3 +64,12 @@ a {
   text-decoration: none;
   color: #343434;
 }
+
+#heart-icon {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5em;
+  font-size: x-large;
+  color: #504f4f;
+}
+

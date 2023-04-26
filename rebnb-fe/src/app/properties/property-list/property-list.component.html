@@ -1,34 +1,40 @@
-<main xmlns="http://www.w3.org/1999/html">
+<main>
+<!--  Category-->
   <section class="container-fluid align-items-center" id="category">
     <div class="col-lg-11 col-md-11">
       <div class="row justify-content-between align-items-center">
         <div class="col-lg-1 col-md-1 d-flex justify-content-center">
-          <em class='bx bx-chevron-left-circle' [hidden]="categoryViewQty - showedCategoryQty <= 0"
-              (click)="loadPreviousCategories()"></em>
+          <em class='bx bx-chevron-left-circle'
+              [hidden]="categoryViewQty - showedCategoryQty <= 0" (click)="loadPreviousCategories()">
+          </em>
         </div>
         <div class="col-lg-10 col-md-10 d-flex flex-row justify-content-between align-items-center">
           <div *ngFor="let c of categories" id="categoryDetail">
-            <div class="d-flex justify-content-center"><img [src]="c.image" style="height: 20px"></div>
+            <div class="d-flex justify-content-center">
+              <img [src]="c.image" style="height: 20px">
+            </div>
             <div>{{c.name}}</div>
           </div>
         </div>
         <div class="col-lg-1 col-md-1 d-flex justify-content-center">
-          <em class='bx bx-chevron-right-circle' [hidden]="categoryViewQty >= totalCategories"
-              (click)="loadNextCategories()"></em>
+          <em class='bx bx-chevron-right-circle'
+              [hidden]="categoryViewQty >= totalCategories" (click)="loadNextCategories()">
+          </em>
         </div>
       </div>
     </div>
     <div class="col-lg-1 col-md-1"></div>
-  </section>
+  </section><!--End Category-->
 
+<!--Property List-->
   <section *ngIf="properties"
            class="homepage container-fluid d-flex flex-row flex-wrap justify-content-evenly align-items-center">
     <div *ngFor="let p of properties" class="card m-1" style="width: 18rem">
       <div>
-        <a [routerLink]="'/homepage/detail/' + p.id" target="_blank"><img [src]="p.image"
-                                                                          class="card-img-top" alt="..."
-                                                                          style="height: 14rem"></a>
-          <em (click)="addWishlist(p.id)" class='bx bxs-heart' id="heartIcon" style="position: absolute; top: 0.5rem; right: 0.5rem; font-size: x-large"></em>
+        <a [routerLink]="'/homepage/detail/' + p.id" target="_blank">
+          <img [src]="p.image" class="card-img-top" alt="..."  style="height: 14rem">
+        </a>
+          <em (click)="addWishlist(p.id)" class='bx bxs-heart' id="heart-icon"></em>
       </div>
       <a [routerLink]="'/homepage/detail/' + p.id" target="_blank">
         <div class="card-body px-0">
@@ -37,13 +43,15 @@
               <strong class="card-title m-0 p-0">{{p.city + ', ' + p.country}}</strong>
               <span class="card-text" style="font-size: small; color: gray">{{p.distance + ' kilometers away'}}</span>
             </div>
-            <div class="card-title m-0 p-0"><em class='bx bxs-star' style="font-size: small"></em> {{p.score}}</div>
+            <div class="card-title m-0 p-0">
+              <em class='bx bxs-star' style="font-size: small"></em>
+              {{p.score}}
+            </div>
           </div>
           <!--        <span class="card-text" style="font-size: small">Date</span>-->
           <!--        <br>-->
-          <div class="card-text py-1"
-               style="font-size: small; font-weight: bold">{{p.pricePerNight | currency:'$': 'symbol-narrow'}}
-            night
+          <div class="card-text py-1" style="font-size: small; font-weight: bold">
+            {{p.pricePerNight | currency:'$': 'symbol-narrow'}} night
           </div>
           <div [hidden]="!isLoggedIn || role != 'Admin' ">
           <div class="card-text p-0 d-flex flex-row justify-content-center" style="font-size: small; font-weight: bold">
@@ -54,5 +62,5 @@
         </div>
       </a>
     </div>
-  </section>
+  </section> <!--End Property List-->
 </main>
