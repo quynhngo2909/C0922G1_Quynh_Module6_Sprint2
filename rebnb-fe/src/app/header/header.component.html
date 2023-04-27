@@ -31,8 +31,9 @@
       <div class="dropdown d-flex flex-column justify-content-center align-items-center">
         <!--        <button (click)="toggleDropDown()" class="dropbtn">-->
         <div (click)="toggleDropDown()">
-          <img style="height: 40px" [hidden]="isLoggedIn" src="../../assets/img/guestImage.png">
-          <img style="height: 25px" [hidden]="!isLoggedIn" [src]="userImage">
+          <img style="height: 40px" [hidden]="isLoggedIn" src="../../assets/img/guestImage.png" alt="guest_image">
+          <img style="height: 25px" [hidden]="!isLoggedIn || userImage == null" [src]="userImage" alt="../../assets/img/guestImage.png">
+          <img style="height: 25px" [hidden]="!isLoggedIn || userImage != null" src="../../assets/img/userImage.png">
         </div>
         <!--        </button>-->
         <ul *ngIf="isDropDownOpen" id="myDropdownUser" class="dropdown-content" style="border-radius: 10px">

@@ -57,6 +57,7 @@ export class HeaderComponent implements OnInit {
       this.roles = this.tokenStorageService.getUser().roles;
       this.username = this.tokenStorageService.getUser().username;
     }
+
   }
 
   toggleDropDown() {

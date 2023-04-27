@@ -26,28 +26,27 @@
     </div>
   </div>
 
-  <div class="row image-container my-1 p-0">
-    <div class="large-image">
-      <img style="border-radius: 10px 0 0 10px;" class="image-fluid"
-           [src]="image1" alt="img">
+  <!--  Image2-->
+  <div class="row">
+    <div class="col-md-6">
+      <img style="height: 20rem;width: 100%;border-radius: 2rem 0 0 2rem;"
+           [src]="image1" alt="img" class="p-0">
     </div>
-    <div class="small-images">
-      <div class="small-image">
-        <img [src]="image2" alt="img">
-      </div>
-      <div class="small-image">
-        <img style="border-radius: 0 10px 0 0;"
-             [src]="image3" alt="img">
-      </div>
-      <div class="small-image">
-        <img [src]="image4" alt="img">
-      </div>
-      <div class="small-image">
-        <img style="border-radius: 0 0 10px 0;"
-             [src]="image5" alt="img">
+    <div class="col-md-6 d-flex">
+      <div class="row">
+        <div class="col-md-6 m-0 p-0">
+          <img [src]="image2" alt="img" class="p-0" style="height: 9.5rem;width: 100%; margin-bottom: 0.5rem">
+          <img [src]="image3" alt="img" class="p-0" style="height: 9.5rem;width: 100%; margin-top: 0.5rem">
+        </div>
+        <div class="col-md-6">
+          <img [src]="image4" alt="img" class="p-0" style="height: 9.5rem;width: 100%; margin-bottom: 0.5rem; border-radius: 0 2rem 0 0">
+          <img [src]="image5" alt="img" class="p-0" style="height: 9.5rem;width: 100%; margin-top: 0.5rem; border-radius: 0 0 2rem 0">
+        </div>
       </div>
     </div>
   </div>
+
+  <!--  End Image2-->
   <br>
   <div class="row">
     <div class="col-md-8 info">
