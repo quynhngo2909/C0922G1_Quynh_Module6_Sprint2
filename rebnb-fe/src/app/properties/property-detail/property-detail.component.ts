@@ -4,6 +4,7 @@ import {PropertyImageService} from '../../service/property-image.service';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {Property} from '../../model/property';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 
 @Component({
@@ -20,10 +21,13 @@ export class PropertyDetailComponent implements OnInit {
   image4: string;
   image5: string;
 
+  bookingForm: FormGroup;
+
   constructor(private propertyService: PropertyService,
               private propertyImageService: PropertyImageService,
               private http: HttpClient,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -35,6 +39,9 @@ export class PropertyDetailComponent implements OnInit {
       },
       () => {
       });
+
+    this.bookingForm = this.fb?.group({
+    });
   }
 
   findPropertyById() {
@@ -58,4 +65,6 @@ export class PropertyDetailComponent implements OnInit {
       () => {
       });
   }
+
+
 }
