@@ -10,14 +10,16 @@ public class JwtResponse {
     private String name;
 
     private String image;
+    private Long userId;
     private List<String> roles;
 
-    public JwtResponse(String token, String username, String name, List<String> roles, String image) {
+    public JwtResponse(String token, String username, String name, List<String> roles, String image, Long userId) {
         this.token = token;
         this.username = username;
         this.name = name;
         this.roles = roles;
         this.image = image;
+        this.userId = userId;
     }
 
     public JwtResponse() {
@@ -87,4 +89,14 @@ public class JwtResponse {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+
 }

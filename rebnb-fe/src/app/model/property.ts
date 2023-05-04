@@ -18,5 +18,6 @@ export interface Property {
   city?: string;
   maxGuest?: number;
   hostImage?: string;
+  hostId: string;
 
 }

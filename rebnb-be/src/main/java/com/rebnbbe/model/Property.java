@@ -33,6 +33,9 @@ public class Property {
     @Column(nullable = false, columnDefinition = "boolean default 0")
     private boolean is_deleted = false;
 
+    @Column(nullable = false)
+    private String map;
+
     @ManyToOne
     @JoinColumn(name= "type_of_place_id", referencedColumnName = "id")
     private TypeOfPlace typeOfPlace;
@@ -68,7 +71,7 @@ public class Property {
     public Property() {
     }
 
-    public Property(long propertyId, String title, String description, String country, String region, String city, double pricePerNight, int maxGuest, int bedroom, int bed, int bath, boolean is_deleted, TypeOfPlace typeOfPlace, PropertyType propertyType, User host) {
+    public Property(long propertyId, String title, String description, String country, String region, String city, double pricePerNight, int maxGuest, int bedroom, int bed, int bath, boolean is_deleted, TypeOfPlace typeOfPlace, PropertyType propertyType, User host, String map) {
         this.propertyId = propertyId;
         this.title = title;
         this.description = description;
@@ -84,6 +87,7 @@ public class Property {
         this.typeOfPlace = typeOfPlace;
         this.propertyType = propertyType;
         this.host = host;
+        this.map = map;
     }
 
 
@@ -245,6 +249,14 @@ public class Property {
 
     public void setWishListSet(Set<WishList> wishListSet) {
         this.wishListSet = wishListSet;
+    }
+
+    public String getMap() {
+        return map;
+    }
+
+    public void setMap(String map) {
+        this.map = map;
     }
 }
 

@@ -14,6 +14,7 @@ public class Booking {
     private String checkOutDate;
     private Double deposit;
     private Double totalPrice;
+    private int guest;
     @ManyToOne
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private Property property;
@@ -37,7 +38,7 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(long bookingId, String checkInDate, String checkOutDate, Double deposit, Double totalPrice, Property property, User tenant, ServiceFee serviceFee, BookingStatus bookingStatus) {
+    public Booking(long bookingId, String checkInDate, String checkOutDate, Double deposit, Double totalPrice, Property property, User tenant, ServiceFee serviceFee, BookingStatus bookingStatus, int guest) {
         this.bookingId = bookingId;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
@@ -47,6 +48,7 @@ public class Booking {
         this.tenant = tenant;
         this.serviceFee = serviceFee;
         this.bookingStatus = bookingStatus;
+        this.guest = guest;
     }
 
     public long getBookingId() {
@@ -127,5 +129,13 @@ public class Booking {
 
     public void setReviewProperty(ReviewProperty reviewProperty) {
         this.reviewProperty = reviewProperty;
+    }
+
+    public int getGuest() {
+        return guest;
+    }
+
+    public void setGuest(int guest) {
+        this.guest = guest;
     }
 }

@@ -28,6 +28,11 @@
       </div>
     </div>
     <div class="col-lg-2 col-md-2 d-flex flex-row justify-content-end align-items-center">
+      <div [hidden]="!isLoggedIn " class="" style="position: relative">
+        <em style="font-size: xx-large " class='bx bx-cart py-0'></em>
+        <div style="position: absolute; top: -0.5rem; right: -0.5rem">
+          <button style="border: none;border-radius: 50%;font-size: xx-small;background-color: #fc8298">1</button></div>
+      </div>
       <div class="dropdown d-flex flex-column justify-content-center align-items-center">
         <!--        <button (click)="toggleDropDown()" class="dropbtn">-->
         <div (click)="toggleDropDown()">
@@ -39,7 +44,7 @@
         <ul *ngIf="isDropDownOpen" id="myDropdownUser" class="dropdown-content" style="border-radius: 10px">
           <li [hidden]="isLoggedIn" (click)="toggleDropDown()" style="border-radius: 10px 10px 0 0"><a
             style="border-radius: 10px 10px 0 0" class="py-1" data-bs-toggle="modal" data-bs-target="#exampleModal">Sign up</a></li>
-          <li [hidden]="isLoggedIn" (click)="toggleDropDown()"><a class="py-1" data-bs-toggle="modal" data-bs-target="#exampleModal">Log in</a>
+          <li [hidden]="isLoggedIn" (click)="toggleDropDown()"><a class="py-1" data-bs-toggle="modal" data-bs-target="#loginModal">Log in</a>
           </li>
           <li [hidden]="!isLoggedIn" (click)="toggleDropDown()" style="border-radius: 10px 10px 0 0"><a
             style="border-radius: 10px 10px 0 0" class="py-1" href="#">Trips</a></li>
@@ -60,12 +65,12 @@
 </header>
 
 <!-- Modal Login -->
-<div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false"
+<div class="modal fade" id="loginModal" data-bs-backdrop="static" data-bs-keyboard="false"
      aria-labelledby="exampleModalLabel">
   <div class="modal-dialog  modal-dialog-centered">
     <div class="modal-content">
       <div class="row my-2 px-0 py-2 mx-0" style="border-bottom: 1px solid #e7e7e7">
-        <div class="col-md-1 text-center" id="closeButton" data-bs-dismiss="modal">x</div>
+        <div class="col-md-1 text-center" id="closeButton" data-bs-dismiss="modal" style="font-size: x-large">&times;</div>
         <div class="col-md-11 text-center" style="font-weight: bold; font-size: large; color: #212121">Log in or sign
           up
         </div>
@@ -135,7 +140,6 @@
           </form>
         </div>
       </div>
-
     </div>
   </div>
 </div>

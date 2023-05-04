@@ -10,7 +10,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long userId;
+    private long id;
     @Column(nullable = false)
     private String name;
 
@@ -47,7 +47,7 @@ public class User {
     }
 
     public User(long userId, String name, String email, String birthday, String phoneNumber, String image, String joinedDate, String country, String region, String city, boolean isDeleted, String language, boolean isIdentityVerified, boolean isSuperHost, String description) {
-        this.userId = userId;
+        this.id = userId;
         this.name = name;
         this.email = email;
         this.birthday = birthday;
@@ -64,12 +64,12 @@ public class User {
         this.description = description;
     }
 
-    public long getUserId() {
-        return userId;
+    public long getId() {
+        return id;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

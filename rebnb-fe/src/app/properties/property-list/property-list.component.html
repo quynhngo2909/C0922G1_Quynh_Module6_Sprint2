@@ -1,5 +1,5 @@
 <main>
-<!--  Category-->
+  <!--  Category-->
   <section class="container-fluid align-items-center" id="category">
     <div class="col-lg-11 col-md-11">
       <div class="row justify-content-between align-items-center">
@@ -26,15 +26,18 @@
     <div class="col-lg-1 col-md-1"></div>
   </section><!--End Category-->
 
-<!--Property List-->
+  <!--Property List-->
   <section *ngIf="properties"
            class="homepage container-fluid d-flex flex-row flex-wrap justify-content-evenly align-items-center">
     <div *ngFor="let p of properties" class="card m-1" style="width: 18rem">
       <div>
         <a [routerLink]="'/homepage/detail/' + p.id" target="_blank">
-          <img [src]="p.image" class="card-img-top" alt="..."  style="height: 14rem">
+          <img [src]="p.image" class="card-img-top" alt="..." style="height: 14rem">
         </a>
-          <em (click)="addWishlist(p.id)" class='bx bxs-heart' id="heart-icon"></em>
+        <em [hidden]="!isLoggedIn" class='bx bxs-heart' id="heart-icon" data-bs-toggle="modal"
+            data-bs-target="#bookingModal" (click)="getProperty(p)"></em>
+        <em [hidden]="isLoggedIn" class='bx bxs-heart' id="heart-icon" data-bs-toggle="modal"
+            data-bs-target="#loginModal"></em>
       </div>
       <a [routerLink]="'/homepage/detail/' + p.id" target="_blank">
         <div class="card-body px-0">
@@ -44,23 +47,184 @@
               <span class="card-text" style="font-size: small; color: gray">{{p.distance + ' kilometers away'}}</span>
             </div>
             <div class="card-title m-0 p-0">
-              <em class='bx bxs-star' style="font-size: small"></em>
+              <em class='bx bxs-star' style="font-size: small" [hidden]="p.score === null"></em>
               {{p.score}}
             </div>
           </div>
-          <!--        <span class="card-text" style="font-size: small">Date</span>-->
-          <!--        <br>-->
           <div class="card-text py-1" style="font-size: small; font-weight: bold">
             {{p.pricePerNight | currency:'$': 'symbol-narrow'}} night
           </div>
           <div [hidden]="!isLoggedIn || role != 'Admin' ">
-          <div class="card-text p-0 d-flex flex-row justify-content-center" style="font-size: small; font-weight: bold">
-              <em class='bx bxs-trash mx-4' style="font-size: x-large" data-bs-toggle="modal" data-bs-target="#deleteModal"></em>
+            <div class="card-text p-0 d-flex flex-row justify-content-center"
+                 style="font-size: small; font-weight: bold">
+              <em class='bx bxs-trash mx-4' style="font-size: x-large" data-bs-toggle="modal"
+                  data-bs-target="#deleteModal"></em>
               <em class='bx bxs-edit mx-4' style="font-size: x-large" routerLink="/"></em>
+            </div>
           </div>
-        </div>
         </div>
       </a>
     </div>
   </section> <!--End Property List-->
+
+  <!-- Modal Booking -->
+  <div class="modal fade" id="bookingModal" data-bs-backdrop="static" data-bs-keyboard="false"
+       aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog  modal-dialog-centered">
+      <div class="modal-content">
+        <div class="row container">
+          <div class="col-md-12">
+            <form *ngIf="bookingForm" [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+              <div class="card">
+                <div class="card-body">
+                  <p class="text-center fw-bold">RESERVATION</p>
+                  <div class="row py-1">
+                    <div class="col-md-6">
+                      {{property.pricePerNight}} / night
+                    </div>
+                    <div class="col-md-6 " [hidden]="property.score === null">
+                      <em class='bx bxs-star' style="font-size: small"></em> {{property.score}}
+                    </div>
+                  </div>
+                  <div class="row py-1" hidden>
+                    <div class="col-md-6">
+                      <label for="userId">User Id</label>
+                      <input id="userId" formControlName="tenantId" class="form-control py-0"
+                             style="width: 100%; color: #2d2d2d" disabled>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="propertyId">Property Id</label>
+                      <input id="propertyId" formControlName="propertyId" class="form-control py-0"
+                             style="width: 100%; color: #2d2d2d" disabled>
+                    </div>
+                  </div>
+                  <div class="row py-1">
+                    <label for="guest">Guest</label>
+                    <input id="guest" formControlName="guest" class="form-control py-0"
+                           style="width: 100%; color: #2d2d2d">
+                    <div style="position: absolute"
+                         *ngIf="bookingForm.controls.guest?.touched && bookingForm.controls.guest?.errors?.required"
+                         style="color: red; font-size: small">Please input guests
+                    </div>
+                    <div style="position: absolute"
+                         *ngIf="bookingForm.controls.guest?.touched && bookingForm.controls.guest?.errors?.max"
+                         style="color: red; font-size: small">Maximum {{property.maxGuest}} guest(s)
+                    </div>
+                    <div style="position: absolute" *ngIf="bookingForm.controls.guest?.touched && errors.guest"
+                         style="color: red; font-size: small">{{errors.guest}}
+                    </div>
+                  </div>
+                  <div class="row py-1" hidden>
+                    <label for="maxGuest">Max Guest</label>
+                    <input id="maxGuest" formControlName="maxGuest" class="form-control py-0" [(ngModel)]="maxGuest"
+                           style="width: 100%; color: #2d2d2d" disabled>
+                  </div>
+                  <div class="row py-1" style="margin-bottom: 2rem">
+                    <div class="col-md-6" style="position: relative">
+                      <label for="checkIn">Check in </label>
+                      <input class="form-control p-0" style="width: 100%; color: #2d2d2d" id="checkIn"
+                             formControlName="checkInDate" type="date" #checkInDate
+                             (input)="checkCheckInDate(checkInDate.valueAsDate)">
+                      <div style="position: absolute">
+                        <div
+                          *ngIf="bookingForm.controls.checkInDate?.touched && bookingForm.controls.checkInDate?.errors?.requiredCheckInDate"
+                          style="color: red; font-size: small">{{bookingForm.controls.checkInDate?.errors?.requiredCheckInDate}}</div>
+                        <div style="position: absolute"
+                             *ngIf="bookingForm.controls.checkInDate?.touched && errors.checkInDate"
+                             style="color: red; font-size: small">{{errors.checkInDate}}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="checkOut">Check out </label>
+                      <input class="form-control p-0" style="width: 100%; color: #2d2d2d" id="checkOut"
+                             formControlName="checkOutDate" type="date" #checkOutDate
+                             (input)="checkCheckOutDate(checkOutDate.valueAsDate)">
+                      <div style="position: absolute">
+                        <div
+                          *ngIf="bookingForm.controls.checkOutDate?.touched && bookingForm.controls.checkOutDate?.errors?.required"
+                          style="color: red; font-size: small">Please choose check-out date
+                        </div>
+                        <div *ngIf="bookingForm.controls.checkOutDate?.touched && bookingForm.errors?.dateRange"
+                             style="color: red; font-size: small">
+                          {{ bookingForm.errors.dateRange}}
+                        </div>
+                        <div style="position: absolute"
+                             *ngIf="bookingForm.controls.checkOutDate?.touched && errors.checkOutDate"
+                             style="color: red; font-size: small">{{errors.checkOutDate}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row py-1 d-flex flex-row justify-content-center">
+                    <button type="submit" class="booking-btn btn btn-primary btn-sm m-1"
+                            [disabled]="bookingForm.invalid || !isLoggedIn || role == null">
+                      Booking
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm m-1" id="closeButton" data-bs-dismiss="modal">
+                      Cancel
+                    </button>
+                  </div>
+                  <div class="row py-1" *ngIf="stayNights > 0">
+                    <div class="col-md-6">
+                      {{property.pricePerNight}} * {{stayNights}} night(s)
+                    </div>
+                    <div class="col-md-6">
+                      {{property.pricePerNight * stayNights}}
+                    </div>
+                  </div>
+                  <div class="row py-1" hidden>
+                    <div class="col-md-6">
+                      <label for="serviceFee"> Service Fee (%):</label>
+                    </div>
+                    <div class="col-md-6">
+                      <input class="form-control p-0" style="width: 100%; color: #2d2d2d" id="serviceFee"
+                             formControlName="serviceFee" [(ngModel)]="serviceFee" disabled>
+                    </div>
+                    <div style="position: absolute"
+                         *ngIf="bookingForm.controls.serviceFee?.touched && errors.serviceFee"
+                         style="color: red; font-size: small">{{errors.serviceFee}}
+                    </div>
+                  </div>
+                  <div class="row py-1" *ngIf="stayNights > 0">
+                    <div class="col-md-6">
+                      Service Fee:
+                    </div>
+                    <div class="col-md-6">
+                      {{property.pricePerNight * stayNights * serviceFee.tenantFee | number:'.1'}}
+                    </div>
+                  </div>
+                  <div class="row py-1" *ngIf="stayNights > 0">
+                    <div class="col-md-6">
+                      <label for="deposit">Deposit:</label>
+                    </div>
+                    <div class="col-md-6">
+                      <input class="form-control p-0" style="width: 100%; color: #2d2d2d" id="deposit"
+                             formControlName="deposit">
+                    </div>
+                    <div style="position: absolute" *ngIf="bookingForm.controls.deposit?.touched && errors.deposit"
+                         style="color: red; font-size: small">{{errors.deposit}}
+                    </div>
+                  </div>
+                  <div class="row py-1" *ngIf="stayNights > 0">
+                    <div class="col-md-6">
+                      <label for="total">Total Price:</label>
+                    </div>
+                    <div class="col-md-6">
+                      <input class="form-control p-0" style="width: 100%; color: #2d2d2d" id="total"
+                             formControlName="totalPrice" [(ngModel)]="totalPrice" disabled>
+                    </div>
+                    <div style="position: absolute"
+                         *ngIf="bookingForm.controls.totalPrice?.touched && errors.totalPrice"
+                         style="color: red; font-size: small">{{errors.totalPrice}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>

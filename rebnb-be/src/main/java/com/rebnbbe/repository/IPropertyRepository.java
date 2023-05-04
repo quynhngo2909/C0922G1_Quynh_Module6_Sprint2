@@ -58,6 +58,7 @@ public interface IPropertyRepository extends JpaRepository<Property, Long> {
             "    top.name                                                                          as `typeofplace`,\n" +
             "    pt.name                                                                           as `propertytype`,\n" +
             "    u.name                                                                            as `host`,\n" +
+            "    u.id                                                                              as `hostid`,\n" +
             "    avg(rp.score)                                                                     as `score`,\n" +
             "    (select pi.link_image from property_image pi where pi.property_id = p.id limit 1) as `image`,\n" +
             "    ''                                                                                as `distance`\n" +

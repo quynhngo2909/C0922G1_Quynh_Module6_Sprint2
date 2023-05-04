@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoginService} from '../service/login.service';
 import {Router} from '@angular/router';
 import {TokenStorageService} from '../service/token-storage.service';
-import {ShareService} from '../service/share.service';
+import {ShareService} from '../../service/share.service';
 import Swal from 'sweetalert2';
 
 @Component({

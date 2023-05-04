@@ -18,6 +18,7 @@ public interface IPropertyDTO {
     String getTypeOfPlace();
     String getPropertyType();
     String getHost();
+    String getHostId();
     Integer getBedroom();
     Integer getBed();
     Integer getBath();

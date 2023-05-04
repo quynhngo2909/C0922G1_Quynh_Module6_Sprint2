@@ -13,9 +13,9 @@ public class ServiceFee {
     @Column(nullable = false)
     private int rentalNight;
     @Column(nullable = false)
-    private double tenant_fee;
+    private double tenantFee;
     @Column(nullable = false)
-    private double host_fee;
+    private double hostFee;
 
     @OneToMany(mappedBy = "serviceFee")
     @JsonIgnore
@@ -24,11 +24,11 @@ public class ServiceFee {
     public ServiceFee() {
     }
 
-    public ServiceFee(int id, int rentalNight, double tenant_fee, double host_fee) {
+    public ServiceFee(int id, int rentalNight, double tenantFee, double hostFee) {
         this.id = id;
         this.rentalNight = rentalNight;
-        this.tenant_fee = tenant_fee;
-        this.host_fee = host_fee;
+        this.tenantFee = tenantFee;
+        this.hostFee = hostFee;
     }
 
     public int getId() {
@@ -47,20 +47,20 @@ public class ServiceFee {
         this.rentalNight = rentalNight;
     }
 
-    public double getTenant_fee() {
-        return tenant_fee;
+    public double getTenantFee() {
+        return tenantFee;
     }
 
-    public void setTenant_fee(double tenant_fee) {
-        this.tenant_fee = tenant_fee;
+    public void setTenantFee(double tenantFee) {
+        this.tenantFee = tenantFee;
     }
 
-    public double getHost_fee() {
-        return host_fee;
+    public double getHostFee() {
+        return hostFee;
     }
 
-    public void setHost_fee(double host_fee) {
-        this.host_fee = host_fee;
+    public void setHostFee(double hostFee) {
+        this.hostFee = hostFee;
     }
 
     public Set<Booking> getBookingSet() {

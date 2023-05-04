@@ -13,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -56,6 +55,9 @@ public class SecurityRestController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(
-                new JwtResponse(jwt, userDetails.getUsername(), iUserService.findByEmail(loginRequest.getUsername()).getName(), roles, iUserService.findByEmail(loginRequest.getUsername()).getImage()));
+                new JwtResponse(jwt, userDetails.getUsername(),
+                        iUserService.findByEmail(loginRequest.getUsername()).getName(), roles,
+                        iUserService.findByEmail(loginRequest.getUsername()).getImage(),
+                        iUserService.findByEmail(loginRequest.getUsername()).getId()));
     }
 }

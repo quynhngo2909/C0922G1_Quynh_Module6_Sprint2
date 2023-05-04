@@ -3,6 +3,7 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Property} from '../model/property';
+import {Booking} from '../model/booking';
 
 const API_URL = `${environment.apiUrl}` + `/api/public/properties`;
 
@@ -21,4 +22,6 @@ export class PropertyService {
   findPropertyById(propertyId: string): Observable<Property> {
     return this.http.get<Property>(`${API_URL}/${propertyId}`);
   }
+
+
 }

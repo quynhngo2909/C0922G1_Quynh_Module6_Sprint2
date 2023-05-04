@@ -3,9 +3,18 @@ import {CategoryService} from '../../service/category.service';
 import {Category} from '../../model/category';
 import {PropertyService} from '../../service/property.service';
 import {Property} from '../../model/property';
-import {TokenStorageService} from '../../security-authentication/service/token-storage.service';
 import Swal from 'sweetalert2';
-import {ShareService} from '../../security-authentication/service/share.service';
+import {ShareService} from '../../service/share.service';
+import {Booking} from '../../model/booking';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ServiceFee} from '../../model/service-fee';
+import {PropertyImageService} from '../../service/property-image.service';
+import {ServiceFeeService} from '../../service/service-fee.service';
+import {BookingService} from '../../service/booking.service';
+import {HttpClient} from '@angular/common/http';
+import {validateCheckIn, validateDateRange} from '../../validation/booking.validator';
+import {Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-property-list',
@@ -13,6 +22,33 @@ import {ShareService} from '../../security-authentication/service/share.service'
   styleUrls: ['./property-list.component.css']
 })
 export class PropertyListComponent implements OnInit {
+  isLoggedIn = false;
+  role: string;
+  userId: number;
+
+  booking: Booking;
+  property: Property;
+  propertyId: number;
+
+  bookingForm: FormGroup;
+  serviceFees: ServiceFee[];
+  checkIn: Date = null;
+  checkOut: Date = null;
+  stayNights = 0;
+  maxGuest: number;
+  totalPrice: number;
+  serviceFee: ServiceFee;
+  errors = {
+    checkInDate: '',
+    checkOutDate: '',
+    deposit: '',
+    totalPrice: '',
+    propertyId: '',
+    tenantId: '',
+    serviceFee: '',
+    guest: ''
+  };
+
   categories: Category[];
   categoryViewQty: number;
   currentCategorySize: number;
@@ -22,24 +58,34 @@ export class PropertyListComponent implements OnInit {
 
   properties: Property[];
 
-  isLoggedIn = false;
-  role: string;
 
   constructor(private categoryService: CategoryService,
               private propertyService: PropertyService,
               private shareService: ShareService,
-              private tokenStorageService: TokenStorageService) {
+              private propertyImageService: PropertyImageService,
+              private serviceFeeService: ServiceFeeService,
+              private bookingService: BookingService,
+              private http: HttpClient,
+              private fb: FormBuilder,
+              private router: Router) {
   }
 
   ngOnInit(): void {
     this.shareService.getClickEvent().subscribe(() => {
-      this.getUserRole();
+      this.userId = this.shareService.getUserId();
+      this.role = this.shareService.getUserRole();
+      this.isLoggedIn = this.shareService.getLogInStatus();
     });
-    this.getUserRole();
+
+    this.userId = this.shareService.getUserId();
+    this.role = this.shareService.getUserRole();
+    this.isLoggedIn = this.shareService.getLogInStatus();
+
     this.categoryViewQty = 0;
     this.currentCategorySize = this.showedCategoryQty;
     this.findCategories();
     this.findALlProperties();
+    this.findServiceFees();
   }
 
   findCategories() {
@@ -57,6 +103,10 @@ export class PropertyListComponent implements OnInit {
       }, () => {
       }
     );
+  }
+
+  async findServiceFees() {
+    this.serviceFees = await this.serviceFeeService.getAllServiceFee().toPromise();
   }
 
   loadNextCategories() {
@@ -85,46 +135,115 @@ export class PropertyListComponent implements OnInit {
     this.findCategories();
   }
 
-  findALlProperties() {
-    this.propertyService.getAllProperties().subscribe(items => {
-      this.properties = items;
-    }, error => {
-    }, () => {
+  async findALlProperties() {
+    this.properties = await this.propertyService.getAllProperties().toPromise();
+  }
+
+  onSubmit() {
+    this.errors.serviceFee = '';
+    this.errors.checkOutDate = '';
+    this.errors.checkInDate = '';
+    this.errors.guest = '';
+    this.errors.deposit = '';
+    this.errors.propertyId = '';
+    this.errors.tenantId = '';
+    this.errors.totalPrice = '';
+
+    if (this.userId == null) {
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Please log in before booking',
+        showConfirmButton: true,
+      });
+    }
+
+    if (this.bookingForm.valid) {
+      // const modal = document.getElementById('bookingModal');
+      // modal.classList.remove('show');
+      // modal.setAttribute('aria-hidden', 'true');
+      // document.body.classList.remove('modal-open');
+      // document.body.style.paddingRight = '';
+      // const backdrop = document.getElementsByClassName('modal-backdrop')[0];
+      // if (backdrop) {
+      //   backdrop.parentNode.removeChild(backdrop);
+      // }
+
+      this.bookingService?.createBooking(this.bookingForm.value).subscribe(item => {
+        Swal.fire({
+          icon: 'success',
+          iconColor: 'darkorange',
+          title: 'Added new booking successfully',
+          confirmButtonText: 'Confirm',
+          confirmButtonColor: 'darkorange'
+        });
+      }, error => {
+        for (const e of error.error) {
+          if (e) {
+            switch (e.field) {
+              case 'checkInDate':
+                this.errors.checkInDate = e.defaultMessage;
+                break;
+              case 'checkOutDate':
+                this.errors.checkOutDate = e.defaultMessage;
+                break;
+              case 'deposit':
+                this.errors.deposit = e.defaultMessage;
+                break;
+              case 'totalPrice':
+                this.errors.totalPrice = e.defaultMessage;
+                break;
+              case 'propertyId':
+                this.errors.propertyId = e.defaultMessage;
+                break;
+              case 'tenantId':
+                this.errors.tenantId = e.defaultMessage;
+                break;
+              case 'serviceFee':
+                this.errors.serviceFee = e.defaultMessage;
+                break;
+              case 'guest':
+                this.errors.guest = e.defaultMessage;
+                break;
+            }
+          }
+        }
+      });
+    }
+  }
+
+  checkCheckInDate(valueAsDate: Date) {
+    this.checkIn = valueAsDate;
+    if (this.checkOut != null) {
+      this.stayNights = (this.checkOut.getTime() - this.checkIn.getTime()) / (1000 * 60 * 60 * 24);
+      this.serviceFee = this.shareService.getServiceFee(this.serviceFees, this.stayNights);
+      this.totalPrice = this.property.pricePerNight * this.stayNights * (1 + this.serviceFee.tenantFee);
+    }
+  }
+
+
+  checkCheckOutDate(valueAsDate: Date) {
+    this.checkOut = valueAsDate;
+    if (this.checkIn != null) {
+      this.stayNights = (this.checkOut.getTime() - this.checkIn.getTime()) / (1000 * 60 * 60 * 24);
+      this.serviceFee = this.shareService.getServiceFee(this.serviceFees, this.stayNights);
+      this.totalPrice = Math.round(this.property.pricePerNight * this.stayNights * (1 + this.serviceFee.tenantFee) * 100) / 100;
+    }
+  }
+
+  getProperty(p: Property) {
+    this.property = p;
+    this.bookingForm = this.fb?.group({
+      checkInDate: [this.booking?.checkInDate, Validators.compose([Validators.required, validateCheckIn])],
+      checkOutDate: [this.booking?.checkOutDate, Validators.compose([Validators.required])],
+      guest: [1, Validators.compose([Validators.required, Validators.max(p.maxGuest)])],
+      deposit: [0],
+      totalPrice: [0, Validators.compose([Validators.required])],
+      propertyId: [p.id, Validators.compose([Validators.required])],
+      tenantId: [this.userId, Validators.compose([Validators.required])],
+      serviceFee: [this.serviceFee, Validators.compose([Validators.required])],
+    }, {
+      validators: [validateDateRange()]
     });
-  }
-
-  getUserRole() {
-    if (this.tokenStorageService.getToken()) {
-      this.role = this.tokenStorageService.getUser().roles[0];
-      this.isLoggedIn = this.role != null;
-    }
-  }
-
-  addWishlist(id: number) {
-    if (this.role == null) {
-      Swal.fire({
-        text: 'Please log in to save this fabulous location in your wishlist!',
-        icon: 'warning',
-        showConfirmButton: false,
-        timer: 3500
-      });
-    }
-    if (this.role === 'User') {
-      Swal.fire({
-        text: '',
-        icon: 'warning',
-        showConfirmButton: false,
-        timer: 3500
-      });
-    }
-
-    if (this.role === 'Admin') {
-      Swal.fire({
-        text: 'Admin',
-        icon: 'warning',
-        showConfirmButton: false,
-        timer: 3500
-      });
-    }
   }
 }
