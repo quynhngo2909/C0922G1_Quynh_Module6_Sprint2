@@ -143,6 +143,7 @@ export class PropertyDetailComponent implements OnInit {
           confirmButtonText: 'Confirm',
           confirmButtonColor: 'darkorange'
         });
+        this.shareService.setUnpaidBooking(this.userId);
       }, error => {
         for (const e of error.error) {
           if (e) {

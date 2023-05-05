@@ -29,6 +29,7 @@ export class PropertyListComponent implements OnInit {
   booking: Booking;
   property: Property;
   propertyId: number;
+  unpaidBooking: number;
 
   bookingForm: FormGroup;
   serviceFees: ServiceFee[];
@@ -177,6 +178,7 @@ export class PropertyListComponent implements OnInit {
           confirmButtonText: 'Confirm',
           confirmButtonColor: 'darkorange'
         });
+        this.shareService.setUnpaidBooking(this.userId);
       }, error => {
         for (const e of error.error) {
           if (e) {

@@ -1,4 +1,26 @@
 .wishlist {
   position: relative;
-  margin-top: 10%;
+  margin-top: 6rem;
+  margin-bottom: 3rem;
+}
+
+/*----------------------------------
+Unpaid Booking List
+------------------------------------*/
+.card {
+
+  border-style: none;
+}
+
+img {
+  border-radius: 5%;
+}
+
+.card:hover {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: #343434;
 }

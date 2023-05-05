@@ -1,23 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TokenStorageService} from '../security-authentication/service/token-storage.service';
 import {ShareService} from '../service/share.service';
 import {Router} from '@angular/router';
 import Swal from 'sweetalert2';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoginService} from '../security-authentication/service/login.service';
+import {BookingService} from '../service/booking.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit{
   isDropDownOpen = false;
   isLoggedIn = false;
   role: string;
   nameEmployee: string;
   username: string;
   userImage: string;
+  userId: number;
+  unpaidBooking: number;
 
   loginForm: FormGroup;
   // username: string;
@@ -27,13 +30,29 @@ export class HeaderComponent implements OnInit {
   constructor(private tokenStorageService: TokenStorageService,
               private shareService: ShareService,
               private router: Router,
-              private loginService: LoginService) { }
+              private loginService: LoginService,
+              private bookingService: BookingService) {
+  }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.shareService.getClickEvent().subscribe(() => {
       this.loadHeader();
+      if (this.isLoggedIn) {
+        this.shareService.setUnpaidBooking(this.userId);
+        this.unpaidBooking = this.shareService.getUnpaidBooking();
+        this.shareService.getUnpaidBookingSubject().subscribe(quantity => {
+          this.unpaidBooking = quantity;
+        });
+      }
     });
     this.loadHeader();
+    if (this.isLoggedIn) {
+      this.shareService.setUnpaidBooking(this.userId);
+      this.unpaidBooking = this.shareService.getUnpaidBooking();
+      this.shareService.getUnpaidBookingSubject().subscribe(quantity => {
+        this.unpaidBooking = quantity;
+      });
+    }
 
     if (this.loginService.isLoggedIn) {
       Swal.fire({
@@ -50,42 +69,22 @@ export class HeaderComponent implements OnInit {
       password: new FormControl('', [Validators.required]),
       rememberMe: new FormControl()
     });
-
-    if (this.tokenStorageService.getToken()) {
-      const user = this.tokenStorageService.getUser();
-      this.loginService.isLoggedIn = true;
-      this.roles = this.tokenStorageService.getUser().roles;
-      this.username = this.tokenStorageService.getUser().username;
-    }
-
   }
 
   toggleDropDown() {
     this.isDropDownOpen = !this.isDropDownOpen;
   }
 
-  loadHeader(): void {
+  async loadHeader(): Promise<void> {
     if (this.tokenStorageService.getToken()) {
       // this.currentUser = this.tokenStorageService.getUser().username;
       this.role = this.tokenStorageService.getUser().roles[0];
       this.username = this.tokenStorageService.getUser().username;
     }
     this.isLoggedIn = this.username != null;
-    this.getUsernameAccount();
-    this.getUserImage();
-  }
-
-  getUsernameAccount() {
-    if (this.tokenStorageService.getToken()) {
-      this.nameEmployee = this.tokenStorageService.getUser().name;
-    }
-  }
-
-
-  getUserImage() {
-    if (this.tokenStorageService.getToken()) {
-      this.userImage = this.tokenStorageService.getUser().image;
-    }
+    this.nameEmployee = this.shareService.getUsernameAccount();
+    this.userImage = this.shareService.getUserImage();
+    this.userId = this.shareService.getUserId();
   }
 
   async logOut() {
@@ -114,7 +113,7 @@ export class HeaderComponent implements OnInit {
 
         this.loginService.isLoggedIn = true;
         this.username = this.tokenStorageService.getUser().username;
-        this.roles = this.tokenStorageService.getUser().roles;
+        // this.roles = this.tokenStorageService.getUser().roles;
         this.loginForm.reset();
         Swal.fire({
           text: 'Logged in successfully',
@@ -122,7 +121,7 @@ export class HeaderComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500
         });
-        // this.router.navigateByUrl('/homepage');
+        this.router.navigateByUrl('/homepage');
         this.shareService.sendClickEvent();
       },
       err => {

@@ -5,7 +5,7 @@ import {ReservationBookedComponent} from './reservation-booked/reservation-booke
 
 
 const routes: Routes = [{
-  path: 'wishlist',
+  path: 'wishlist/:userId',
   component: ReservationWishlistComponent,
 }, {
   path: 'booked',

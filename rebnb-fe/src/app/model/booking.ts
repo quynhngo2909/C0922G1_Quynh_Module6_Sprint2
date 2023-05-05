@@ -9,4 +9,13 @@ export interface Booking {
   tenantId?: number;
   serviceFee?: ServiceFee;
   guest?: number;
+  country?: string;
+  region?: string;
+  city?: string;
+  title?: string;
+  bookingId?: number;
+  bedroom?: number;
+  bath?: number;
+  bed?: number;
+  image?: string;
 }
