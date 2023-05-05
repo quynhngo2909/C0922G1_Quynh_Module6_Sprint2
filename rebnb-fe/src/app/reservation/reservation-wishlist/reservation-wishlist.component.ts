@@ -3,6 +3,7 @@ import {BookingService} from '../../service/booking.service';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Booking} from '../../model/booking';
+import {render} from 'creditcardpayments/creditCardPayments';
 
 @Component({
   selector: 'app-reservation-wishlist',
@@ -20,6 +21,16 @@ export class ReservationWishlistComponent implements OnInit {
               private http: HttpClient,
               private activatedRoute: ActivatedRoute,
               private route: Router) {
+    render(
+      {
+        id: '#myPayPalButton',
+        currency: 'USD',
+        value: '100.00',
+        onApprove: (details) => {
+          alert('Transaction successful');
+        }
+      }
+      );
   }
 
   ngOnInit(): void {

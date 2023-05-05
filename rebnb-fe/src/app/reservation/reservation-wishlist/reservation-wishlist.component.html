@@ -11,8 +11,8 @@
           <img [src]="b.image" class="card-img-top" alt="..." style="height: 14rem">
         </a>
       </div>
-      <a [routerLink]="'/homepage/detail/' +b.propertyId" target="_blank">
-        <div class="card-body px-0">
+      <div class="card-body px-0">
+        <a [routerLink]="'/homepage/detail/' +b.propertyId" target="_blank">
           <div class="d-flex flex-row justify-content-between align-items-top m-0 p-0">
             <div class="d-flex flex-column">
               <strong class="card-title m-0 p-0">{{b.title}}</strong>
@@ -24,19 +24,18 @@
           <div class="card-text py-1" style="font-size: small; font-weight: bold">
             {{b.totalPrice | currency:'$': 'symbol-narrow'}}
           </div>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="card-text d-flex justify-content-around">
-              <em class='bx bxs-trash' style="font-size: x-large"></em>
-              <em class='bx bxs-edit mx-4' style="font-size: x-large" routerLink="/"></em>
-            </div>
-            <div class="card-text p-0 d-flex">
-              <a>
-                <img style="width: 1.5rem" src="../../../assets/img/payment-icon-flatelements.png">
-              </a>
-            </div>
+        </a>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="card-text d-flex justify-content-around">
+            <em class='bx bxs-trash' style="font-size: x-large"></em>
+            <em class='bx bxs-edit mx-4' style="font-size: x-large" routerLink="/"></em>
           </div>
+          <!--          <div class="card-text p-0 d-flex" id="myPayPalButton">-->
+          <!--            <img style="width: 1.5rem" src="../../../assets/img/payment-icon-flatelements.png">-->
+          <!--          </div>-->
         </div>
-      </a>
+      </div>
+      <div class="card-text p-0 d-flex" id="myPayPalButton"></div>
     </div>
   </section> <!--End Unpaid Booking List-->
 </section>
