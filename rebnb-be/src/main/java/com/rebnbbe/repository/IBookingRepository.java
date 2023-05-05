@@ -29,13 +29,13 @@ public interface IBookingRepository extends JpaRepository<Booking, Long> {
             "    p.city,\n" +
             "    p.bedroom,\n" +
             "    p.bed,\n" +
-//            "   (select pi.link_image from property_image pi where pi.property_id = p.id limit 1) as `image`,\n" +
-            "    p.bath\n" +
-            "from\n" +
-            "    booking b\n" +
-            "        join property p on p.id = b.property_id\n" +
-            "where\n" +
-            "      b.status = 1\n" +
+            "   (select pi.link_image from `property_image` pi where pi.property_id = p.id limit 1) as `image`,\n" +
+            "    p.bath \n" +
+            " from \n" +
+            "    `booking` b \n" +
+            "        join `property` p on p.id = b.property_id\n" +
+            " where \n" +
+            "      b.status = 1 \n" +
             "  and b.tenant_id = ?1";
 
     @Transactional

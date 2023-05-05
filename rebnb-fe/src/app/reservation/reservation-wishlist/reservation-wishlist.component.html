@@ -2,46 +2,13 @@
   <div class="row m-1" style="font-weight: bolder; font-size: larger">
     WishList
   </div>
-<!--  <div class="container-fluid d-flex flex-row flex-wrap justify-content-start align-items-center">-->
-<!--    <div class="card m-1" style="width: 18rem;">-->
-<!--      <img src="https://a0.muscache.com/im/pictures/d682f7bf-caa4-4433-9038-c5f81a01845b.jpg?im_w=720"-->
-<!--           class="card-img-top" alt="...">-->
-<!--      <div class="card-body">-->
-<!--        <div class="d-flex flex-row justify-content-between align-items-center">-->
-<!--          <strong class="card-title" style="font-size: small">Thành phố Nha Trang, Việt Nam</strong>-->
-<!--          <span style="font-size: small">4.8</span>-->
-<!--        </div>-->
-<!--        <span class="card-text" style="font-size: small">Hướng biển</span>-->
-<!--        <br>-->
-<!--        <span class="card-text" style="font-size: small">Ngày 02 - Ngày 07 tháng 5</span>-->
-<!--        <br>-->
-<!--        <span class="card-text" style="font-size: small">đ26.785.164/ đêm</span>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <div class="card m-2" style="width: 18rem;">-->
-<!--      <img src="https://a0.muscache.com/im/pictures/8246cb1d-cb4c-4258-a7f1-fd9dc37bc621.jpg?im_w=720"-->
-<!--           class="card-img-top" alt="...">-->
-<!--      <div class="card-body">-->
-<!--        <div class="d-flex flex-row justify-content-between align-items-center">-->
-<!--          <strong class="card-title" style="font-size: small">Hoa Lư, Việt Nam</strong>-->
-<!--          <span style="font-size: small">4.8</span>-->
-<!--        </div>-->
-<!--        <span class="card-text" style="font-size: small">Hướng núi</span>-->
-<!--        <br>-->
-<!--        <span class="card-text" style="font-size: small">Ngày 02 - Ngày 07 tháng 5</span>-->
-<!--        <br>-->
-<!--        <span class="card-text" style="font-size: small">đ456.471/ đêm</span>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-
+  <!--  Unpaid Booking List-->
   <section *ngIf="unpaidBookingList"
            class="d-flex flex-row flex-wrap justify-content-evenly align-items-center">
     <div *ngFor="let b of unpaidBookingList" class="card m-1" style="width: 18rem">
       <div>
         <a [routerLink]="'/homepage/detail/' + b.propertyId" target="_blank">
-          <img [src]="b.propertyId" class="card-img-top" alt="..." style="height: 14rem">
+          <img [src]="b.image" class="card-img-top" alt="..." style="height: 14rem">
         </a>
       </div>
       <a [routerLink]="'/homepage/detail/' +b.propertyId" target="_blank">
@@ -50,28 +17,26 @@
             <div class="d-flex flex-column">
               <strong class="card-title m-0 p-0">{{b.title}}</strong>
               <strong class="card-title m-0 p-0" style="font-size: small">{{b.city + ', ' + b.country}}</strong>
-              <span class="card-text" style="font-size: small; color: gray">{{b.checkInDate | date: "dd/MM/yyyy"}} - {{b.checkOutDate | date: "dd/MM/yyyy"}}</span>
+              <span class="card-text" style="font-size: small; color: gray">{{b.checkInDate | date: "dd/MM/yyyy"}}
+                - {{b.checkOutDate | date: "dd/MM/yyyy"}}</span>
             </div>
-<!--            <div class="card-title m-0 p-0">-->
-<!--              <em class='bx bxs-star' style="font-size: small" [hidden]="p.score === null"></em>-->
-<!--              {{p.score}}-->
-<!--            </div>-->
           </div>
           <div class="card-text py-1" style="font-size: small; font-weight: bold">
             {{b.totalPrice | currency:'$': 'symbol-narrow'}}
           </div>
-          <div>
-            <div class="card-text p-0 d-flex flex-row justify-content-center"
-                 style="font-size: small; font-weight: bold">
-              <em class='bx bxs-trash mx-4' style="font-size: x-large" ></em>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="card-text d-flex justify-content-around">
+              <em class='bx bxs-trash' style="font-size: x-large"></em>
               <em class='bx bxs-edit mx-4' style="font-size: x-large" routerLink="/"></em>
+            </div>
+            <div class="card-text p-0 d-flex">
+              <a>
+                <img style="width: 1.5rem" src="../../../assets/img/payment-icon-flatelements.png">
+              </a>
             </div>
           </div>
         </div>
       </a>
     </div>
-  </section> <!--End Property List-->
-
-
-
+  </section> <!--End Unpaid Booking List-->
 </section>
