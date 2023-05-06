@@ -1,41 +1,157 @@
 <section class="wishlist mx-1">
-  <div class="row m-1" style="font-weight: bolder; font-size: larger">
-    WishList
+  <div class="d-flex flex-row justify-content-between m-1 py-1" style="font-weight: bolder; font-size: larger">
+    <div> WishList</div>
+    <div><img style="width: 1.5rem" src="../../../assets/img/payment-icon-flatelements.png" (click)="getPayPal()" [hidden]="isCalledPayPal">
+    </div>
   </div>
   <!--  Unpaid Booking List-->
-  <section *ngIf="unpaidBookingList"
-           class="d-flex flex-row flex-wrap justify-content-evenly align-items-center">
-    <div *ngFor="let b of unpaidBookingList" class="card m-1" style="width: 18rem">
+  <section *ngIf="unpaidBookingList" class="d-flex flex-row flex-wrap justify-content-evenly align-items-center">
+    <div class="card m-1" style="width: 18rem">
       <div>
-        <a [routerLink]="'/homepage/detail/' + b.propertyId" target="_blank">
-          <img [src]="b.image" class="card-img-top" alt="..." style="height: 14rem">
+        <a [routerLink]="'/homepage/detail/' + unpaidBooking1.propertyId" target="_blank">
+          <img [src]="unpaidBooking1.image" class="card-img-top" alt="..." style="height: 10rem">
         </a>
       </div>
       <div class="card-body px-0">
-        <a [routerLink]="'/homepage/detail/' +b.propertyId" target="_blank">
-          <div class="d-flex flex-row justify-content-between align-items-top m-0 p-0">
+
+        <div class="d-flex flex-row justify-content-between align-items-top m-0 p-0">
+          <div>
             <div class="d-flex flex-column">
-              <strong class="card-title m-0 p-0">{{b.title}}</strong>
-              <strong class="card-title m-0 p-0" style="font-size: small">{{b.city + ', ' + b.country}}</strong>
-              <span class="card-text" style="font-size: small; color: gray">{{b.checkInDate | date: "dd/MM/yyyy"}}
-                - {{b.checkOutDate | date: "dd/MM/yyyy"}}</span>
+              <a [routerLink]="'/homepage/detail/' + unpaidBooking1.propertyId" target="_blank">
+                <strong class="card-title m-0 p-0"
+                        style="font-size: small">{{unpaidBooking1.city + ', ' + unpaidBooking1.country}}</strong>
+              </a>
+              <span class="card-text"
+                    style="font-size: small; color: gray">{{unpaidBooking1.checkInDate | date: "dd/MM/yyyy"}}
+                - {{unpaidBooking1.checkOutDate | date: "dd/MM/yyyy"}}</span>
             </div>
           </div>
-          <div class="card-text py-1" style="font-size: small; font-weight: bold">
-            {{b.totalPrice | currency:'$': 'symbol-narrow'}}
+          <div>
+            <button class="form-control" *ngIf="!isBooking1Paid">Unpaid</button>
+            <button class="form-control btn-primary" *ngIf="isBooking1Paid">PAID</button>
           </div>
-        </a>
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="card-text d-flex justify-content-around">
-            <em class='bx bxs-trash' style="font-size: x-large"></em>
-            <em class='bx bxs-edit mx-4' style="font-size: x-large" routerLink="/"></em>
+        </div>
+        <div class="card-text py-1" style="font-size: small; font-weight: bold">
+          {{unpaidBooking1.totalPrice | currency:'$': 'symbol-narrow'}}
+        </div>
+        <div class="d-flex justify-content-around align-items-center">
+          <div class="card-text d-flex justify-content-around" *ngIf="!isBooking1Paid">
+            <em class='bx bxs-trash mx-5' style="font-size: x-large"></em>
+            <em class='bx bxs-edit mx-5' style="font-size: x-large" routerLink="/"></em>
           </div>
-          <!--          <div class="card-text p-0 d-flex" id="myPayPalButton">-->
-          <!--            <img style="width: 1.5rem" src="../../../assets/img/payment-icon-flatelements.png">-->
-          <!--          </div>-->
         </div>
       </div>
-      <div class="card-text p-0 d-flex" id="myPayPalButton"></div>
+
+      <div class="card-text p-0 d-flex" id="paypal-button-container-unpaidBooking1" *ngIf="!isBooking1Paid"></div>
+    </div>
+
+    <div class="card m-1" style="width: 18rem">
+      <div>
+        <a [routerLink]="'/homepage/detail/' + unpaidBooking2.propertyId" target="_blank">
+          <img [src]="unpaidBooking2.image" class="card-img-top" alt="..." style="height: 10rem">
+        </a>
+      </div>
+      <div class="card-body px-0">
+        <div class="d-flex flex-row justify-content-between align-items-top m-0 p-0">
+          <div>
+            <div class="d-flex flex-column">
+              <a [routerLink]="'/homepage/detail/' + unpaidBooking2.propertyId" target="_blank">
+                <strong class="card-title m-0 p-0"
+                        style="font-size: small">{{unpaidBooking2.city + ', ' + unpaidBooking2.country}}</strong>
+              </a>
+              <span class="card-text"
+                    style="font-size: small; color: gray">{{unpaidBooking2.checkInDate | date: "dd/MM/yyyy"}}
+                - {{unpaidBooking2.checkOutDate | date: "dd/MM/yyyy"}}</span>
+            </div>
+          </div>
+          <div>
+            <button class="form-control" *ngIf="!isBooking2Paid">Unpaid</button>
+            <button class="form-control btn-primary" *ngIf="isBooking2Paid">PAID</button>
+          </div>
+        </div>
+        <div class="card-text py-1" style="font-size: small; font-weight: bold">
+          {{unpaidBooking1.totalPrice | currency:'$': 'symbol-narrow'}}
+        </div>
+        <div class="d-flex justify-content-around align-items-center" *ngIf="!isBooking2Paid">
+          <em class='bx bxs-trash mx-5' style="font-size: x-large"></em>
+          <em class='bx bxs-edit mx-5' style="font-size: x-large" routerLink="/"></em>
+        </div>
+      </div>
+      <div class="card-text p-0 d-flex" id="paypal-button-container-unpaidBooking2" *ngIf="!isBooking2Paid"></div>
+    </div>
+
+    <div class="card m-1" style="width: 18rem">
+      <div>
+        <a [routerLink]="'/homepage/detail/' + unpaidBooking3.propertyId" target="_blank">
+          <img [src]="unpaidBooking3.image" class="card-img-top" alt="..." style="height: 10rem">
+        </a>
+      </div>
+      <div class="card-body px-0">
+        <div class="d-flex flex-row justify-content-between align-items-top m-0 p-0">
+          <div>
+            <div class="d-flex flex-column">
+              <a [routerLink]="'/homepage/detail/' + unpaidBooking3.propertyId" target="_blank">
+                <strong class="card-title m-0 p-0"
+                        style="font-size: small">{{unpaidBooking3.city + ', ' + unpaidBooking3.country}}</strong>
+              </a>
+              <span class="card-text"
+                    style="font-size: small; color: gray">{{unpaidBooking3.checkInDate | date: "dd/MM/yyyy"}}
+                - {{unpaidBooking3.checkOutDate | date: "dd/MM/yyyy"}}</span>
+            </div>
+          </div>
+          <div>
+            <button class="form-control" *ngIf="!isBooking3Paid">Unpaid</button>
+            <button class="form-control btn-primary" *ngIf="isBooking3Paid">PAID</button>
+          </div>
+        </div>
+        <div class="card-text py-1" style="font-size: small; font-weight: bold">
+          {{unpaidBooking3.totalPrice | currency:'$': 'symbol-narrow'}}
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="card-text d-flex justify-content-around" *ngIf="!isBooking3Paid">
+            <em class='bx bxs-trash mx-5' style="font-size: x-large"></em>
+            <em class='bx bxs-edit mx-5' style="font-size: x-large" routerLink="/"></em>
+          </div>
+        </div>
+      </div>
+      <div class="card-text p-0 d-flex" id="paypal-button-container-unpaidBooking3" *ngIf="!isBooking3Paid"></div>
+    </div>
+
+    <div class="card m-1" style="width: 18rem">
+      <div>
+        <a [routerLink]="'/homepage/detail/' + unpaidBooking4.propertyId" target="_blank">
+          <img [src]="unpaidBooking4.image" class="card-img-top" alt="..." style="height: 10rem">
+        </a>
+      </div>
+      <div class="card-body px-0">
+        <div class="d-flex flex-row justify-content-between align-items-top m-0 p-0">
+          <div>
+            <div class="d-flex flex-column">
+              <a [routerLink]="'/homepage/detail/' + unpaidBooking4.propertyId" target="_blank">
+                <strong class="card-title m-0 p-0"
+                        style="font-size: small">{{unpaidBooking4.city + ', ' + unpaidBooking4.country}}</strong>
+              </a>
+              <span class="card-text"
+                    style="font-size: small; color: gray">{{unpaidBooking4.checkInDate | date: "dd/MM/yyyy"}}
+                - {{unpaidBooking4.checkOutDate | date: "dd/MM/yyyy"}}</span>
+            </div>
+          </div>
+          <div>
+            <button class="form-control" *ngIf="!isBooking4Paid">Unpaid</button>
+            <button class="form-control btn-primary" *ngIf="isBooking4Paid">PAID</button>
+          </div>
+        </div>
+        <div class="card-text py-1" style="font-size: small; font-weight: bold">
+          {{unpaidBooking4.totalPrice | currency:'$': 'symbol-narrow'}}
+        </div>
+        <div class="d-flex justify-content-around align-items-center">
+          <div class="card-text d-flex justify-content-around" *ngIf="!isBooking4Paid">
+            <em class='bx bxs-trash mx-5' style="font-size: x-large"></em>
+            <em class='bx bxs-edit mx-5' style="font-size: x-large" routerLink="/"></em>
+          </div>
+        </div>
+      </div>
+      <div class="card-text p-0 d-flex" id="paypal-button-container-unpaidBooking4" *ngIf="!isBooking4Paid"></div>
     </div>
   </section> <!--End Unpaid Booking List-->
 </section>
