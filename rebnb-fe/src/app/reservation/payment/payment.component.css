@@ -1,0 +1,53 @@
+.edit-payment {
+  position: relative;
+  margin-top: 7rem;
+  margin-bottom: 3rem;
+}
+
+.icon {
+  border-style: none;
+  background: white;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.icon:hover {
+  background-color: #f6f6f6;
+}
+
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  height: 30rem;
+  border-radius: 5px;
+}
+
+.large-image {
+  width: 50%;
+  height: 300px;
+  padding: 5px;
+}
+
+.small-images {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.small-image {
+  width: 50%;
+  height: 50%;
+  padding: 5px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+#bookingForm{
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+

@@ -12,7 +12,7 @@ export class PropertyImageService {
 
   constructor(private http: HttpClient) { }
 
-  getImageByPropertyId(propertyId: string): Observable<PropertyImage[]> {
+  getImageByPropertyId(propertyId: number): Observable<PropertyImage[]> {
     return this.http.get<PropertyImage[]>(`${API_URL}/${propertyId}`);
   }
 }

@@ -19,7 +19,7 @@ export class PropertyService {
     return this.http.get<Property[]>(API_URL);
   }
 
-  findPropertyById(propertyId: string): Observable<Property> {
+  findPropertyById(propertyId: number): Observable<Property> {
     return this.http.get<Property>(`${API_URL}/${propertyId}`);
   }
 

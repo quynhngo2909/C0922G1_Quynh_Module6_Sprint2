@@ -1,0 +1,227 @@
+<section class="edit-booking container" *ngIf="property">
+  <div style="color: #2f2e2e;text-align: center; font-weight: bolder; font-size: larger">BOOKING DETAIL</div>
+  <div class="row" style="font-weight: bolder; font-size: larger">
+    {{property.title}}
+  </div>
+  <div class="row" style="font-weight: normal; font-size: small">
+    <div class="col-md-8 d-flex flex-row justify-content-start">
+      <div *ngIf="property.score != null"><em class='bx bxs-star' style="font-size: small"></em> {{property.score}}
+      </div>
+      <div *ngIf="property.score  == null"><em class='bx bxs-star' style="font-size: small"></em>New</div>
+      <div class="px-1">.</div>
+      <div>reviews</div>
+      <div class="px-1">.</div>
+      <div>{{property.city}}</div>
+      <div class="px-1">.</div>
+      <div>{{property.region}}</div>
+      <div class="px-1">.</div>
+      <div>{{property.country}}</div>
+    </div>
+    <div class="col-md-4 d-flex flex-row justify-content-end">
+      <div class="px-1">
+        <button class="icon"><em class='bx bx-share'></em>Share</button>
+      </div>
+      <div class="px-1">
+        <button class="icon"><em class='bx bx-heart'></em>Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!--  Image2-->
+  <div class="row">
+    <div class="col-md-6">
+      <img style="height: 20rem;width: 100%;border-radius: 2rem 0 0 2rem;"
+           [src]="image1" alt="img" class="p-0">
+    </div>
+    <div class="col-md-6 d-flex">
+      <div class="row">
+        <div class="col-md-6 m-0 p-0">
+          <img [src]="image2" alt="img" class="p-0" style="height: 9.5rem;width: 100%; margin-bottom: 0.5rem">
+          <img [src]="image3" alt="img" class="p-0" style="height: 9.5rem;width: 100%; margin-top: 0.5rem">
+        </div>
+        <div class="col-md-6">
+          <img [src]="image4" alt="img" class="p-0"
+               style="height: 9.5rem;width: 100%; margin-bottom: 0.5rem; border-radius: 0 2rem 0 0">
+          <img [src]="image5" alt="img" class="p-0"
+               style="height: 9.5rem;width: 100%; margin-top: 0.5rem; border-radius: 0 0 2rem 0">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--  End Image-->
+  <br>
+  <div class="row bookingDetail">
+    <div class="col-md-8 info">
+      <div class="row">
+        <div class="col-md-10">
+          <span style="font-weight: bolder; font-size: larger">{{property.propertyType}}
+            hosted by {{property.host}}</span>
+          <div class="col-md-8 d-flex flex-row justify-content-start" style="font-weight: normal; font-size: small">
+            <div>{{property.maxGuest}} guests</div>
+            <div class="px-1">.</div>
+            <div>{{property.bedroom}} bedroom</div>
+            <div class="px-1">.</div>
+            <div>{{property.bed}} bed</div>
+            <div class="px-1">.</div>
+            <div>{{property.bath}} bath</div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <img [src]="property.hostImage" style="height: 40px">
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <table>
+          <tr>
+            <td></td>
+            <td>Dive right in</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Highly-rated host</td>
+          </tr>
+          <tr>
+            <td></td>
+            <!--            <td>Free cancellation before 2:00 pm on 6 June.</td>-->
+          </tr>
+        </table>
+      </div>
+      <hr>
+      <div class="row">
+        <p style="font-weight: bolder; font-size: larger">RbCover</p>
+        <p style="text-align: justify">{{property.description}}</p>
+      </div>
+      <hr>
+      <div class="row">
+        <p style="font-weight: bolder; font-size: larger">What this place offers</p>
+      </div>
+      <hr>
+      <div class="row">
+        <p style="font-weight: bolder; font-size: larger">2 nights in {{property.city}}</p>
+      </div>
+      <hr>
+      <div class="row">
+
+      </div>
+      <hr>
+    </div>
+
+    <!--    BOOKING FORM-->
+    <div class="col-md-4 ">
+      <form *ngIf="bookingForm" [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+        <div class="card">
+          <div class="card-body">
+            <p class="text-center fw-bold">RESERVATION</p>
+            <div class="row py-1">
+              <label for="guest">Guest</label>
+              <input id="guest" formControlName="guest" class="form-control py-0" style="width: 100%; color: #2d2d2d">
+              <div style="position: absolute"
+                   *ngIf="bookingForm.controls.guest?.touched && bookingForm.controls.guest?.errors?.required"
+                   style="color: red; font-size: small">Please input guests
+              </div>
+              <div style="position: absolute"
+                   *ngIf="bookingForm.controls.guest?.touched && bookingForm.controls.guest?.errors?.max"
+                   style="color: red; font-size: small">Maximum {{property.maxGuest}} guest(s)
+              </div>
+              <div style="position: absolute" *ngIf="bookingForm.controls.guest?.touched && errors.guest"
+                   style="color: red; font-size: small">{{errors.guest}}
+              </div>
+            </div>
+            <div class="row py-1" style="margin-bottom: 2rem">
+              <div class="col-md-6" style="position: relative">
+                <label for="checkIn">Check in </label>
+                <input class="form-control p-0" style="width: 100%; color: #2d2d2d" id="checkIn"
+                       formControlName="checkInDate" type="date" #checkInDate
+                       (input)="checkCheckInDate(checkInDate.valueAsDate)">
+                <div style="position: absolute">
+                  <div
+                    *ngIf="bookingForm.controls.checkInDate?.touched && bookingForm.controls.checkInDate?.errors?.requiredCheckInDate"
+                    style="color: red; font-size: small">{{bookingForm.controls.checkInDate?.errors?.requiredCheckInDate}}</div>
+                  <div style="position: absolute"
+                       *ngIf="bookingForm.controls.checkInDate?.touched && errors.checkInDate"
+                       style="color: red; font-size: small">{{errors.checkInDate}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="checkOut">Check out </label>
+                <input class="form-control p-0" style="width: 100%; color: #2d2d2d" id="checkOut"
+                       formControlName="checkOutDate" type="date" #checkOutDate
+                       (input)="checkCheckOutDate(checkOutDate.valueAsDate)">
+                <div style="position: absolute">
+                  <div
+                    *ngIf="bookingForm.controls.checkOutDate?.touched && bookingForm.controls.checkOutDate?.errors?.required"
+                    style="color: red; font-size: small">Please choose check-out date
+                  </div>
+                  <div *ngIf="bookingForm.controls.checkOutDate?.touched && bookingForm.errors?.dateRange"
+                       style="color: red; font-size: small">
+                    {{ bookingForm.errors.dateRange}}
+                  </div>
+                  <div style="position: absolute"
+                       *ngIf="bookingForm.controls.checkOutDate?.touched && errors.checkOutDate"
+                       style="color: red; font-size: small">{{errors.checkOutDate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row py-1">
+              <button type="submit" class="btn btn-primary btn-sm m-1"
+                      [disabled]="bookingForm.invalid || !isLoggedIn || role == null">
+                Update
+              </button>
+            </div>
+            <div class="row py-1" *ngIf="stayNights > 0">
+              <div class="col-md-6">
+                {{property.pricePerNight}} * {{stayNights}} night(s)
+              </div>
+              <div class="col-md-6">
+                {{property.pricePerNight * stayNights}}
+              </div>
+            </div>
+            <div class="row py-1" *ngIf="stayNights > 0">
+              <div class="col-md-6">
+                Service Fee:
+              </div>
+              <div class="col-md-6">
+                {{property.pricePerNight * stayNights * serviceFee.tenantFee | number:'.1'}}
+              </div>
+            </div>
+            <div class="row py-1" *ngIf="stayNights > 0">
+              <div class="col-md-6">
+                <label for="deposit">Deposit:</label>
+              </div>
+              <div class="col-md-6">
+                <input class="form-control p-0" style="width: 100%; color: #2d2d2d" id="deposit"
+                       formControlName="deposit">
+              </div>
+              <div style="position: absolute" *ngIf="bookingForm.controls.deposit?.touched && errors.deposit"
+                   style="color: red; font-size: small">{{errors.deposit}}
+              </div>
+            </div>
+            <div class="row py-1" *ngIf="stayNights > 0">
+              <div class="col-md-6">
+                <label for="total">Total Price:</label>
+              </div>
+              <div class="col-md-6">
+                <input class="form-control p-0" style="width: 100%; color: #2d2d2d" id="total"
+                       formControlName="totalPrice" [(ngModel)]="totalPrice" disabled>
+              </div>
+              <div style="position: absolute" *ngIf="bookingForm.controls.totalPrice?.touched && errors.totalPrice"
+                   style="color: red; font-size: small">{{errors.totalPrice}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!--  END  BOOKING FORM-->
+  </div>
+  <hr>
+  <div class="row">
+    <p style="font-weight: bolder; font-size: larger">
+      Reviews
+    </p>
+  </div>
+</section>

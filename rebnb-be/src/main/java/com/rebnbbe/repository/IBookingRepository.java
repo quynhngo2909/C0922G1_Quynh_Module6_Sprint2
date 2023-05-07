@@ -38,6 +38,45 @@ public interface IBookingRepository extends JpaRepository<Booking, Long> {
             "      b.status = 1 \n" +
             "  and b.tenant_id = ?1";
 
+    String UPDATE_PAID_STATUS_BOOKING = "update booking b set b.status = 2 where b.id = ?1";
+
+    String UPDATE_BOOKING = "update booking b\n" +
+            "set\n" +
+            "    b.service_fee_id = ?1,\n" +
+            "    b.check_in       = ?2,\n" +
+            "    b.check_out      = ?3,\n" +
+            "    b.deposit        = ?4,\n" +
+            "    b.total_price    = ?5,\n" +
+            "    b.guest          = ?6\n" +
+            "where\n" +
+            "        b.id = ?7";
+
+
+    String FIND_UNPAID_BOOKING_BY_ID = "select\n" +
+            "    b.id                                                                              as `bookingid`,\n" +
+            "    b.total_price                                                                     as `totalprice`,\n" +
+            "    b.check_in                                                                        as `checkindate`,\n" +
+            "    b.check_out                                                                       as `checkoutdate`,\n" +
+            "    b.deposit,\n" +
+            "    b.guest,\n" +
+            "    b.tenant_id as `tenantid`,\n" +
+            "    p.id                                                                              as `propertyid`,\n" +
+            "    p.title,\n" +
+            "    p.country,\n" +
+            "    p.region,\n" +
+            "    p.city,\n" +
+            "    p.bedroom,\n" +
+            "    p.bed,\n" +
+            "    (select pi.link_image from property_image pi where pi.property_id = p.id limit 1) as `image`,\n" +
+            "    p.bath,\n" +
+            "    b.service_fee_id as 'servicefeeid'\n" +
+            "from\n" +
+            "    booking b\n" +
+            "        join property p on p.id = b.property_id\n" +
+            "where\n" +
+            "        b.status = 1\n" +
+            "  and b.id = ?1";
+
     @Transactional
     @Modifying
     @Query(value = CREATE_BOOKING, nativeQuery = true)
@@ -48,5 +87,20 @@ public interface IBookingRepository extends JpaRepository<Booking, Long> {
 
     @Query(value = GET_UNPAID_BOOKING, nativeQuery = true)
     Page<IBookingDTO> getUnpaidBookingPages(int tenantId, Pageable pageable);
+
+    @Transactional
+    @Modifying
+    @Query(value = UPDATE_PAID_STATUS_BOOKING, nativeQuery = true)
+    void updatePaidStatusBooking(long bookingId);
+
+    @Query(value = FIND_UNPAID_BOOKING_BY_ID, nativeQuery = true)
+    IBookingDTO findUnpaidBookingById(long bookingId);
+
+    @Transactional
+    @Modifying
+    @Query(value = UPDATE_BOOKING, nativeQuery = true)
+    void updateBooking(int serviceFeeId, String checkIn,
+                       String checkOut, double deposit, double totalPrice, int guest, long bookingId);
+
 }
 

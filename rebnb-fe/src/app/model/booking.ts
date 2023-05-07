@@ -8,6 +8,7 @@ export interface Booking {
   propertyId?: number;
   tenantId?: number;
   serviceFee?: ServiceFee;
+  serviceFeeId?: number;
   guest?: number;
   country?: string;
   region?: string;

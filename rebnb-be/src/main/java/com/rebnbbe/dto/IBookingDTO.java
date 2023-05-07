@@ -27,17 +27,9 @@ public interface IBookingDTO {
 
     String getBath();
     String getImage();
+
+    String getServiceFeeId();
+    Integer getGuest();
+
+    Long getTenantId();
 }
-// b.id          as `bookingid`,
-//    b.total_price as `totalprice`,
-//    b.check_in    as `checkin`,
-//    b.check_out   as `checkout`,
-//    b.deposit,
-//    p.id          as `propertyid`,
-//    p.title,
-//    p.country,
-//    p.region,
-//    p.city,
-//    p.bedroom,
-//    p.bed,
-//    p.bath

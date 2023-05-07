@@ -19,4 +19,8 @@ export class ServiceFeeService {
   public getAllServiceFee(): Observable<ServiceFee[]> {
     return this.http.get<ServiceFee[]>(API_URL);
   }
+
+  public findServiceFeeById(id: number): Observable<ServiceFee> {
+    return this.http.get<ServiceFee>(`${API_URL}/${id}`);
+  }
 }

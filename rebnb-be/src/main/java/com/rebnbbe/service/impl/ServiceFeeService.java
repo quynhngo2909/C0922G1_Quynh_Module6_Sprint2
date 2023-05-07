@@ -16,4 +16,9 @@ public class ServiceFeeService implements IServiceFeeService {
     public List<ServiceFee> getAllServiceFee() {
         return iServiceFeeRepository.findAll();
     }
+
+    @Override
+    public ServiceFee findServiceFeeById(int id) {
+        return iServiceFeeRepository.findById(id).get();
+    }
 }

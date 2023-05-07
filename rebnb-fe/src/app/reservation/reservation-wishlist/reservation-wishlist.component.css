@@ -1,12 +1,17 @@
 .wishlist {
   position: relative;
-  margin-top: 6rem;
-  margin-bottom: 3rem;
+  top: 6rem;
+  bottom: 3.5rem;
 }
 
 /*----------------------------------
 Unpaid Booking List
 ------------------------------------*/
+.unpaid-booking-list {
+  /*position: absolute;*/
+  /*top: 0;*/
+}
+
 .card {
 
   border-style: none;
@@ -24,3 +29,28 @@ a {
   text-decoration: none;
   color: #343434;
 }
+
+/*----------------------------------
+Pagination
+------------------------------------*/
+.pagination {
+  position: fixed;
+  bottom:  3.5rem;
+  right: 2rem;
+}
+
+.button-page-detail{
+  border: 1px solid #fc9eae;
+  background-color: pink;
+}
+
+
+.colorCurrentPage {
+  background-color: darkorange;
+}
+
+.button-page{
+  border: 1px solid #bfe6f5;
+  background-color: #d8f3fc;
+}
+

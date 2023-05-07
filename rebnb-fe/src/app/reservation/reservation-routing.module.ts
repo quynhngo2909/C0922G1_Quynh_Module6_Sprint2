@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {ReservationWishlistComponent} from './reservation-wishlist/reservation-wishlist.component';
 import {ReservationBookedComponent} from './reservation-booked/reservation-booked.component';
+import {PaymentComponent} from './payment/payment.component';
+import {EditBookingComponent} from './payment/edit-booking/edit-booking.component';
 
 
 const routes: Routes = [{
@@ -10,6 +12,12 @@ const routes: Routes = [{
 }, {
   path: 'booked',
   component: ReservationBookedComponent,
+}, {
+  path: 'edit/:bookingId',
+  component: EditBookingComponent,
+}, {
+  path: 'payment/:bookingId',
+  component: PaymentComponent,
 }];
 
 @NgModule({

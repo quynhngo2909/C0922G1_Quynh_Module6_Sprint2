@@ -11,6 +11,8 @@ import java.time.Period;
 
 
 public class BookingDTO implements Validator {
+
+    private long bookingId;
     @NotNull(message = "Please fill in check-in date")
     private String checkInDate;
     @NotNull(message = "Please fill in check-out date")
@@ -29,6 +31,18 @@ public class BookingDTO implements Validator {
     private ServiceFee serviceFee;
 
     public BookingDTO() {
+    }
+
+    public BookingDTO(long bookingId, String checkInDate, String checkOutDate, Double deposit, Double totalPrice, long propertyId, long tenantId, int guest, ServiceFee serviceFee) {
+        this.bookingId = bookingId;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.deposit = deposit;
+        this.totalPrice = totalPrice;
+        this.propertyId = propertyId;
+        this.tenantId = tenantId;
+        this.guest = guest;
+        this.serviceFee = serviceFee;
     }
 
     public BookingDTO(String checkInDate, String checkOutDate, Double deposit, Double totalPrice, long propertyId, long tenantId, int guest, ServiceFee serviceFee) {
@@ -109,6 +123,14 @@ public class BookingDTO implements Validator {
 
     public void setGuest(int guest) {
         this.guest = guest;
+    }
+
+    public long getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(long bookingId) {
+        this.bookingId = bookingId;
     }
 
     private static final String DATE_REGEX = "^\\d{4}-\\d{2}-\\d{2}$";

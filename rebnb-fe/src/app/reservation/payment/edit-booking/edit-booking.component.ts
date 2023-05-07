@@ -1,28 +1,30 @@
-import {Component, OnInit} from '@angular/core';
-import {PropertyService} from '../../service/property.service';
-import {PropertyImageService} from '../../service/property-image.service';
-import {ActivatedRoute} from '@angular/router';
-import {Property} from '../../model/property';
+import { Component, OnInit } from '@angular/core';
+import {Booking} from '../../../model/booking';
+import {Property} from '../../../model/property';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ServiceFeeService} from '../../service/service-fee.service';
-import {ServiceFee} from '../../model/service-fee';
-import {BookingService} from '../../service/booking.service';
-import Swal from 'sweetalert2';
-import {Booking} from '../../model/booking';
-import {ShareService} from '../../service/share.service';
-import {validateDateRange, validateCheckIn} from '../../validation/booking.validator';
+import {ServiceFee} from '../../../model/service-fee';
+import {PropertyService} from '../../../service/property.service';
+import {PropertyImageService} from '../../../service/property-image.service';
+import {ServiceFeeService} from '../../../service/service-fee.service';
+import {ShareService} from '../../../service/share.service';
+import {BookingService} from '../../../service/booking.service';
+import {ActivatedRoute} from '@angular/router';
+import {validateCheckIn, validateDateRange} from '../../../validation/booking.validator';
+import {render} from 'creditcardpayments/creditCardPayments';
+import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-property-detail',
-  templateUrl: './property-detail.component.html',
-  styleUrls: ['./property-detail.component.css']
+  selector: 'app-edit-booking',
+  templateUrl: './edit-booking.component.html',
+  styleUrls: ['./edit-booking.component.css']
 })
-export class PropertyDetailComponent implements OnInit {
+export class EditBookingComponent implements OnInit {
   isLoggedIn = false;
   role: string;
   userId: number;
 
   booking: Booking;
+  bookingId: number;
   property: Property;
   propertyId: number;
 
@@ -60,9 +62,6 @@ export class PropertyDetailComponent implements OnInit {
               private bookingService: BookingService,
               private activatedRoute: ActivatedRoute,
               private fb: FormBuilder) {
-    const currentYear = new Date().getFullYear();
-    this.minDate = new Date();
-    this.maxDate = new Date(currentYear + 10, 11, 31);
   }
 
   ngOnInit(): void {
@@ -77,18 +76,24 @@ export class PropertyDetailComponent implements OnInit {
     this.isLoggedIn = this.shareService.getLogInStatus();
 
     this.activatedRoute.paramMap.subscribe(async param => {
-      this.propertyId = +param.get('id');
+      this.booking = await this.bookingService.findUnpaidBookingById(+param.get('bookingId')).toPromise();
+      this.property = await this.propertyService.findPropertyById(this.booking.propertyId).toPromise();
+      this.serviceFees = await this.serviceFeeService.getAllServiceFee().toPromise();
+      this.serviceFee = await this.serviceFeeService.findServiceFeeById(this.booking.serviceFeeId).toPromise();
+      this.checkIn = new Date(this.booking?.checkInDate);
+      this.checkOut = new Date(this.booking?.checkOutDate);
+      this.stayNights = (this.checkOut.getTime() - this.checkIn.getTime()) / (1000 * 60 * 60 * 24);
       this.getImageByPropertyId();
-      await this.findPropertyById();
-      await this.findServiceFees();
+      this.totalPrice = this.booking?.totalPrice;
       this.bookingForm = this.fb?.group({
+        bookingId: [this.booking?.bookingId, Validators.compose([Validators.required])],
         checkInDate: [this.booking?.checkInDate, Validators.compose([Validators.required, validateCheckIn])],
         checkOutDate: [this.booking?.checkOutDate, Validators.compose([Validators.required])],
-        guest: [1, Validators.compose([Validators.required, Validators.max(this.property.maxGuest)])],
-        deposit: [0],
-        totalPrice: [0, Validators.compose([Validators.required])],
-        propertyId: [this.propertyId, Validators.compose([Validators.required])],
-        tenantId: [this.userId, Validators.compose([Validators.required])],
+        guest: [this.booking?.guest, Validators.compose([Validators.required, Validators.max(this.property.maxGuest)])],
+        deposit: [this.booking?.deposit],
+        totalPrice: [this.booking?.totalPrice, Validators.compose([Validators.required])],
+        propertyId: [this.booking?.propertyId, Validators.compose([Validators.required])],
+        tenantId: [this.booking?.tenantId, Validators.compose([Validators.required])],
         serviceFee: [this.serviceFee, Validators.compose([Validators.required])],
       }, {
         validators: validateDateRange()
@@ -96,16 +101,8 @@ export class PropertyDetailComponent implements OnInit {
     });
   }
 
-  async findPropertyById() {
-    this.property = await this.propertyService.findPropertyById(this.propertyId).toPromise();
-  }
-
-  async findServiceFees() {
-    this.serviceFees = await this.serviceFeeService.getAllServiceFee().toPromise();
-  }
-
   getImageByPropertyId() {
-    this.propertyImageService.getImageByPropertyId(this.propertyId).subscribe(item => {
+    this.propertyImageService.getImageByPropertyId(this.booking.propertyId).subscribe(item => {
       this.image1 = item[0].image;
       this.image2 = item[1].image;
       this.image3 = item[2].image;
@@ -125,21 +122,12 @@ export class PropertyDetailComponent implements OnInit {
     this.errors.tenantId = '';
     this.errors.totalPrice = '';
 
-    if (this.userId == null) {
-      Swal.fire({
-        position: 'center',
-        icon: 'warning',
-        title: 'Please log in before booking',
-        showConfirmButton: true,
-      });
-    }
-
     if (this.bookingForm.valid) {
-      this.bookingService?.createBooking(this.bookingForm.value).subscribe(item => {
+      this.bookingService?.updateBooking(this.bookingForm.value).subscribe(item => {
         Swal.fire({
           icon: 'success',
           iconColor: 'darkorange',
-          title: 'Added new booking successfully',
+          title: 'Updated booking successfully',
           confirmButtonText: 'Confirm',
           confirmButtonColor: 'darkorange'
         });
@@ -198,5 +186,6 @@ export class PropertyDetailComponent implements OnInit {
       this.totalPrice = Math.round(this.property.pricePerNight * this.stayNights * (1 + this.serviceFee.tenantFee) * 100) / 100;
     }
   }
+
 
 }

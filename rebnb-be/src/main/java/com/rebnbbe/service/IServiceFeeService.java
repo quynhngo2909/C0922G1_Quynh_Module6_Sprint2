@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IServiceFeeService {
     List<ServiceFee> getAllServiceFee();
+    ServiceFee findServiceFeeById(int id);
 }
