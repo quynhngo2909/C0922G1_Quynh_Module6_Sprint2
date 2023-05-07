@@ -50,8 +50,6 @@ export class PropertyDetailComponent implements OnInit {
     guest: ''
   };
 
-  minDate: Date;
-  maxDate: Date;
 
   constructor(private propertyService: PropertyService,
               private propertyImageService: PropertyImageService,
@@ -59,11 +57,7 @@ export class PropertyDetailComponent implements OnInit {
               private shareService: ShareService,
               private bookingService: BookingService,
               private activatedRoute: ActivatedRoute,
-              private fb: FormBuilder) {
-    const currentYear = new Date().getFullYear();
-    this.minDate = new Date();
-    this.maxDate = new Date(currentYear + 10, 11, 31);
-  }
+              private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.shareService.getClickEvent().subscribe(() => {

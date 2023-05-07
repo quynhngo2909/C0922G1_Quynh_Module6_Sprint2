@@ -4,6 +4,8 @@ import com.rebnbbe.dto.IPropertyDTO;
 import com.rebnbbe.repository.IPropertyRepository;
 import com.rebnbbe.service.IPropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,5 +22,10 @@ public class PropertyService implements IPropertyService {
     @Override
     public IPropertyDTO findPropertyById(String propertyId) {
         return iPropertyRepository.findPropertyById(propertyId);
+    }
+
+    @Override
+    public Page<IPropertyDTO> getPropertyPages(Pageable pageable) {
+        return iPropertyRepository.getPropertyPages(pageable);
     }
 }

@@ -9,11 +9,10 @@ import {Booking} from '../../model/booking';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ServiceFee} from '../../model/service-fee';
 import {PropertyImageService} from '../../service/property-image.service';
-import {ServiceFeeService} from '../../service/service-fee.service';
 import {BookingService} from '../../service/booking.service';
 import {HttpClient} from '@angular/common/http';
 import {validateCheckIn, validateDateRange} from '../../validation/booking.validator';
-import {Router} from '@angular/router';
+import {ServiceFeeService} from '../../service/service-fee.service';
 
 
 @Component({
@@ -29,7 +28,10 @@ export class PropertyListComponent implements OnInit {
   booking: Booking;
   property: Property;
   propertyId: number;
-  unpaidBooking: number;
+  page = 0;
+  totalPages: number;
+  showedPages: number;
+  pageList: number[];
 
   bookingForm: FormGroup;
   serviceFees: ServiceFee[];
@@ -67,8 +69,7 @@ export class PropertyListComponent implements OnInit {
               private serviceFeeService: ServiceFeeService,
               private bookingService: BookingService,
               private http: HttpClient,
-              private fb: FormBuilder,
-              private router: Router) {
+              private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -85,25 +86,22 @@ export class PropertyListComponent implements OnInit {
     this.categoryViewQty = 0;
     this.currentCategorySize = this.showedCategoryQty;
     this.findCategories();
-    this.findALlProperties();
     this.findServiceFees();
+    this.getPropertyPage();
   }
 
   findCategories() {
     this.categoryService.getAllCategories().subscribe(items => {
-        this.totalCategories = items.length;
-        this.categories = new Array();
-        if (this.showedCategoryQty > this.totalCategories) {
-          this.currentCategorySize = this.totalCategories;
-        }
-        while (this.categoryViewQty < this.currentCategorySize) {
-          this.categories.push(items[this.categoryViewQty]);
-          this.categoryViewQty = this.categoryViewQty + 1;
-        }
-      }, error => {
-      }, () => {
+      this.totalCategories = items.length;
+      this.categories = [];
+      if (this.showedCategoryQty > this.totalCategories) {
+        this.currentCategorySize = this.totalCategories;
       }
-    );
+      while (this.categoryViewQty < this.currentCategorySize) {
+        this.categories.push(items[this.categoryViewQty]);
+        this.categoryViewQty = this.categoryViewQty + 1;
+      }
+    });
   }
 
   async findServiceFees() {
@@ -140,6 +138,13 @@ export class PropertyListComponent implements OnInit {
     this.properties = await this.propertyService.getAllProperties().toPromise();
   }
 
+  async getPropertyPage() {
+    const pageJson = await this.propertyService.getPropertyPages(this.page).toPromise();
+    this.properties = pageJson.content;
+    this.totalPages = pageJson.totalPages;
+    this.getPageList();
+  }
+
   onSubmit() {
     this.errors.serviceFee = '';
     this.errors.checkOutDate = '';
@@ -160,16 +165,6 @@ export class PropertyListComponent implements OnInit {
     }
 
     if (this.bookingForm.valid) {
-      // const modal = document.getElementById('bookingModal');
-      // modal.classList.remove('show');
-      // modal.setAttribute('aria-hidden', 'true');
-      // document.body.classList.remove('modal-open');
-      // document.body.style.paddingRight = '';
-      // const backdrop = document.getElementsByClassName('modal-backdrop')[0];
-      // if (backdrop) {
-      //   backdrop.parentNode.removeChild(backdrop);
-      // }
-
       this.bookingService?.createBooking(this.bookingForm.value).subscribe(item => {
         Swal.fire({
           icon: 'success',
@@ -247,5 +242,25 @@ export class PropertyListComponent implements OnInit {
     }, {
       validators: [validateDateRange()]
     });
+  }
+
+  previousPage() {
+    this.page = this.shareService.previousPage(this.page);
+    this.getPropertyPage();
+  }
+
+  nextPage() {
+    this.page = this.shareService.nextPage(this.page, this.totalPages);
+    this.getPropertyPage();
+  }
+
+  getPageList() {
+    this.showedPages = 4;
+    this.pageList = this.shareService.getPageList(this.page, this.showedPages, this.totalPages);
+  }
+
+  goToPage(pageNumber: number) {
+    this.page = this.shareService.goToPage(pageNumber);
+    this.getPropertyPage();
   }
 }

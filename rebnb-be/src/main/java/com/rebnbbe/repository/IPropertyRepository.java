@@ -2,6 +2,8 @@ package com.rebnbbe.repository;
 
 import com.rebnbbe.dto.IPropertyDTO;
 import com.rebnbbe.model.Property;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -28,7 +30,7 @@ public interface IPropertyRepository extends JpaRepository<Property, Long> {
             "    pt.name                                                                           as `propertytype`,\n" +
             "    u.name                                                                            as `host`,\n" +
             "    avg(rp.score)                                                                     as `score`,\n" +
-            "    (select pi.link_image from property_image pi where pi.property_id = p.id limit 1) as `image`,\n" +
+            "    (select pi.link_image from `property_image` pi where pi.property_id = p.id limit 1) as `image`,\n" +
             "    ''                                                                                as `distance`\n" +
             "from\n" +
             "    property p\n" +
@@ -80,4 +82,6 @@ public interface IPropertyRepository extends JpaRepository<Property, Long> {
     @Query(value = FIND_PROPERTY_BY_ID, nativeQuery = true)
     IPropertyDTO findPropertyById(String propertyId);
 
+    @Query(value = ALL_PROPERTIES, nativeQuery = true)
+    Page<IPropertyDTO> getPropertyPages(Pageable pageable);
 }

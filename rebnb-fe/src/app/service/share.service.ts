@@ -3,6 +3,7 @@ import {Observable, Subject} from 'rxjs';
 import {TokenStorageService} from '../security-authentication/service/token-storage.service';
 import {ServiceFee} from '../model/service-fee';
 import {BookingService} from './booking.service';
+import {ServiceFeeService} from './service-fee.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class ShareService {
   private subject = new Subject<any>();
 
   constructor(private tokenStorageService: TokenStorageService,
-              private bookingService: BookingService) {
+              private bookingService: BookingService,
+              private serviceFeeService: ServiceFeeService) {
   }
 
   setUnpaidBooking(tenantId: number): void {
@@ -28,7 +30,7 @@ export class ShareService {
     return this.unpaidBooking;
   }
 
-   getUnpaidBookingSubject(): Subject<number> {
+  getUnpaidBookingSubject(): Subject<number> {
     return this.unpaidBookingSubject;
   }
 
@@ -86,4 +88,34 @@ export class ShareService {
       return serviceFees[i];
     }
   }
+
+  previousPage(page: number): number {
+    if (page > 0) {
+      page--;
+    }
+    return page;
+  }
+
+  nextPage(page: number, totalPages: number): number {
+    if (page < totalPages - 1) {
+      page++;
+    }
+    return page;
+  }
+
+  getPageList(page: number, showedPages: number, totalPages: number): number[] {
+    const startPage = Math.max(0, page - Math.floor(showedPages / 2));
+    const endPage = (startPage + showedPages - 1) >= totalPages ? (totalPages - 1) : (startPage + showedPages - 1);
+    if (endPage <= totalPages - showedPages) {
+      return Array.from({length: showedPages <= totalPages ? showedPages : totalPages}, (_, i: number) => i + startPage + 1);
+    } else {
+      return Array.from({length: endPage - startPage + 1}, (_, i: number) => i + startPage + 1);
+    }
+  }
+
+
+  goToPage(pageNumber: number) {
+    return pageNumber - 1;
+  }
+
 }
