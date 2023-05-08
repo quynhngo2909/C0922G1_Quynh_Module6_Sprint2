@@ -13,6 +13,7 @@ import {BookingService} from '../../service/booking.service';
 import {HttpClient} from '@angular/common/http';
 import {validateCheckIn, validateDateRange} from '../../validation/booking.validator';
 import {ServiceFeeService} from '../../service/service-fee.service';
+import {PageJson} from '../../model/page-json';
 
 
 @Component({
@@ -32,6 +33,8 @@ export class PropertyListComponent implements OnInit {
   totalPages: number;
   showedPages: number;
   pageList: number[];
+  searchedCategoryId = 0;
+  mess = '';
 
   bookingForm: FormGroup;
   serviceFees: ServiceFee[];
@@ -139,10 +142,22 @@ export class PropertyListComponent implements OnInit {
   }
 
   async getPropertyPage() {
-    const pageJson = await this.propertyService.getPropertyPages(this.page).toPromise();
-    this.properties = pageJson.content;
-    this.totalPages = pageJson.totalPages;
-    this.getPageList();
+    let pageJson: PageJson;
+    if (this.searchedCategoryId === 0) {
+      pageJson = await this.propertyService.getPropertyPages(this.page).toPromise();
+    } else {
+      pageJson = await this.propertyService.getPropertyPagesByCategoryId(this.page, this.searchedCategoryId).toPromise();
+    }
+    if (pageJson != null) {
+      this.properties = pageJson.content;
+      this.totalPages = pageJson.totalPages;
+      this.getPageList();
+    }
+
+    if (pageJson == null && this.searchedCategoryId !== 0) {
+      this.mess = 'There is no property matched searching keys.';
+      this.properties = null;
+    }
   }
 
   onSubmit() {
@@ -246,6 +261,7 @@ export class PropertyListComponent implements OnInit {
 
   previousPage() {
     this.page = this.shareService.previousPage(this.page);
+    // this.searchedCategoryId !== 0 ? this.findPropertyByCategory()
     this.getPropertyPage();
   }
 
@@ -261,6 +277,19 @@ export class PropertyListComponent implements OnInit {
 
   goToPage(pageNumber: number) {
     this.page = this.shareService.goToPage(pageNumber);
+    this.getPropertyPage();
+  }
+
+   getCategoryID(id: number) {
+    this.searchedCategoryId = id;
+    this.page = 0;
+    this.getPropertyPage();
+  }
+
+  setCategoryId() {
+    this.searchedCategoryId = 0;
+    this.page = 0;
+    this.mess = '';
     this.getPropertyPage();
   }
 }

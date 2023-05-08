@@ -20,4 +20,6 @@ public interface IBookingService {
 
     void updateBooking(int serviceFeeId, String checkIn,
                        String checkOut, double deposit, double totalPrice, int guest, long bookingId);
+
+    Page<IBookingDTO> getNonUnpaidBookingPages(int tenantId, Pageable pageable);
 }

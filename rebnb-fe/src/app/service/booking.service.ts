@@ -38,4 +38,9 @@ export class BookingService {
   updateBooking(booking: Booking) {
     return this.http.post(`${API_URL}/public/user/update-booking`, booking);
   }
+
+  getNonUnpaidBookingPages(tenantId: number, page: number): Observable<PageJson> {
+    return this.http.get<PageJson>(`${API_URL}/public/user/non-unpaid-booking-list/${tenantId}?page=${page}`);
+  }
+
 }

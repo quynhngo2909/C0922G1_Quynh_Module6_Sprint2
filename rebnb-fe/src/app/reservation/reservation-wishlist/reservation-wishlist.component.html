@@ -1,65 +1,74 @@
 <section class="wishlist mx-1 d-flex flex-column">
-  <div class="d-flex flex-row justify-content-between m-1 px-1" style="font-weight: bolder; font-size: larger">
+  <div class="d-flex flex-row justify-content-center m-3 px-1" style="font-weight: bolder; font-size: larger">
     <div> WishList</div>
   </div>
 
-<!--  Unpaid Booking List&ndash -->
-    <section *ngIf="unpaidBookingList"
-             class="unpaid-booking-list d-flex flex-row flex-wrap justify-content-evenly align-items-center">
-      <div class="card m-1" style="width: 18rem" *ngFor="let b of unpaidBookingList">
-        <div>
-          <a [routerLink]="'/homepage/detail/' + b.propertyId" target="_blank">
-            <img [src]="b.image" class="card-img-top" alt="..." style="height: 10rem">
-          </a>
-        </div>
-        <div class="card-body py-1">
+  <!--  Unpaid Booking List&ndash -->
+  <div *ngIf="unpaidBookingList === null" id="mess">
+    {{mess}}
+    <div>
+      <button id="go-back-btn" [routerLink]="'/homepage'">Back to homepage</button>
+    </div>
+  </div>
+  <section *ngIf="unpaidBookingList"
+           class="unpaid-booking-list d-flex flex-row flex-wrap justify-content-evenly align-items-center">
+    <div class="card m-1" style="width: 18rem" *ngFor="let b of unpaidBookingList">
+      <div>
+        <a [routerLink]="'/homepage/detail/' + b.propertyId" target="_blank">
+          <img [src]="b.image" class="card-img-top" alt="..." style="height: 10rem">
+        </a>
+      </div>
+      <div class="card-body py-1">
 
-          <div class="d-flex flex-row justify-content-between align-items-top m-0 p-0">
-            <div>
-              <div class="d-flex flex-column">
-                <a [routerLink]="'/homepage/detail/' + b.propertyId" target="_blank">
-                  <strong class="card-title m-0 p-0"
-                          style="font-size: small">{{b.city + ', ' + b.country}}</strong>
-                </a>
-                <span class="card-text"
-                      style="font-size: small; color: gray">{{b.checkInDate | date: "dd/MM/yyyy"}}
-                  - {{b.checkOutDate | date: "dd/MM/yyyy"}}</span>
-              </div>
-            </div>
-            <div>
-              <button class="form-control" *ngIf="!isBooking1Paid" [routerLink]="'/reservation/payment/' + b.bookingId">Unpaid</button>
-              <button class="form-control btn-primary" *ngIf="isBooking1Paid">PAID</button>
+        <div class="d-flex flex-row justify-content-between align-items-top m-0 p-0">
+          <div>
+            <div class="d-flex flex-column">
+              <a [routerLink]="'/homepage/detail/' + b.propertyId" target="_blank">
+                <strong class="card-title m-0 p-0"
+                        style="font-size: small">{{b.city + ', ' + b.country}}</strong>
+              </a>
+              <span class="card-text"
+                    style="font-size: small; color: gray">{{b.checkInDate | date: "dd/MM/yyyy"}}
+                - {{b.checkOutDate | date: "dd/MM/yyyy"}}</span>
             </div>
           </div>
-          <div class="card-text py-1" style="font-size: small; font-weight: bold">
-            {{b.totalPrice | currency:'$': 'symbol-narrow'}}
+          <div>
+            <button class="form-control" *ngIf="!isBooking1Paid" [routerLink]="'/reservation/payment/' + b.bookingId">
+              Unpaid
+            </button>
+            <button class="form-control btn-primary" *ngIf="isBooking1Paid">PAID</button>
           </div>
-          <div class="d-flex justify-content-around align-items-center">
-            <div class="card-text d-flex justify-content-around" *ngIf="!isBooking1Paid">
-              <em class='bx bxs-trash mx-5' style="font-size: x-large"></em>
-              <em class='bx bxs-edit mx-5' style="font-size: x-large"  [routerLink]="'/reservation/edit/' + b.bookingId"></em>
-            </div>
+        </div>
+        <div class="card-text py-1" style="font-size: small; font-weight: bold">
+          {{b.totalPrice | currency:'$': 'symbol-narrow'}}
+        </div>
+        <div class="d-flex justify-content-around align-items-center">
+          <div class="card-text d-flex justify-content-around" *ngIf="!isBooking1Paid">
+            <em class='bx bxs-trash mx-5' style="font-size: x-large"></em>
+            <em class='bx bxs-edit mx-5' style="font-size: x-large"
+                [routerLink]="'/reservation/edit/' + b.bookingId"></em>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    </section> <!--End Unpaid Booking List-->
+</section> <!--End Unpaid Booking List-->
 
 <!--Pagination-->
-  <div class="pagination">
-    <div class="d-flex flex-row">
-      <button class="button-page" (click)="goToPage(1)" [disabled]="page === 0"><i class='bx bx-chevrons-left'></i>
-      </button>
-      <button class="button-page" (click)="previousPage()" [disabled]="page === 0"><em
-        class='bx bx-left-arrow-alt'></em></button>
-      <div *ngFor="let p of pageList">
-        <button class="button-page-detail" (click)="goToPage(p)"
-                [ngClass]="{colorCurrentPage: page + 1 == p}">{{p}}</button>
-      </div>
-      <button class="button-page" (click)="nextPage()" [disabled]="page === totalPages - 1"><i
-        class='bx bx-right-arrow-alt'></i></button>
-      <button class="button-page" [disabled]="page === totalPages - 1"><i class='bx bx-chevrons-right'></i></button>
+<div class="pagination" *ngIf="unpaidBookingList">
+  <div class="d-flex flex-row">
+    <button class="button-page" (click)="goToPage(1)" [disabled]="page === 0"><i class='bx bx-chevrons-left'></i>
+    </button>
+    <button class="button-page" (click)="previousPage()" [disabled]="page === 0"><em
+      class='bx bx-left-arrow-alt'></em></button>
+    <div *ngFor="let p of pageList">
+      <button class="button-page-detail" (click)="goToPage(p)"
+              [ngClass]="{colorCurrentPage: page + 1 == p}">{{p}}</button>
     </div>
-  </div> <!--End Pagination-->
-<!--</section>-->
+    <button class="button-page" (click)="nextPage()" [disabled]="page === totalPages - 1"><i
+      class='bx bx-right-arrow-alt'></i></button>
+    <button class="button-page" [disabled]="page === totalPages - 1"><i class='bx bx-chevrons-right'></i></button>
+  </div>
+</div> <!--End Pagination-->
+

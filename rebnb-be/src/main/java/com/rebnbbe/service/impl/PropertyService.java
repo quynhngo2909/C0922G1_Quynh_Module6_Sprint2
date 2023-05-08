@@ -11,8 +11,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public class PropertyService implements IPropertyService {
-    @Autowired
-    private IPropertyRepository iPropertyRepository;
+    private final IPropertyRepository iPropertyRepository;
+
+    public PropertyService(IPropertyRepository iPropertyRepository) {
+        this.iPropertyRepository = iPropertyRepository;
+    }
 
     @Override
     public List<IPropertyDTO> getAllProperties() {
@@ -27,5 +30,10 @@ public class PropertyService implements IPropertyService {
     @Override
     public Page<IPropertyDTO> getPropertyPages(Pageable pageable) {
         return iPropertyRepository.getPropertyPages(pageable);
+    }
+
+    @Override
+    public Page<IPropertyDTO> findPropertyByCategoryId(Pageable pageable, int categoryId) {
+        return iPropertyRepository.findPropertyByCategoryId(pageable, categoryId);
     }
 }

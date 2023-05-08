@@ -88,5 +88,15 @@ public class BookingRestController {
         iBookingService.updateBooking( bookingDTO.getServiceFee().getId(), booking.getCheckInDate(), booking.getCheckOutDate(), booking.getDeposit(), booking.getTotalPrice(), booking.getGuest(), booking.getBookingId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
-//        iBookingRepository.updateBooking(serviceFeeId, checkIn, checkOut, deposit, totalPrice, guest, bookingId);
+
+    @GetMapping("/public/user/non-unpaid-booking-list/{id}")
+    public ResponseEntity<Page<IBookingDTO>> getNonUnpaidBookingPages(@PathVariable int id,
+                                                                   @PageableDefault(size = 4, sort = "check_in", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<IBookingDTO> unpaidBookingPages = iBookingService.getNonUnpaidBookingPages(id,pageable);
+        if (unpaidBookingPages.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(unpaidBookingPages, HttpStatus.OK);
+    }
 }

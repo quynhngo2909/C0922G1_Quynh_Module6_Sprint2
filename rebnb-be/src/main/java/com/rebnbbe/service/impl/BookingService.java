@@ -44,4 +44,9 @@ public class BookingService implements IBookingService {
     public void updateBooking(int serviceFeeId, String checkIn, String checkOut, double deposit, double totalPrice, int guest, long bookingId) {
         iBookingRepository.updateBooking(serviceFeeId, checkIn, checkOut, deposit, totalPrice, guest, bookingId);
     }
+
+    @Override
+    public Page<IBookingDTO> getNonUnpaidBookingPages(int tenantId, Pageable pageable) {
+        return iBookingRepository.getNonUnpaidBookingPages(tenantId, pageable);
+    }
 }

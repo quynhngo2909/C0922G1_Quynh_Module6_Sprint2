@@ -3,7 +3,22 @@
   top: 6rem;
   bottom: 3.5rem;
 }
+#mess {
+  position: relative;
+  top: 5rem;
+  color: #fa6a84;
+  text-align: center;
+  font-weight: bold;
+  font-size: x-large;
+}
 
+#go-back-btn {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: #ff758d;
+  border: 1px solid #ff758d;
+  border-radius: 10px;
+}
 /*----------------------------------
 Unpaid Booking List
 ------------------------------------*/

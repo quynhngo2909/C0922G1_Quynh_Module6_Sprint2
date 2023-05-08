@@ -4,7 +4,7 @@
 Categoty
 ------------------------------------*/
 #category {
-  position: sticky;
+  position: relative;
   top: 5.8rem;
   background: white;
   z-index: 1;
@@ -32,8 +32,17 @@ Categoty
 #categoryDetail:hover {
   color: #262525;
   border-bottom: dimgray solid 2px;
+  cursor: pointer;
 }
 
+#mess {
+  position: relative;
+  top: 12rem;
+  color: #fa6a84;
+  text-align: center;
+  font-weight: bold;
+  font-size: x-large;
+}
 /*----------------------------------
 Property List
 ------------------------------------*/

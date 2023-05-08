@@ -1,1 +1,60 @@
-<p>revervation-booked works!</p>
+<section class="wishlist mx-1 d-flex flex-column">
+  <div class="d-flex flex-row justify-content-center m-3 px-1" style="font-weight: bolder; font-size: larger">
+    <div> Booked Trips</div>
+  </div>
+
+  <!--  Booked Trip List -->
+  <div *ngIf="bookedTrips === null" id="mess">
+    {{mess}}
+    <div>
+      <button id="go-back-btn" [routerLink]="'/homepage'" >Back to homepage</button>
+    </div>
+  </div>
+  <section *ngIf="bookedTrips"
+           class="unpaid-booking-list d-flex flex-row flex-wrap justify-content-evenly align-items-center">
+    <table class="table table-bordered table-hover container">
+      <thead>
+      <tr style="text-align: center; background-color: #fc9eae">
+        <th scope="col">No.</th>
+        <th scope="col">Image</th>
+        <th scope="col">Destination</th>
+        <th scope="col">Check in</th>
+        <th scope="col">Check out</th>
+        <th scope="col">People on trip</th>
+        <th scope="col">Total price</th>
+        <th scope="col">Status</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let b of bookedTrips; index as i">
+        <td style="text-align: center">{{i + 1}}</td>
+        <td style="text-align: center"><img [src]="b.image" alt="propertyImage" class="img-fluid" style="width: 5rem"></td>
+        <td>{{b.country + ', ' + b.region + ', ' +  b.city}}</td>
+        <td style="text-align: center">{{b.checkInDate}}</td>
+        <td style="text-align: center">{{b.checkOutDate}}</td>
+        <td style="text-align: center">{{b.guest}}</td>
+        <td style="text-align: end">{{b.totalPrice | currency: 'USD'}}</td>
+        <td>{{b.status}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+
+</section> <!--End Booked Trip List-->
+
+<!--Pagination-->
+<div class="pagination" *ngIf="bookedTrips">
+  <div class="d-flex flex-row">
+    <button class="button-page" (click)="goToPage(1)" [disabled]="page === 0"><i class='bx bx-chevrons-left'></i>
+    </button>
+    <button class="button-page" (click)="previousPage()" [disabled]="page === 0"><em
+      class='bx bx-left-arrow-alt'></em></button>
+    <div *ngFor="let p of pageList">
+      <button class="button-page-detail" (click)="goToPage(p)"
+              [ngClass]="{colorCurrentPage: page + 1 == p}">{{p}}</button>
+    </div>
+    <button class="button-page" (click)="nextPage()" [disabled]="page === totalPages - 1"><i
+      class='bx bx-right-arrow-alt'></i></button>
+    <button class="button-page" [disabled]="page === totalPages - 1"><i class='bx bx-chevrons-right'></i></button>
+  </div>
+</div> <!--End Pagination-->

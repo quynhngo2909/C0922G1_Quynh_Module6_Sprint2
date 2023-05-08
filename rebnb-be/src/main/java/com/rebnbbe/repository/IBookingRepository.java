@@ -77,6 +77,31 @@ public interface IBookingRepository extends JpaRepository<Booking, Long> {
             "        b.status = 1\n" +
             "  and b.id = ?1";
 
+    String GET_NON_UNPAID_BOOKING = "select\n" +
+            "    b.id                                                                              as `bookingid`,\n" +
+            "    b.total_price                                                                     as `totalprice`,\n" +
+            "    b.check_in                                                                        as `checkindate`,\n" +
+            "    b.check_out                                                                       as `checkoutdate`,\n" +
+            "    b.deposit,\n" +
+            "    p.id                                                                              as `propertyid`,\n" +
+            "    p.title,\n" +
+            "    p.country,\n" +
+            "    p.region,\n" +
+            "    p.city,\n" +
+            "    p.bedroom,\n" +
+            "    p.bed,\n" +
+            "    (select pi.link_image from `property_image` pi where pi.property_id = p.id limit 1) as `image`,\n" +
+            "    p.bath,\n" +
+            "    bs.name                                                                           as `status`,\n" +
+            "    b.guest\n " +
+            "from\n" +
+            "    booking b\n" +
+            "        join property p on p.id = b.property_id\n" +
+            "        join booking_status bs on bs.id = b.status\n" +
+            "where\n" +
+            "      b.status not like 1\n" +
+            "  and b.tenant_id = ?1";
+
     @Transactional
     @Modifying
     @Query(value = CREATE_BOOKING, nativeQuery = true)
@@ -102,5 +127,7 @@ public interface IBookingRepository extends JpaRepository<Booking, Long> {
     void updateBooking(int serviceFeeId, String checkIn,
                        String checkOut, double deposit, double totalPrice, int guest, long bookingId);
 
+    @Query(value = GET_NON_UNPAID_BOOKING, nativeQuery = true)
+    Page<IBookingDTO> getNonUnpaidBookingPages(int tenantId, Pageable pageable);
 }
 

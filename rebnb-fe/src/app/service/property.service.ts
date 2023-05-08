@@ -28,5 +28,7 @@ export class PropertyService {
     return this.http.get<Property>(`${API_URL}/${propertyId}`);
   }
 
-
+  getPropertyPagesByCategoryId(page: number, categotyId: number): Observable<PageJson> {
+    return this.http.get<PageJson>(`${API_URL}/find_by_category_id/${categotyId}?page=` + page);
+  }
 }

@@ -19,4 +19,5 @@ export interface Booking {
   bath?: number;
   bed?: number;
   image?: string;
+  status?: string;
 }

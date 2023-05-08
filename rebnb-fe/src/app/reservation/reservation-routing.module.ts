@@ -10,7 +10,7 @@ const routes: Routes = [{
   path: 'wishlist/:userId',
   component: ReservationWishlistComponent,
 }, {
-  path: 'booked',
+  path: 'booked/:userId',
   component: ReservationBookedComponent,
 }, {
   path: 'edit/:bookingId',

@@ -32,4 +32,6 @@ public interface IBookingDTO {
     Integer getGuest();
 
     Long getTenantId();
+
+    String getStatus();
 }

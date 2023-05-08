@@ -39,7 +39,7 @@ export class ReservationWishlistComponent implements OnInit {
     this.mess = '';
     this.bookingService.getUnpaidBookingPages(this.userId, this.page).subscribe(items => {
       if (items === null) {
-        this.mess = 'Let create your wishlist!';
+        this.mess = 'Your wishlist is empty. Let create your wishlist!';
         this.unpaidBookingList = null;
       }
 

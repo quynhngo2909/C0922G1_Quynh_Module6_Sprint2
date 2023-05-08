@@ -1,0 +1,72 @@
+.wishlist {
+  position: relative;
+  top: 6rem;
+  bottom: 3.5rem;
+}
+#mess {
+  position: relative;
+  top: 5rem;
+  color: #fa6a84;
+  text-align: center;
+  font-weight: bold;
+  font-size: x-large;
+}
+
+#go-back-btn {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: #ff758d;
+  border: 1px solid #ff758d;
+  border-radius: 10px;
+}
+
+/*----------------------------------
+Unpaid Booking List
+------------------------------------*/
+.unpaid-booking-list {
+  /*position: absolute;*/
+  /*top: 0;*/
+}
+
+.card {
+
+  border-style: none;
+}
+
+img {
+  border-radius: 5%;
+}
+
+.a:hover {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: #343434;
+}
+
+/*----------------------------------
+Pagination
+------------------------------------*/
+.pagination {
+  position: fixed;
+  bottom:  3.5rem;
+  right: 2rem;
+}
+
+.button-page-detail{
+  border: 1px solid #fc9eae;
+  background-color: pink;
+}
+
+
+.colorCurrentPage {
+  background-color: darkorange;
+}
+
+.button-page{
+  border: 1px solid #bfe6f5;
+  background-color: #d8f3fc;
+}
+

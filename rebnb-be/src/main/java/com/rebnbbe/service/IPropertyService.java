@@ -11,4 +11,6 @@ public interface IPropertyService {
     IPropertyDTO findPropertyById(String propertyId);
 
     Page<IPropertyDTO> getPropertyPages(Pageable pageable);
+
+    Page<IPropertyDTO> findPropertyByCategoryId(Pageable pageable, int categoryId);
 }

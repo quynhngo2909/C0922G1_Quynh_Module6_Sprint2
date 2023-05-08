@@ -48,4 +48,14 @@ public class PropertyRestController {
             return new ResponseEntity<>(propertyPages, HttpStatus.OK);
         }
     }
+
+    @GetMapping("/find_by_category_id/{id}")
+    public ResponseEntity<Page<IPropertyDTO>> findPropertyByCategoryId (@PageableDefault(size = 1)Pageable pageable, @PathVariable int id) {
+        Page<IPropertyDTO> propertyPages = iPropertyService.findPropertyByCategoryId(pageable, id);
+        if (propertyPages.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(propertyPages, HttpStatus.OK);
+        }
+    }
 }
