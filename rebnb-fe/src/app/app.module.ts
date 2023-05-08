@@ -6,12 +6,13 @@ import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
 import {ErrorPageComponent} from './error-page/error-page.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import {ReactiveFormsModule} from '@angular/forms';
+import {AuthInterceptor} from './security-authentication/security-auth/auth.interceptor';
 // import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 
 @NgModule({
@@ -32,7 +33,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     // InfiniteScrollModule
 
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

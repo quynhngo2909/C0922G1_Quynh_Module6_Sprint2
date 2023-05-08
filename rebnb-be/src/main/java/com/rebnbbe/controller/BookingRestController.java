@@ -24,7 +24,7 @@ public class BookingRestController {
     @Autowired
     private IBookingService iBookingService;
 
-    @PostMapping("/public/user/create-booking")
+    @PostMapping("/user/create-booking")
     public ResponseEntity<?> createBooking(@RequestBody @Validated BookingDTO bookingDTO, BindingResult bindingResult) {
         new BookingDTO().validate(bookingDTO, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -38,13 +38,13 @@ public class BookingRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/public/user/unpaid-booking/{id}")
+    @GetMapping("/user/unpaid-booking/{id}")
     public ResponseEntity<Integer> getUnpaidBookingQty(@PathVariable int id){
         Integer unpaidBooking = iBookingService.getUnpaidBookingQty(id);
         return new ResponseEntity<>(unpaidBooking, HttpStatus.OK);
     }
 
-    @GetMapping("/public/user/unpaid-booking-list/{id}")
+    @GetMapping("/user/unpaid-booking-list/{id}")
     public ResponseEntity<Page<IBookingDTO>> getUnpaidBookingPages(@PathVariable int id,
                                                                    @PageableDefault(size = 4, sort = "check_in", direction = Sort.Direction.ASC) Pageable pageable) {
         Page<IBookingDTO> unpaidBookingPages = iBookingService.getUnpaidBookingPages(id,pageable);
@@ -55,7 +55,7 @@ public class BookingRestController {
         return new ResponseEntity<>(unpaidBookingPages, HttpStatus.OK);
     }
 
-    @GetMapping("/public/user/update-paid-status/{id}")
+    @GetMapping("/user/update-paid-status/{id}")
     public ResponseEntity<?> updatePaidStatusBooking(@PathVariable long id) {
         IBookingDTO iBookingDTO = iBookingService.findUnpaidBookingById(id);
         if (iBookingDTO == null) {
@@ -65,7 +65,7 @@ public class BookingRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/public/user/get-unpaid-booking/{id}")
+    @GetMapping("/user/get-unpaid-booking/{id}")
     public ResponseEntity<IBookingDTO> findUnpaidBookingById(@PathVariable long id) {
         IBookingDTO iBookingDTO = iBookingService.findUnpaidBookingById(id);
         if (iBookingDTO == null) {
@@ -75,7 +75,7 @@ public class BookingRestController {
         }
     }
 
-    @PostMapping("/public/user/update-booking")
+    @PostMapping("/user/update-booking")
     public ResponseEntity<?> updateBooking(@RequestBody @Validated BookingDTO bookingDTO, BindingResult bindingResult) {
         new BookingDTO().validate(bookingDTO, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -89,7 +89,7 @@ public class BookingRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/public/user/non-unpaid-booking-list/{id}")
+    @GetMapping("/user/non-unpaid-booking-list/{id}")
     public ResponseEntity<Page<IBookingDTO>> getNonUnpaidBookingPages(@PathVariable int id,
                                                                    @PageableDefault(size = 4, sort = "check_in", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<IBookingDTO> unpaidBookingPages = iBookingService.getNonUnpaidBookingPages(id,pageable);
