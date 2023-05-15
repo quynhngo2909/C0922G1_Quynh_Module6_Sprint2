@@ -34,7 +34,7 @@
           </div>
           <div>
             <button class="form-control" *ngIf="!isBooking1Paid" [routerLink]="'/reservation/payment/' + b.bookingId">
-              Unpaid
+              Payment
             </button>
             <button class="form-control btn-primary" *ngIf="isBooking1Paid">PAID</button>
           </div>

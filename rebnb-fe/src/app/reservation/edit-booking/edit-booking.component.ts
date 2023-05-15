@@ -1,17 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {Booking} from '../../../model/booking';
-import {Property} from '../../../model/property';
+import {Component, OnInit} from '@angular/core';
+import {Booking} from '../../model/booking';
+import {Property} from '../../model/property';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ServiceFee} from '../../../model/service-fee';
-import {PropertyService} from '../../../service/property.service';
-import {PropertyImageService} from '../../../service/property-image.service';
-import {ServiceFeeService} from '../../../service/service-fee.service';
-import {ShareService} from '../../../service/share.service';
-import {BookingService} from '../../../service/booking.service';
+import {ServiceFee} from '../../model/service-fee';
+import {PropertyService} from '../../service/property.service';
+import {PropertyImageService} from '../../service/property-image.service';
+import {ServiceFeeService} from '../../service/service-fee.service';
+import {ShareService} from '../../service/share.service';
+import {BookingService} from '../../service/booking.service';
 import {ActivatedRoute} from '@angular/router';
-import {validateCheckIn, validateDateRange} from '../../../validation/booking.validator';
-import {render} from 'creditcardpayments/creditCardPayments';
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-booking',
@@ -52,8 +50,7 @@ export class EditBookingComponent implements OnInit {
     guest: ''
   };
 
-  minDate: Date;
-  maxDate: Date;
+  bookedDates: Date[];
 
   constructor(private propertyService: PropertyService,
               private propertyImageService: PropertyImageService,
@@ -85,18 +82,9 @@ export class EditBookingComponent implements OnInit {
       this.stayNights = (this.checkOut.getTime() - this.checkIn.getTime()) / (1000 * 60 * 60 * 24);
       this.getImageByPropertyId();
       this.totalPrice = this.booking?.totalPrice;
-      this.bookingForm = this.fb?.group({
-        bookingId: [this.booking?.bookingId, Validators.compose([Validators.required])],
-        checkInDate: [this.booking?.checkInDate, Validators.compose([Validators.required, validateCheckIn])],
-        checkOutDate: [this.booking?.checkOutDate, Validators.compose([Validators.required])],
-        guest: [this.booking?.guest, Validators.compose([Validators.required, Validators.max(this.property.maxGuest)])],
-        deposit: [this.booking?.deposit],
-        totalPrice: [this.booking?.totalPrice, Validators.compose([Validators.required])],
-        propertyId: [this.booking?.propertyId, Validators.compose([Validators.required])],
-        tenantId: [this.booking?.tenantId, Validators.compose([Validators.required])],
-        serviceFee: [this.serviceFee, Validators.compose([Validators.required])],
-      }, {
-        validators: validateDateRange()
+      this.bookingService.getAllBookedDateByPropertyId(this.booking.propertyId).subscribe(items => {
+        this.bookedDates = items;
+        this.bookingForm = this.shareService.createEditBookingForm(this.property, this.booking, this.bookedDates, this.serviceFee);
       });
     });
   }
@@ -132,6 +120,10 @@ export class EditBookingComponent implements OnInit {
           confirmButtonColor: 'darkorange'
         });
         this.shareService.setUnpaidBooking(this.userId);
+        this.bookingService.getAllBookedDateByPropertyId(this.booking.propertyId).subscribe(items => {
+          this.bookedDates = items;
+          this.bookingForm = this.shareService.createEditBookingForm(this.property, this.booking, this.bookedDates, this.serviceFee);
+        });
       }, error => {
         for (const e of error.error) {
           if (e) {

@@ -11,9 +11,10 @@ import {ServiceFee} from '../../model/service-fee';
 import {PropertyImageService} from '../../service/property-image.service';
 import {BookingService} from '../../service/booking.service';
 import {HttpClient} from '@angular/common/http';
-import {validateCheckIn, validateDateRange} from '../../validation/booking.validator';
 import {ServiceFeeService} from '../../service/service-fee.service';
 import {PageJson} from '../../model/page-json';
+import {Subscription} from 'rxjs';
+import {Route, Router} from '@angular/router';
 
 
 @Component({
@@ -34,6 +35,8 @@ export class PropertyListComponent implements OnInit {
   showedPages: number;
   pageList: number[];
   searchedCategoryId = 0;
+  searchedDestination = '';
+  private searchDestinationSubscription: Subscription;
   mess = '';
 
   bookingForm: FormGroup;
@@ -41,7 +44,6 @@ export class PropertyListComponent implements OnInit {
   checkIn: Date = null;
   checkOut: Date = null;
   stayNights = 0;
-  maxGuest: number;
   totalPrice: number;
   serviceFee: ServiceFee;
   errors = {
@@ -63,6 +65,7 @@ export class PropertyListComponent implements OnInit {
   surplusQty: number;
 
   properties: Property[];
+  bookedDates: Date[];
 
 
   constructor(private categoryService: CategoryService,
@@ -71,11 +74,19 @@ export class PropertyListComponent implements OnInit {
               private propertyImageService: PropertyImageService,
               private serviceFeeService: ServiceFeeService,
               private bookingService: BookingService,
+              private router: Router,
               private http: HttpClient,
               private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
+    this.searchDestinationSubscription = this.shareService.searchDestination$.subscribe(searchValue => {
+      this.searchedDestination = searchValue;
+      this.page = 0;
+      this.searchedCategoryId = 0;
+      this.getPropertyPage();
+    });
+
     this.shareService.getClickEvent().subscribe(() => {
       this.userId = this.shareService.getUserId();
       this.role = this.shareService.getUserRole();
@@ -104,6 +115,8 @@ export class PropertyListComponent implements OnInit {
         this.categories.push(items[this.categoryViewQty]);
         this.categoryViewQty = this.categoryViewQty + 1;
       }
+    }, error => {
+      this.router.navigateByUrl('/error').then(() => true);
     });
   }
 
@@ -143,11 +156,31 @@ export class PropertyListComponent implements OnInit {
 
   async getPropertyPage() {
     let pageJson: PageJson;
-    if (this.searchedCategoryId === 0) {
-      pageJson = await this.propertyService.getPropertyPages(this.page).toPromise();
-    } else {
-      pageJson = await this.propertyService.getPropertyPagesByCategoryId(this.page, this.searchedCategoryId).toPromise();
+    switch (this.searchedCategoryId) {
+      case 0:
+        if (this.searchedDestination === '') {
+          pageJson = await this.propertyService.getPropertyPages(this.page).toPromise();
+          break;
+        }
+
+        if (this.searchedDestination !== '') {
+          pageJson = await this.propertyService.getPropertyPagesByLocation(this.page, this.searchedDestination).toPromise();
+          break;
+        }
+        break;
+      default:
+        if (this.searchedDestination === '') {
+          pageJson = await this.propertyService.getPropertyPagesByCategoryId(this.page, this.searchedCategoryId).toPromise();
+          break;
+        }
+
+        if (this.searchedDestination !== '') {
+          pageJson = await this.propertyService.getPropertyPagesByCategoryId(this.page, this.searchedCategoryId).toPromise();
+          break;
+        }
+        break;
     }
+
     if (pageJson != null) {
       this.properties = pageJson.content;
       this.totalPages = pageJson.totalPages;
@@ -157,6 +190,16 @@ export class PropertyListComponent implements OnInit {
     if (pageJson == null && this.searchedCategoryId !== 0) {
       this.mess = 'There is no property matched searching keys.';
       this.properties = null;
+    } else {
+      this.mess = '';
+    }
+
+    if (pageJson == null && this.searchedCategoryId === 0) {
+      this.mess = 'There is no property.';
+      this.properties = null;
+      await this.router.navigateByUrl('/**');
+    } else {
+      this.mess = '';
     }
   }
 
@@ -189,6 +232,11 @@ export class PropertyListComponent implements OnInit {
           confirmButtonColor: 'darkorange'
         });
         this.shareService.setUnpaidBooking(this.userId);
+        this.bookingService.getAllBookedDateByPropertyId(this.property.id).subscribe(items => {
+          this.bookedDates = items;
+          this.bookingForm = this.shareService.createBookingForm(this.property, this.booking,
+            this.bookedDates, this.userId, this.serviceFee);
+        });
       }, error => {
         for (const e of error.error) {
           if (e) {
@@ -245,23 +293,15 @@ export class PropertyListComponent implements OnInit {
 
   getProperty(p: Property) {
     this.property = p;
-    this.bookingForm = this.fb?.group({
-      checkInDate: [this.booking?.checkInDate, Validators.compose([Validators.required, validateCheckIn])],
-      checkOutDate: [this.booking?.checkOutDate, Validators.compose([Validators.required])],
-      guest: [1, Validators.compose([Validators.required, Validators.max(p.maxGuest)])],
-      deposit: [0],
-      totalPrice: [0, Validators.compose([Validators.required])],
-      propertyId: [p.id, Validators.compose([Validators.required])],
-      tenantId: [this.userId, Validators.compose([Validators.required])],
-      serviceFee: [this.serviceFee, Validators.compose([Validators.required])],
-    }, {
-      validators: [validateDateRange()]
+    this.bookingService.getAllBookedDateByPropertyId(p.id).subscribe(items => {
+      this.bookedDates = items;
+      this.bookingForm = this.shareService.createBookingForm(this.property, this.booking,
+        this.bookedDates, this.userId, this.serviceFee);
     });
   }
 
   previousPage() {
     this.page = this.shareService.previousPage(this.page);
-    // this.searchedCategoryId !== 0 ? this.findPropertyByCategory()
     this.getPropertyPage();
   }
 
@@ -280,7 +320,7 @@ export class PropertyListComponent implements OnInit {
     this.getPropertyPage();
   }
 
-   getCategoryID(id: number) {
+  getCategoryID(id: number) {
     this.searchedCategoryId = id;
     this.page = 0;
     this.getPropertyPage();
@@ -288,6 +328,8 @@ export class PropertyListComponent implements OnInit {
 
   setCategoryId() {
     this.searchedCategoryId = 0;
+    this.searchedDestination = '';
+    this.shareService.setSearchDestination(this.searchedDestination);
     this.page = 0;
     this.mess = '';
     this.getPropertyPage();

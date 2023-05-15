@@ -43,4 +43,7 @@ export class BookingService {
     return this.http.get<PageJson>(`${API_URL}/user/non-unpaid-booking-list/${tenantId}?page=${page}`);
   }
 
+  getAllBookedDateByPropertyId(propertyId: number): Observable<Date[]> {
+  return  this.http.get<[]>(`${API_URL}/public/booked-date-list/${propertyId}`);
+  }
 }

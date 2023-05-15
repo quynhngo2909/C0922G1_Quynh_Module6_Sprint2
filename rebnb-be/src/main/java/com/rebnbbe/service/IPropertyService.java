@@ -13,4 +13,9 @@ public interface IPropertyService {
     Page<IPropertyDTO> getPropertyPages(Pageable pageable);
 
     Page<IPropertyDTO> findPropertyByCategoryId(Pageable pageable, int categoryId);
+
+    Page<IPropertyDTO> findPropertyByLocation(Pageable pageable, String country, String region, String city);
+
+    Page<IPropertyDTO> findPropertyByCategoryIdAndLocation(Pageable pageable, int categoryId, String country, String region, String city);
+
 }

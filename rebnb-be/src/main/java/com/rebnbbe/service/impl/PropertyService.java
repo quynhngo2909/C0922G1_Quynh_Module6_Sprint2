@@ -36,4 +36,14 @@ public class PropertyService implements IPropertyService {
     public Page<IPropertyDTO> findPropertyByCategoryId(Pageable pageable, int categoryId) {
         return iPropertyRepository.findPropertyByCategoryId(pageable, categoryId);
     }
+
+    @Override
+    public Page<IPropertyDTO> findPropertyByLocation(Pageable pageable,  String country, String region, String city) {
+        return iPropertyRepository.findPropertyByLocation(pageable, country, region, city);
+    }
+
+    @Override
+    public Page<IPropertyDTO> findPropertyByCategoryIdAndLocation(Pageable pageable, int categoryId, String country, String region, String city) {
+        return iPropertyRepository.findPropertyByCategoryIdAndLocation(pageable, categoryId, country, region, city);
+    }
 }

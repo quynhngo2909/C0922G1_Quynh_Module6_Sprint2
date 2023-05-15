@@ -6,7 +6,7 @@ import { ReservationWishlistComponent } from './reservation-wishlist/reservation
 import { ReservationBookedComponent } from './reservation-booked/reservation-booked.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { PaymentComponent } from './payment/payment.component';
-import { EditBookingComponent } from './payment/edit-booking/edit-booking.component';
+import { EditBookingComponent } from './edit-booking/edit-booking.component';
 
 
 @NgModule({

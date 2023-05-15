@@ -11,7 +11,7 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthInterceptor} from './security-authentication/security-auth/auth.interceptor';
 // import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 
@@ -22,17 +22,18 @@ import {AuthInterceptor} from './security-authentication/security-auth/auth.inte
     FooterComponent,
     ErrorPageComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    AngularFireStorageModule,
-    AngularFireAuthModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    ReactiveFormsModule,
-    // InfiniteScrollModule
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        AngularFireStorageModule,
+        AngularFireAuthModule,
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        ReactiveFormsModule,
+        FormsModule,
+        // InfiniteScrollModule
 
-  ],
+    ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TokenStorageService} from '../security-authentication/service/token-storage.service';
 import {ShareService} from '../service/share.service';
 import {Router} from '@angular/router';
@@ -6,13 +6,14 @@ import Swal from 'sweetalert2';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoginService} from '../security-authentication/service/login.service';
 import {BookingService} from '../service/booking.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit{
+export class HeaderComponent implements OnInit {
   isDropDownOpen = false;
   isLoggedIn = false;
   role: string;
@@ -21,20 +22,25 @@ export class HeaderComponent implements OnInit{
   userImage: string;
   userId: number;
   unpaidBooking: number;
+  guest: number;
+
+  searchedDestination = '';
+  private searchDestinationSubscription: Subscription;
 
   loginForm: FormGroup;
-  // username: string;
   roles: string[] = [];
-  returnUrl: string;
 
   constructor(private tokenStorageService: TokenStorageService,
               private shareService: ShareService,
               private router: Router,
-              private loginService: LoginService,
-              private bookingService: BookingService) {
+              private loginService: LoginService) {
   }
 
   ngOnInit() {
+    this.searchDestinationSubscription = this.shareService.searchDestination$.subscribe(searchValue => {
+      this.searchedDestination = searchValue;
+    });
+
     this.shareService.getClickEvent().subscribe(() => {
       this.loadHeader();
       if (this.isLoggedIn) {
@@ -76,8 +82,8 @@ export class HeaderComponent implements OnInit{
   }
 
   async loadHeader(): Promise<void> {
+
     if (this.tokenStorageService.getToken()) {
-      // this.currentUser = this.tokenStorageService.getUser().username;
       this.role = this.tokenStorageService.getUser().roles[0];
       this.username = this.tokenStorageService.getUser().username;
     }
@@ -113,7 +119,6 @@ export class HeaderComponent implements OnInit{
 
         this.loginService.isLoggedIn = true;
         this.username = this.tokenStorageService.getUser().username;
-        // this.roles = this.tokenStorageService.getUser().roles;
         this.loginForm.reset();
         Swal.fire({
           text: 'Logged in successfully',
@@ -125,7 +130,6 @@ export class HeaderComponent implements OnInit{
         this.shareService.sendClickEvent();
       },
       err => {
-        // this.errorMessage = err.error.message;
         this.loginService.isLoggedIn = false;
         Swal.fire({
           text: 'Account or password is incorrect or not activated!',
@@ -134,5 +138,9 @@ export class HeaderComponent implements OnInit{
         });
       }
     );
+  }
+
+  search(destination) {
+    this.shareService.setSearchDestination(destination);
   }
 }

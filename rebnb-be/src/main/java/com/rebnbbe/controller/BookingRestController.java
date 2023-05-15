@@ -1,8 +1,8 @@
 package com.rebnbbe.controller;
 
 import com.rebnbbe.dto.BookingDTO;
+import com.rebnbbe.dto.IBookedDate;
 import com.rebnbbe.dto.IBookingDTO;
-import com.rebnbbe.dto.IBookingPrice;
 import com.rebnbbe.model.Booking;
 import com.rebnbbe.service.IBookingService;
 import org.springframework.beans.BeanUtils;
@@ -16,6 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
@@ -98,5 +104,26 @@ public class BookingRestController {
         }
 
         return new ResponseEntity<>(unpaidBookingPages, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/booked-dates/{id}")
+    public ResponseEntity<List<IBookedDate>> test(@PathVariable int id) {
+        List<IBookedDate> bookedDates = iBookingService.findAllValidBookedDateByPropertyId(id);
+        if (bookedDates.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(bookedDates, HttpStatus.OK);
+    }
+
+    @GetMapping("/public/booked-date-list/{id}")
+    public ResponseEntity<Set<LocalDate>> getAllBookedDateByPropertyId(@PathVariable int id) {
+        List<IBookedDate> bookedDates = iBookingService.findAllValidBookedDateByPropertyId(id);
+        Set<LocalDate> dateLinkedHashSet = iBookingService.getBookedDateList(bookedDates);
+        if (dateLinkedHashSet.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(dateLinkedHashSet, HttpStatus.OK);
     }
 }

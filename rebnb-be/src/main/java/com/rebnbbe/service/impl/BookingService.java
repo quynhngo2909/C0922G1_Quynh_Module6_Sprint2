@@ -1,15 +1,17 @@
 package com.rebnbbe.service.impl;
 
 import com.rebnbbe.dto.BookingDTO;
+import com.rebnbbe.dto.IBookedDate;
 import com.rebnbbe.dto.IBookingDTO;
-import com.rebnbbe.dto.IBookingPrice;
-import com.rebnbbe.model.Booking;
 import com.rebnbbe.repository.IBookingRepository;
 import com.rebnbbe.service.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 public class BookingService implements IBookingService {
@@ -48,5 +50,31 @@ public class BookingService implements IBookingService {
     @Override
     public Page<IBookingDTO> getNonUnpaidBookingPages(int tenantId, Pageable pageable) {
         return iBookingRepository.getNonUnpaidBookingPages(tenantId, pageable);
+    }
+
+    @Override
+    public List<IBookedDate> findAllValidBookedDateByPropertyId(int propertyId) {
+        return iBookingRepository.findAllValidBookedDateByPropertyId(propertyId);
+    }
+
+    @Override
+    public Set<LocalDate> getBookedDateList(List<IBookedDate> bookedDateList) {
+        Set<LocalDate> dateLinkedHashSet = new LinkedHashSet<>();
+        int bookedDatesSize = bookedDateList.size();
+        for (int i = 0; i < bookedDatesSize; i++) {
+            LocalDate checkInDate = bookedDateList.get(i).getCheckInDate();
+            LocalDate checkOutDate = bookedDateList.get(i).getCheckOutDate();
+            LocalDate newDate = checkInDate.plusDays(1);
+
+            dateLinkedHashSet.add(checkInDate);
+
+            while (checkOutDate.isAfter(newDate)) {
+                dateLinkedHashSet.add(newDate);
+                newDate = newDate.plusDays(1);
+            }
+
+            dateLinkedHashSet.add(checkOutDate);
+        }
+        return dateLinkedHashSet;
     }
 }

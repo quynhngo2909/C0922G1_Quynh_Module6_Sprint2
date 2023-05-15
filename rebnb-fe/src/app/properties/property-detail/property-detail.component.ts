@@ -10,7 +10,6 @@ import {BookingService} from '../../service/booking.service';
 import Swal from 'sweetalert2';
 import {Booking} from '../../model/booking';
 import {ShareService} from '../../service/share.service';
-import {validateDateRange, validateCheckIn} from '../../validation/booking.validator';
 
 @Component({
   selector: 'app-property-detail',
@@ -50,6 +49,8 @@ export class PropertyDetailComponent implements OnInit {
     guest: ''
   };
 
+  bookedDates: Date[];
+
 
   constructor(private propertyService: PropertyService,
               private propertyImageService: PropertyImageService,
@@ -57,7 +58,8 @@ export class PropertyDetailComponent implements OnInit {
               private shareService: ShareService,
               private bookingService: BookingService,
               private activatedRoute: ActivatedRoute,
-              private fb: FormBuilder) {}
+              private fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.shareService.getClickEvent().subscribe(() => {
@@ -75,17 +77,10 @@ export class PropertyDetailComponent implements OnInit {
       this.getImageByPropertyId();
       await this.findPropertyById();
       await this.findServiceFees();
-      this.bookingForm = this.fb?.group({
-        checkInDate: [this.booking?.checkInDate, Validators.compose([Validators.required, validateCheckIn])],
-        checkOutDate: [this.booking?.checkOutDate, Validators.compose([Validators.required])],
-        guest: [1, Validators.compose([Validators.required, Validators.max(this.property.maxGuest)])],
-        deposit: [0],
-        totalPrice: [0, Validators.compose([Validators.required])],
-        propertyId: [this.propertyId, Validators.compose([Validators.required])],
-        tenantId: [this.userId, Validators.compose([Validators.required])],
-        serviceFee: [this.serviceFee, Validators.compose([Validators.required])],
-      }, {
-        validators: validateDateRange()
+      this.bookingService.getAllBookedDateByPropertyId(this.propertyId).subscribe(items => {
+        this.bookedDates = items;
+        this.bookingForm = this.shareService.createBookingForm(this.property, this.booking,
+          this.bookedDates, this.userId, this.serviceFee);
       });
     });
   }
@@ -138,6 +133,11 @@ export class PropertyDetailComponent implements OnInit {
           confirmButtonColor: 'darkorange'
         });
         this.shareService.setUnpaidBooking(this.userId);
+        this.bookingService.getAllBookedDateByPropertyId(this.propertyId).subscribe(items => {
+          this.bookedDates = items;
+          this.bookingForm = this.shareService.createBookingForm(this.property, this.booking,
+            this.bookedDates, this.userId, this.serviceFee);
+        });
       }, error => {
         for (const e of error.error) {
           if (e) {

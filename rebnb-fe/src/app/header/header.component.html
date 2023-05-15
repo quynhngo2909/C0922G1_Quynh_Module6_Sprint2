@@ -4,26 +4,26 @@
       <img style="height: 60px" src="../../assets/img/logo.png">
       <p class="m-0 " style="color: #ff385c; font-weight: bold; font-size: x-large">rebnb</p>
     </div>
-    <div class="search col-lg-8 col-md-8 d-flex flex-row justify-content-center align-items-center">
-      <div class="where d-flex flex-column col-lg-4 col-md-4">
+    <div class="search col-lg-4 col-md-4 d-flex flex-row justify-content-center align-items-center">
+      <div class="where d-flex flex-column col-lg-11 col-md-11">
         <strong>Where</strong>
-        <input type="text" placeholder="Search destinations">
+        <input type="text" placeholder="Search destinations" #destination [value]="searchedDestination">
       </div>
-      <div class="check-in d-flex flex-column col-lg-2 col-md-2">
-        <strong>Check in</strong>
-        <input type="date">
-      </div>
-      <div class="check-out d-flex flex-column col-lg-2 col-md-2">
-        <strong>Check out</strong>
-        <input type="date">
-      </div>
-      <div class="who d-flex flex-column col-lg-3 col-md-3">
-        <strong>Who</strong>
-        <input type="text" placeholder="Add number of guest">
-      </div>
+<!--      <div class="check-in d-flex flex-column col-lg-2 col-md-2">-->
+<!--        <strong>Check in</strong>-->
+<!--        <input type="date" >-->
+<!--      </div>-->
+<!--      <div class="check-out d-flex flex-column col-lg-2 col-md-2">-->
+<!--        <strong>Check out</strong>-->
+<!--        <input type="date">-->
+<!--      </div>-->
+<!--      <div class="who d-flex flex-column col-lg-3 col-md-3">-->
+<!--        <strong>Who</strong>-->
+<!--        <input type="text" placeholder="Add number of guest" #guest>-->
+<!--      </div>-->
       <div class="searchIcon d-flex flex-column col-lg-1 col-md-1">
         <!--        <button id="icon">-->
-        <em class='bx bx-search-alt-2'></em>
+        <em class='bx bx-search-alt-2' (click)="search(destination.value)"></em>
         <!--        </button>-->
       </div>
     </div>
@@ -38,7 +38,6 @@
         </div>
       </a>
       <div class="dropdown d-flex flex-column justify-content-center align-items-center">
-        <!--        <button (click)="toggleDropDown()" class="dropbtn">-->
         <div (click)="toggleDropDown()">
           <img style="height: 40px" [hidden]="isLoggedIn" src="../../assets/img/guestImage.png" alt="guest_image">
           <img style="height: 25px" [hidden]="!isLoggedIn || userImage == null" [src]="userImage"

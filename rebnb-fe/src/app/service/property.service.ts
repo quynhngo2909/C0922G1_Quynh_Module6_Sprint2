@@ -31,4 +31,12 @@ export class PropertyService {
   getPropertyPagesByCategoryId(page: number, categotyId: number): Observable<PageJson> {
     return this.http.get<PageJson>(`${API_URL}/find_by_category_id/${categotyId}?page=` + page);
   }
+
+  getPropertyPagesByLocation(page: number, location: string): Observable<PageJson> {
+    return this.http.get<PageJson>(`${API_URL}/find_by_location?page=${page}&country=${location}&region=${location}&city=${location}`);
+  }
+
+  getPropertyByCategoryIdAbdLocation(page: number, categotyId: number, location: string): Observable<PageJson> {
+    return this.http.get<PageJson>(`${API_URL}/find_by_category_id_and_location/${categotyId}?page=${page}&country=${location}&region=${location}&city=${location}`);
+  }
 }

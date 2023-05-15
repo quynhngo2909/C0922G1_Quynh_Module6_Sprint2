@@ -50,8 +50,36 @@ public class PropertyRestController {
     }
 
     @GetMapping("/find_by_category_id/{id}")
-    public ResponseEntity<Page<IPropertyDTO>> findPropertyByCategoryId (@PageableDefault(size = 1)Pageable pageable, @PathVariable int id) {
+    public ResponseEntity<Page<IPropertyDTO>> findPropertyByCategoryId (@PageableDefault(size = 4)Pageable pageable, @PathVariable int id) {
         Page<IPropertyDTO> propertyPages = iPropertyService.findPropertyByCategoryId(pageable, id);
+        if (propertyPages.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(propertyPages, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/find_by_location")
+    public ResponseEntity<Page<IPropertyDTO>> findPropertyByLocation(@PageableDefault(size = 4)Pageable pageable,
+                                                                     @RequestParam(required = false, defaultValue = "") String country,
+                                                                     @RequestParam(required = false, defaultValue = "") String region,
+                                                                     @RequestParam(required = false, defaultValue = "") String city) {
+
+        Page<IPropertyDTO> propertyPages = iPropertyService.findPropertyByLocation(pageable, country, region, city);
+        if (propertyPages.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(propertyPages, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/find_by_category_id_and_location/{id}")
+    public ResponseEntity<Page<IPropertyDTO>> findPropertyByCategoryIdAbdLocation (@PageableDefault(size = 4)Pageable pageable,
+                                                                                   @PathVariable(name = "id") int id,
+                                                                                   @RequestParam(required = false, defaultValue = "") String country,
+                                                                                   @RequestParam(required = false, defaultValue = "") String region,
+                                                                                   @RequestParam(required = false, defaultValue = "") String city) {
+        Page<IPropertyDTO> propertyPages = iPropertyService.findPropertyByCategoryIdAndLocation(pageable, id, country, region, city);
         if (propertyPages.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {

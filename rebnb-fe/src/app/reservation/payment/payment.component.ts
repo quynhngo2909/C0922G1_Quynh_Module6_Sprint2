@@ -23,7 +23,6 @@ export class PaymentComponent implements OnInit {
   userId: number;
 
   booking: Booking;
-  // bookingId: number;
   property: Property;
   image1: string;
   image2: string;
@@ -31,7 +30,6 @@ export class PaymentComponent implements OnInit {
   image4: string;
   image5: string;
 
-  // bookingForm: FormGroup;
   stayNights = 0;
   serviceFee: ServiceFee;
   isBookingPaid: boolean;

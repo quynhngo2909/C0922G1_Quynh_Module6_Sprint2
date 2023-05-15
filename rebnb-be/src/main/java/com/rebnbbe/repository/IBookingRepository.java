@@ -1,5 +1,6 @@
 package com.rebnbbe.repository;
 
+import com.rebnbbe.dto.IBookedDate;
 import com.rebnbbe.dto.IBookingDTO;
 import com.rebnbbe.model.Booking;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 public interface IBookingRepository extends JpaRepository<Booking, Long> {
@@ -102,6 +105,19 @@ public interface IBookingRepository extends JpaRepository<Booking, Long> {
             "      b.status not like 1\n" +
             "  and b.tenant_id = ?1";
 
+    String FIND_ALL_VALID_BOOKED_DATE_BY_PROPERTY_ID = "select\n" +
+            "    b.check_in                                                                        as `checkindate`,\n" +
+            "    b.check_out                                                                       as `checkoutdate`,\n" +
+            "    p.id                                                                              as `propertyid`\n" +
+            "from\n" +
+            "    booking b\n" +
+            "        join property p on p.id = b.property_id\n" +
+            "        join booking_status bs on bs.id = b.status\n" +
+            "where\n" +
+            "        b.status in (1,2)\n" +
+            "  and b.property_id = ?1\n" +
+            "order by b.check_in";
+
     @Transactional
     @Modifying
     @Query(value = CREATE_BOOKING, nativeQuery = true)
@@ -129,5 +145,8 @@ public interface IBookingRepository extends JpaRepository<Booking, Long> {
 
     @Query(value = GET_NON_UNPAID_BOOKING, nativeQuery = true)
     Page<IBookingDTO> getNonUnpaidBookingPages(int tenantId, Pageable pageable);
+
+    @Query(value = FIND_ALL_VALID_BOOKED_DATE_BY_PROPERTY_ID, nativeQuery = true)
+    List<IBookedDate> findAllValidBookedDateByPropertyId(int propertyId);
 }
 
