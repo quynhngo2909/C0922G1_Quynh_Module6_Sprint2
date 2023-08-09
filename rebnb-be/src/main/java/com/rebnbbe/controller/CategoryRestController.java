@@ -19,6 +19,11 @@ public class CategoryRestController {
     @Autowired
     private ICategoryService iCategoryService;
 
+    /**
+     * Created by: QuynhND
+     * Function: get all categories
+     * @return HttpStatus.NO_CONTENT if there is no categoty or HttpStatus.Ok and a list of categories if there is no error.
+     */
     @GetMapping("")
     public ResponseEntity<List<Category>> getAllCategory() {
         List<Category> categories = iCategoryService.findAllCategories();

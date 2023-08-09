@@ -16,6 +16,12 @@ public class PropertyImageRestController {
     @Autowired
     private IPropertyImageService iPropertyImageService;
 
+    /**
+     * Created by: QuynhND
+     * Function: get property image by property id
+     * @param propertyId
+     * @return HttpStatus.NO_CONTENT if there is no available images or HttpStatus.Ok and a list of images if there is no error.
+     */
     @GetMapping("/{id}")
     private ResponseEntity<List<IPropertyImageDTO>> getPropertyImageByPropertyId(@PathVariable(name = "id") String propertyId) {
         List<IPropertyImageDTO> propertyImages = iPropertyImageService.getImageByPropertyId(propertyId);

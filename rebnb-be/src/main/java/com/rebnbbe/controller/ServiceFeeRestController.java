@@ -18,6 +18,11 @@ public class ServiceFeeRestController {
     @Autowired
     private IServiceFeeService iServiceFeeService;
 
+    /**
+     * Created by: QuynhND
+     * Function: get service fee
+     * @return HttpStatus.NO_CONTENT if there is no service fee or HttpStatus.Ok and list of service fee if there is no error.
+     */
     @GetMapping("")
     public ResponseEntity<List<ServiceFee>> findAllServiceFee() {
         List<ServiceFee> serviceFees = iServiceFeeService.getAllServiceFee();
@@ -28,6 +33,12 @@ public class ServiceFeeRestController {
         }
     }
 
+    /**
+     * Created by: QuynhND
+     * Function: get service fee by id
+     * @param id
+     * @return HttpStatus.BAD_REQUEST if there is no service fee or HttpStatus.Ok and list of service fee if there is no error.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<ServiceFee> findServiceFeeById(@PathVariable int id) {
         ServiceFee serviceFee = iServiceFeeService.findServiceFeeById(id);
