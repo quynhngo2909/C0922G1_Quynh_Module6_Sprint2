@@ -25,7 +25,7 @@ public class AccountDetails implements UserDetails {
 
     public static AccountDetails build(Account account) {
         List<GrantedAuthority> authorities = account.getAccountRoleSet().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRole().getName()))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole().getName()))
                 .collect(Collectors.toList());
         return new AccountDetails(
                 account.getUser().getEmail(),

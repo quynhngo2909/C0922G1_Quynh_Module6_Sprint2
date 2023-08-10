@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="col-lg-2 col-md-2 d-flex flex-row justify-content-end align-items-center">
-      <a [routerLink]="'/reservation/wishlist/' + userId">
+      <a [routerLink]= "'/reservation/wishlist/' + userId">
         <div [hidden]="!isLoggedIn " class="" style="position: relative">
           <em style="font-size: xx-large " class='bx bx-cart py-0'></em>
           <div style="position: absolute; top: -0.5rem; right: -0.5rem">

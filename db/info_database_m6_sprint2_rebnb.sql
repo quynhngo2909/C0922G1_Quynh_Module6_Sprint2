@@ -10,10 +10,10 @@ insert into `sprint2_ReBnb`.`user`(`id`, `name`,`email`,`birthday`,`phone_number
 value (4,"Le Phuoc Tuong","lephuoctuongn@gmail.com", "1990-02-02","090156789","../../assets/img/userImage.png","2022-02-02",null,null,null,0,null,0,0,null);
 
 --  role 
-insert into `sprint2_ReBnb`.`role`(`id`, `name`) value(1,"Admin");
-insert into `sprint2_ReBnb`.`role`(`id`, `name`) value(2,"User");
+insert into `sprint2_ReBnb`.`role`(`id`, `name`) value(1,"ADMIN");
+insert into `sprint2_ReBnb`.`role`(`id`, `name`) value(2,"USER");
 
---  account 
+--  account , pw: 123123
 insert into `sprint2_ReBnb`.`account`(`id`,`user_id`, `password`) value(1,1,"$2a$12$KpE0gn.4eEsjExzkz.jxt.6034KUFIwr6Nex9dfCsWQnkbRMX7Vei");
 insert into `sprint2_ReBnb`.`account`(`id`,`user_id`, `password`) value(2,2,"$2a$12$VT6AqwoYrCWsI0oeM2zmL.yRvJ4oDyOB4oZDo3uaQRUWeVXJcA0Ny");
 insert into `sprint2_ReBnb`.`account`(`id`,`user_id`, `password`) value(3,3,"$2a$12$VT6AqwoYrCWsI0oeM2zmL.yRvJ4oDyOB4oZDo3uaQRUWeVXJcA0Ny");
